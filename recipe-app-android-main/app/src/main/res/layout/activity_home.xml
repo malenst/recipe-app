@@ -31,7 +31,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout2"
                     android:layout_width="match_parent"
-                    android:layout_height="430dp"
+                    android:layout_height="460dp"
                     android:background="@drawable/card_home"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -55,14 +55,13 @@
                         android:id="@+id/popular_text"
                         android:layout_width="270dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/point_popular"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/rcview_popular" />
+                        android:textSize="19sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView5"
+                        app:layout_constraintTop_toBottomOf="@+id/categories" />
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/lottie"
@@ -81,19 +80,21 @@
                         android:id="@+id/rcview_popular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/popular_text"
                         tools:ignore="RtlSymmetry" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/categories"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="145dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView5"
-                        tools:ignore="RtlSymmetry"
-                        tools:layout_editor_absoluteX="27dp" />
+                        tools:ignore="RtlSymmetry" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,16 +107,15 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/all_recipes"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-                    app:layout_constraintBottom_toTopOf="@+id/recview" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recview"
                     android:layout_width="match_parent"
                     android:layout_height="600dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/all_text" />
