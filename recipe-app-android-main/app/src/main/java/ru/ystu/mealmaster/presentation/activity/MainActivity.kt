@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
             run { }
         }
 
-        back = findViewById(R.id.imageView2)
-        tittle = findViewById(R.id.tittle)
+        back = findViewById(R.id.backBtnMain)
+        tittle = findViewById(R.id.activityMainTittle)
 
         tittle!!.text = intent.getStringExtra("tittle")
 

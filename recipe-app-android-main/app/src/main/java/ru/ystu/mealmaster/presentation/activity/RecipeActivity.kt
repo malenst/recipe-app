@@ -69,7 +69,9 @@ class RecipeActivity : AppCompatActivity() {
                         "Автор: ${review.author}\nОтзыв: ${review.text}\nОценка: ${review.rating}\nВремя: ${review.date}"
                     }
 
-                    reviews?.text = reviewsText
+                    if (reviewsText.isNotEmpty()) {
+                        reviews?.text = reviewsText
+                    }
 
                     if (!recipe.image.isNullOrEmpty()) {
                         val imageNorm = recipe.image.replace("localhost", "10.0.2.2")
