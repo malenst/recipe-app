@@ -49,17 +49,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/tittle"
-            android:layout_alignBottom="@+id/tittle"
             android:layout_marginStart="-40dp"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="5dp"
             android:layout_toEndOf="@+id/tittle" />
 
         <ImageView
             android:id="@+id/clock"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_below="@+id/ratingBar2"
+            android:layout_below="@+id/tittle"
             android:layout_alignParentStart="true"
             android:layout_marginStart="19dp"
             android:layout_marginTop="2dp"
@@ -93,7 +91,7 @@
             android:layout_marginTop="22dp"
             android:layout_marginEnd="45dp"
             android:fontFamily="@font/roboto_bold"
-            android:maxWidth="250dp"
+            android:maxWidth="290dp"
             android:text="@string/recipe_name_ph"
             android:textColor="@color/black"
             android:textSize="20sp"
