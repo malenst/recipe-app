@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pizza_sample" />
+        app:srcCompat="@drawable/pizza_sample"
+        android:contentDescription="" />
 
     <ImageView
         android:id="@+id/image_gradient"
@@ -27,7 +28,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/recipe_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/image_btm_overlay" />
+        app:srcCompat="@drawable/image_btm_overlay"
+        android:contentDescription="" />
 
 
     <RelativeLayout
@@ -42,7 +44,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-
             android:id="@+id/clock"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -51,7 +52,8 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:src="@drawable/clock_icon"
-            app:tint="#019267" />
+            app:tint="#019267"
+            android:contentDescription="" />
 
         <TextView
             android:id="@+id/time"
@@ -76,7 +78,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="24dp"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="22dp"
             android:layout_marginEnd="45dp"
             android:fontFamily="@font/roboto_bold"
@@ -94,7 +95,6 @@
             android:layout_below="@+id/clock"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="24dp"
             android:layout_marginTop="14dp"
             android:background="@drawable/btn_ing"
             android:fontFamily="@font/roboto_medium"
@@ -171,18 +171,54 @@
                 android:textSize="15sp"
                 app:emojiCompatEnabled="true"
                 android:lineSpacingExtra="9dp"
-                android:letterSpacing="0.025"/>
+                android:letterSpacing="0.025" />
 
         </ScrollView>
 
         <ImageView
+            android:id="@+id/recipeImgViewWTF"
             android:layout_width="match_parent"
             android:layout_height="22dp"
             android:layout_below="@+id/ing_btn"
             android:layout_alignParentStart="true"
             android:layout_marginTop="5dp"
-            android:src="@drawable/text_overlay" />
+            android:src="@drawable/text_overlay"
+            android:contentDescription="" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ing_scroll">
+
+            <TextView
+                android:id="@+id/recipeReviewsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="10dp"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"
+                android:text="@string/reviewsTitle"
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:lineSpacingExtra="9dp"
+                android:letterSpacing="0.025" />
+
+            <TextView
+                android:id="@+id/recipeReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/recipeReviewsTitle"
+                android:paddingTop="12dp"
+                android:layout_marginStart="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/no_reviews_yet"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:lineSpacingExtra="9dp"
+                android:letterSpacing="0.025" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -199,6 +235,7 @@
         android:padding="2dp"
         android:src="@drawable/back_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
