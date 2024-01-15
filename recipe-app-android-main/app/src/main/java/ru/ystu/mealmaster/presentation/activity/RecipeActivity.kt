@@ -4,20 +4,16 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
-import kotlinx.coroutines.launch
-import java.util.UUID
+import java.util.*
 
 class RecipeActivity : AppCompatActivity() {
     private var img: ImageView? = null
@@ -27,6 +23,7 @@ class RecipeActivity : AppCompatActivity() {
     var zoomImage: ImageView? = null
     private var txt: TextView? = null
     private var ing: TextView? = null
+    private var description: TextView? = null
     private var time: TextView? = null
     private var ratingBar: RatingBar? = null
     private var steps: TextView? = null
@@ -63,6 +60,8 @@ class RecipeActivity : AppCompatActivity() {
                     steps?.text = stepsFormatted
 
                     time?.text = recipe.cookingTime
+                    description?.text = recipe.description
+
                     ratingBar?.rating = recipe.reviews?.map { it.rating }?.average()?.toFloat()!!
                     txt?.text = recipe.name
 
@@ -70,7 +69,9 @@ class RecipeActivity : AppCompatActivity() {
                         "Автор: ${review.author}\nОтзыв: ${review.text}\nОценка: ${review.rating}\nВремя: ${review.date}"
                     }
 
-                    reviews?.text = reviewsText
+                    if (reviewsText.isNotEmpty()) {
+                        reviews?.text = reviewsText
+                    }
 
                     if (!recipe.image.isNullOrEmpty()) {
                         val imageNorm = recipe.image.replace("localhost", "10.0.2.2")
@@ -87,6 +88,7 @@ class RecipeActivity : AppCompatActivity() {
         // Find views
         img = findViewById(R.id.recipe_img)
         txt = findViewById(R.id.tittle)
+        description = findViewById(R.id.description)
         ing = findViewById(R.id.ing)
         time = findViewById(R.id.time)
         ratingBar = findViewById(R.id.ratingBar2)
@@ -101,6 +103,7 @@ class RecipeActivity : AppCompatActivity() {
 
         Log.d("LUK SELENII", steps?.text.toString())
         stepBtn?.setTextColor(getColor(R.color.black))
+        ing_btn?.setTextColor(getColor(R.color.white))
 
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
