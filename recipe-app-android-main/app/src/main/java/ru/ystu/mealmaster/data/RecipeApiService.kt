@@ -17,7 +17,7 @@ object RecipeApiService {
 
     private const val BASE_URL = "http://10.0.2.2:8080/api/"
 
-    val cookieJar = object : CookieJar {
+    private val cookieJar = object : CookieJar {
         private val cookieStore = HashMap<String, List<Cookie>>()
 
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
@@ -30,7 +30,7 @@ object RecipeApiService {
     }
 
     private var client: OkHttpClient = OkHttpClient.Builder()
-        .cookieJar(ru.ystu.mealmaster.data.RecipeApiService.cookieJar)
+        .cookieJar(cookieJar)
         .connectTimeout(10, TimeUnit.SECONDS)
         .writeTimeout(10, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
@@ -46,12 +46,12 @@ object RecipeApiService {
         .create()
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(ru.ystu.mealmaster.data.RecipeApiService.BASE_URL)
-        .client(ru.ystu.mealmaster.data.RecipeApiService.client)
+        .baseUrl(BASE_URL)
+        .client(client)
         .addConverterFactory(ScalarsConverterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create(ru.ystu.mealmaster.data.RecipeApiService.gson))
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
-    val api: ru.ystu.mealmaster.data.RecipeApi = ru.ystu.mealmaster.data.RecipeApiService.retrofit.create(ru.ystu.mealmaster.data.RecipeApi::class.java)
+    val api: RecipeApi = retrofit.create(RecipeApi::class.java)
 
 }

@@ -9,13 +9,14 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.Review
-import ru.ystu.mealmaster.domain.ReviewData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.ystu.mealmaster.R
+import ru.ystu.mealmaster.data.ApiResponseDto
+import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.Review
+import ru.ystu.mealmaster.domain.ReviewData
 import java.util.*
 
 
@@ -51,15 +52,15 @@ class AddReviewActivity : AppCompatActivity() {
         val reviewData = ReviewData(reviewText, rating)
 
         // TODO: использовать данные пользователя
-        api.login("admin", "admin").enqueue(object : Callback<ru.ystu.mealmaster.data.ApiResponseDto<List<Recipe>>> {
+        api.login("admin", "admin").enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
             override fun onResponse(
-                call: Call<ru.ystu.mealmaster.data.ApiResponseDto<List<Recipe>>>,
-                response: Response<ru.ystu.mealmaster.data.ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<Recipe>>>,
+                response: Response<ApiResponseDto<List<Recipe>>>
             ) {
                 if (response.isSuccessful) {
                     Log.d("LOGIN", (response.body()?.response.toString()))
-                    api.addReview(recipeId, reviewData).enqueue(object : Callback<ru.ystu.mealmaster.data.ApiResponseDto<Review>> {
-                        override fun onResponse(call: Call<ru.ystu.mealmaster.data.ApiResponseDto<Review>>, response: Response<ru.ystu.mealmaster.data.ApiResponseDto<Review>>) {
+                    api.addReview(recipeId, reviewData).enqueue(object : Callback<ApiResponseDto<Review>> {
+                        override fun onResponse(call: Call<ApiResponseDto<Review>>, response: Response<ApiResponseDto<Review>>) {
                             if (response.isSuccessful) {
                                 Log.d("REVIEW", response.body()?.response.toString())
                                 showReviewThanksDialog(recipeId)
@@ -68,7 +69,7 @@ class AddReviewActivity : AppCompatActivity() {
                             }
                         }
 
-                        override fun onFailure(call: Call<ru.ystu.mealmaster.data.ApiResponseDto<Review>>, t: Throwable) {
+                        override fun onFailure(call: Call<ApiResponseDto<Review>>, t: Throwable) {
                             Log.e("REVIEW", "Ошибка при запросе")
                             Log.e("REVIEW", t.stackTraceToString())
                         }
@@ -78,7 +79,7 @@ class AddReviewActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ru.ystu.mealmaster.data.ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
                 Log.e("LOGIN", t.stackTraceToString())
             }
         })
