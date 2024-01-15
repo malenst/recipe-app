@@ -101,6 +101,7 @@ class RecipeActivity : AppCompatActivity() {
 
         Log.d("LUK SELENII", steps?.text.toString())
         stepBtn?.setTextColor(getColor(R.color.black))
+        ing_btn?.setTextColor(getColor(R.color.white))
 
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
