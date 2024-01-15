@@ -1,40 +1,38 @@
-package ru.ystu.mealmaster.presentation.activity;
+package ru.ystu.mealmaster.presentation.activity
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import ru.ystu.mealmaster.R
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import ru.ystu.mealmaster.R;
+class SearchActivity : AppCompatActivity() {
+    private var search: EditText? = null
+    private var backBtn: ImageView? = null
+    private var recyclerview: RecyclerView? = null
 
-public class SearchActivity extends AppCompatActivity {
-
-    EditText search;
-    ImageView back_btn;
-    RecyclerView rcview;
-//    List<User> dataPopular = new ArrayList<>();
-//    SearchAdapter adapter;
-//    List<User> recipes;
-
+    //    List<User> dataPopular = new ArrayList<>();
+    //    SearchAdapter adapter;
+    //    List<User> recipes;
     @SuppressLint("ClickableViewAccessibility")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_search)
 
         // Find views
-        search = findViewById(R.id.search);
-        back_btn = findViewById(R.id.back_to_home);
-        rcview = findViewById(R.id.rcview);
+        search = findViewById(R.id.search)
+        backBtn = findViewById(R.id.back_to_home)
+        recyclerview = findViewById(R.id.rcview)
 
         // Show and focus the keyboard
-        search.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        search?.requestFocus()
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
 
         // Get database
@@ -55,13 +53,14 @@ public class SearchActivity extends AppCompatActivity {
 //        }
 
         // Set layout manager to recyclerView
-        rcview.setLayoutManager(new LinearLayoutManager(this));
+        recyclerview?.layoutManager = LinearLayoutManager(this)
 
         // Hide keyboard when recyclerView item clicked
-        rcview.setOnTouchListener((v, event) -> {
-            imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-            return false;
-        });
+        recyclerview?.setOnTouchListener { v: View?, event: MotionEvent? ->
+            imm.hideSoftInputFromWindow(search?.windowToken, 0)
+            false
+        }
+
 
         // Set adapter to search recyclerView
 //        adapter = new SearchAdapter(dataPopular, getApplicationContext());
@@ -93,24 +92,22 @@ public class SearchActivity extends AppCompatActivity {
 
 
         // Exit activity
-        back_btn.setOnClickListener(v -> {
-            imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-            finish();
-        });
-    }
-
-    // Filter the searched item from all recipes
-//    public void filter(String text) {
-//        List<User> filterList = new ArrayList<>();
-//
-//        for(int i = 0; i<recipes.size(); i++){ // Loop for check searched item in recipe list
-//            if(recipes.get(i).getTittle().toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))){
-//                filterList.add(recipes.get(i));
-//            }
-//        }
-//
-//        // Update search recyclerView with new item
-//        adapter.filterList(filterList);
-//
-//    }
+        backBtn?.setOnClickListener { v: View? ->
+            imm.hideSoftInputFromWindow(search?.windowToken, 0)
+            finish()
+        }
+    } // Filter the searched item from all recipes
+    //    public void filter(String text) {
+    //        List<User> filterList = new ArrayList<>();
+    //
+    //        for(int i = 0; i<recipes.size(); i++){ // Loop for check searched item in recipe list
+    //            if(recipes.get(i).getTittle().toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))){
+    //                filterList.add(recipes.get(i));
+    //            }
+    //        }
+    //
+    //        // Update search recyclerView with new item
+    //        adapter.filterList(filterList);
+    //
+    //    }
 }
