@@ -38,7 +38,7 @@
     <string name="avgRatingText">Средний рейтинг:</string>
     <string name="steps_default">Шагов нет, но попробуйте просто перемешать</string>
     <string name="point_popular">Популярные рецепты</string>
-    <string name="def_category">Категор</string>
+    <string name="def_category">Категория</string>
     <string name="recipesByCategory">Рецепты из категории</string>
     <string name="add_text_to_review">Введите ваш отзыв здесь</string>
     <string name="send_btn_text">Отправить</string>
