@@ -217,6 +217,7 @@
                 android:background="@drawable/card_back_btn"
                 android:contentDescription="@string/menu"
                 android:src="@drawable/menu_home"
+                android:clickable="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.tiodev.recyclerview",
+  "applicationId": "com.ystu.mealmaster",
   "variantName": "release",
   "elements": [
     {

@@ -2,16 +2,18 @@ package ru.ystu.mealmaster.presentation.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.presentation.adapter.CatRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.PopRecipeAdapter
@@ -24,8 +26,6 @@ import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
-    private var recyclerViewHome: RecyclerView? = null
-    private var popRecyclerViewHome: RecyclerView? = null
     private lateinit var recipeAdapter: RecipeAdapter
     private lateinit var popRecipeAdapter: PopRecipeAdapter
     private lateinit var catRecipeAdapter: CatRecipeAdapter
@@ -34,8 +34,11 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var binding: ActivityHomeBinding
 
+    private var recyclerViewHome: RecyclerView? = null
+    private var popRecyclerViewHome: RecyclerView? = null
     private var lottie: LottieAnimationView? = null
     private var editText: EditText? = null
+    private lateinit var menu1: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +50,25 @@ class HomeActivity : AppCompatActivity() {
         popRecyclerViewHome = findViewById(R.id.rcview_popular)
         lottie = findViewById(R.id.lottie)
         editText = findViewById(R.id.editText)
+        menu1 = findViewById(R.id.imageView4)
+
+
 
         // Set all recipes
         setAllRecipesList()
         setPopularRecipesList()
         setCategoriesList()
 
+        menu1.setOnClickListener {
+            Log.d("POMELO", "POMELO EST")
+            val intent = Intent(this@HomeActivity, RecipesByCategoryActivity::class.java)
+            intent.putExtra("CATEGORY", "Модерация")
+            startActivity(intent)
+        }
         // Open search activity
         editText!!.setOnClickListener {
-            val intent = Intent(this@HomeActivity, ru.ystu.mealmaster.presentation.activity.SearchActivity::class.java)
+            Log.d("POMELO", "POMELO EST")
+            val intent = Intent(this@HomeActivity, SearchActivity::class.java)
             startActivity(intent)
         }
 

@@ -12,6 +12,8 @@ interface RecipeApi {
 
     @GET("recipe")
     fun getRecipes() : Call<ApiResponseDto<List<Recipe>>>
+    @GET("recipe/pending")
+    fun getUncheckedRecipes() : Call<ApiResponseDto<List<Recipe>>>
 
     @GET("recipe/popular")
     fun getTop10Recipes() : Call<ApiResponseDto<List<Recipe>>>

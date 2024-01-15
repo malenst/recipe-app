@@ -28,6 +28,25 @@ class RecipeRepositoryImpl(private val api: ru.ystu.mealmaster.data.RecipeApi) :
         })
     }
 
+    override fun getUncheckedRecipes(callback: (Result<List<Recipe>>?) -> Unit) {
+        api.getUncheckedRecipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<List<Recipe>>>,
+                response: Response<ApiResponseDto<List<Recipe>>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()?.response ?: emptyList()))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
     override fun getRecipeById(id: UUID, callback: (Result<Recipe>?) -> Unit) {
         api.getRecipeById(id).enqueue(object : Callback<ru.ystu.mealmaster.data.ApiResponseDto<Recipe>> {
             override fun onResponse(
