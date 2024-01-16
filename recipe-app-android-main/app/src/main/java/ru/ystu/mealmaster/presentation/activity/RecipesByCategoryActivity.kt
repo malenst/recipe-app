@@ -11,7 +11,10 @@ import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityMainBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
+import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.RecipesByCategoryAdapter
+import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
+import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
 import ru.ystu.mealmaster.presentation.viewmodel.RecipesByCategoryViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.RecipesByCategoryViewModelFactory
 
@@ -19,6 +22,8 @@ class RecipesByCategoryActivity : AppCompatActivity() {
     private lateinit var recipesByCategoryAdapter: RecipesByCategoryAdapter
     private lateinit var recipesByCategoryViewModel: RecipesByCategoryViewModel
     private lateinit var binding: ActivityMainBinding
+    private lateinit var recipeAdapter: RecipeAdapter
+    private lateinit var recipeViewModel: RecipeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,24 +40,53 @@ class RecipesByCategoryActivity : AppCompatActivity() {
         val category = intent.extras?.getString("CATEGORY")
         val translation = intent.extras?.getString("TRANSLATION")
         val titleTextView = findViewById<TextView>(R.id.activityMainTittle)
-        titleTextView.text = translation
 
         recipesByCategoryAdapter = RecipesByCategoryAdapter(emptyList())
-        recipesByCategoryViewModel = ViewModelProvider(
-            this,
-            RecipesByCategoryViewModelFactory(interactor, category!!)
-        )[RecipesByCategoryViewModel::class.java]
+        if (!category.equals("Модерация")) {
+            titleTextView.text = translation
 
-        binding.mainRecview.apply {
-            layoutManager = LinearLayoutManager(this@RecipesByCategoryActivity)
-            adapter = recipesByCategoryAdapter
-        }
+            recipesByCategoryViewModel = ViewModelProvider(
+                this,
+                RecipesByCategoryViewModelFactory(interactor, category!!)
+            )[RecipesByCategoryViewModel::class.java]
 
-        recipesByCategoryViewModel.recipesByCategory.observe(this@RecipesByCategoryActivity) { recipes ->
-            recipes?.let {
-                recipesByCategoryAdapter.updateData(it)
+            recipesByCategoryViewModel = ViewModelProvider(
+                this,
+                RecipesByCategoryViewModelFactory(interactor, category!!)
+            )[RecipesByCategoryViewModel::class.java]
+
+            binding.mainRecview.apply {
+                layoutManager = LinearLayoutManager(this@RecipesByCategoryActivity)
+                adapter = recipesByCategoryAdapter
+            }
+
+            recipesByCategoryViewModel.recipesByCategory.observe(this@RecipesByCategoryActivity) { recipes ->
+                recipes?.let {
+                    recipesByCategoryAdapter.updateData(it)
+                }
+            }
+        } else {
+            titleTextView.text = "Модерация"
+
+            recipeViewModel = ViewModelProvider(
+                this,
+                RecipeViewModelFactory(interactor)
+            )[RecipeViewModel::class.java]
+
+            recipeAdapter = RecipeAdapter(emptyList())
+
+            binding.mainRecview.apply {
+                layoutManager = LinearLayoutManager(this@RecipesByCategoryActivity)
+                adapter = recipeAdapter
+            }
+
+            recipeViewModel.recipes.observe(this@RecipesByCategoryActivity) { recipes ->
+                recipes?.let {
+                    recipeAdapter.updateData(it)
+                }
             }
         }
+
 
         val backBtn : ImageView = findViewById(R.id.backBtnMain)
         // Exit activity

@@ -6,6 +6,7 @@ import java.util.*
 
 interface RecipeInteractor {
     suspend fun getRecipes(): List<Recipe>
+    suspend fun getUncheckedRecipes(): List<Recipe>
     suspend fun getRecipeById(id: UUID): Recipe
     suspend fun getTop10Recipes(): List<Recipe>
     suspend fun getCategories(): List<Category>

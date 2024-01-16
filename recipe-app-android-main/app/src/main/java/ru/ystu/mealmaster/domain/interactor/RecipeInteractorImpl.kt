@@ -20,6 +20,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
+    override suspend fun getUncheckedRecipes(): List<Recipe> = suspendCancellableCoroutine { continuation ->
+        repository.getUncheckedRecipes { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: emptyList())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load recipes"))
+            }
+        }
+    }
+
     override suspend fun getRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
         repository.getRecipeById(id) { result ->
             if (result!!.isSuccess) {
