@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
@@ -20,6 +21,7 @@ import ru.ystu.mealmaster.domain.Recipe
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var api: RecipeApi
+    private lateinit var backBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,9 @@ class LoginActivity : AppCompatActivity() {
 
             login(username, password)
         }
+
+        backBtn = findViewById(R.id.loginBackBtn)
+        backBtn.setOnClickListener { finish() }
     }
 
     private fun login(username: String, password: String) {

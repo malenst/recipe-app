@@ -128,9 +128,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/all_text"
                         tools:listitem="@layout/list_design"/>
 
-
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
@@ -177,7 +174,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/menu"
-                app:srcCompat="@drawable/logo" />
+                app:srcCompat="@drawable/logo"
+                android:contentDescription="" />
 
             <EditText
                 android:id="@+id/editText"
@@ -197,7 +195,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/logo"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="RtlSymmetry"
+                android:inputType="text" />
 
 
             <ImageView
@@ -208,7 +207,8 @@
                 android:src="@drawable/search_ic"
                 app:layout_constraintBottom_toBottomOf="@+id/editText"
                 app:layout_constraintStart_toStartOf="@+id/editText"
-                app:layout_constraintTop_toTopOf="@+id/editText" />
+                app:layout_constraintTop_toTopOf="@+id/editText"
+                android:contentDescription="" />
 
             <ImageView
                 android:id="@+id/menu"
@@ -221,9 +221,23 @@
                 android:src="@drawable/menu_home"
                 android:clickable="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            android:contentDescription="@string/add_recipe_btn_text"
+            tools:ignore="OnClick" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

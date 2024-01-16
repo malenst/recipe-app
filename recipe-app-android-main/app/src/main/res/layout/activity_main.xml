@@ -22,7 +22,8 @@
             android:padding="5dp"
             android:src="@drawable/back_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="" />
 
         <TextView
             android:id="@+id/activityMainTittle"

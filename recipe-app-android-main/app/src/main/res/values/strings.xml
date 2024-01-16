@@ -47,4 +47,41 @@
     <string name="username_placeholded">Имя пользователя</string>
     <string name="password_placeholder">Пароль</string>
     <string name="signin_btn_text">Войти</string>
+    <string name="add_recipe_btn_text">Добавить рецепт</string>
+    <string name="edit_recipe_name_text">Название рецепта</string>
+    <string name="edit_recipe_description_text">Описание рецепта</string>
+    <string name="edit_recipe_category_text">Категория</string>
+    <string name="edit_recipe_ni_amount_text">Количество</string>
+    <string name="edit_recipe_ni_mu_text">Единицы измерения (PC / G / KG / ML / L)</string>
+    <string name="edit_recipe_ni_calories_text">Калории</string>
+    <string name="edit_recipe_ni_carbohydrates_text">Углеводы (в граммах)</string>
+    <string name="edit_recipe_ni_fats_text">Жиры (в граммах)</string>
+    <string name="edit_recipe_ni_protein_text">Белки (в граммах)</string>
+    <string name="edit_recipe_cooking_time_text">Время приготовления (в минутах)</string>
+    <string name="edit_recipe_ingredient_name_text">Ингредиент</string>
+    <string name="edit_recipe_ingredient_amount_text">Количество</string>
+    <string name="edit_recipe_steps_text">Шаг приготовления</string>
+    <string name="edit_recipe_send_btn_text">Отправить</string>
+    <string name="add_ingredient_btn_text">Добавить ингредиент</string>
+    <string name="add_step_btn_text">Добавить шаг</string>
+    <string name="nutritional_unit">Единица измерения</string>
+    <string-array name="nutritional_units">
+        <item>шт.</item>
+        <item>г</item>
+        <item>кг</item>
+        <item>мл</item>
+        <item>л</item>
+    </string-array>
+    <string-array name="recipe_categories">
+        <item>Закуски</item>
+        <item>Супы</item>
+        <item>Основное</item>
+        <item>Гарниры</item>
+        <item>Десерты</item>
+        <item>Выпечка</item>
+        <item>Завтраки</item>
+        <item>Напитки</item>
+        <item>Снеки</item>
+        <item>Салаты</item>
+    </string-array>
 </resources>
