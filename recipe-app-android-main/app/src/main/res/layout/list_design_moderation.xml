@@ -10,7 +10,7 @@
     android:id="@+id/listrow">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewByCategory"
+        android:id="@+id/cardViewModeration"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/imgByCategory"
+            android:id="@+id/imgModeration"
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_gravity="center"
@@ -44,7 +44,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/nameByCategory"
+        android:id="@+id/nameModeration"
         android:layout_width="135dp"
         android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
@@ -59,34 +59,34 @@
         android:textStyle="bold"
         app:emojiCompatEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardViewByCategory"
+        app:layout_constraintStart_toEndOf="@+id/cardViewModeration"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageViewByCategory"
+        android:id="@+id/imageViewModeration"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/clock_icon"
-        app:layout_constraintStart_toEndOf="@+id/cardViewByCategory"
-        app:layout_constraintTop_toBottomOf="@+id/nameByCategory"
+        app:layout_constraintStart_toEndOf="@+id/cardViewModeration"
+        app:layout_constraintTop_toBottomOf="@+id/nameModeration"
         android:contentDescription="" />
 
     <TextView
-        android:id="@+id/cookingTimeByCategory"
+        android:id="@+id/cookingTimeModeration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:fontFamily="@font/roboto_light"
         android:text="@string/recipe_time_ph"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewByCategory"
-        app:layout_constraintStart_toEndOf="@+id/imageViewByCategory"
-        app:layout_constraintTop_toTopOf="@+id/imageViewByCategory" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewModeration"
+        app:layout_constraintStart_toEndOf="@+id/imageViewModeration"
+        app:layout_constraintTop_toTopOf="@+id/imageViewModeration" />
 
     <ImageView
-        android:id="@+id/cardBtnByCategory"
+        android:id="@+id/cardBtnModeration"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="5dp"
@@ -99,42 +99,34 @@
         app:tint="#019267" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutByCategoryRating"
+        android:id="@+id/constraintLayoutModerationStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginBottom="-4dp"
-        android:background="@drawable/rating_bg"
+        android:background="@drawable/status_add"
         android:elevation="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardViewByCategory"
-        app:layout_constraintEnd_toEndOf="@+id/cardViewByCategory"
-        app:layout_constraintStart_toStartOf="@+id/cardViewByCategory">
+        app:layout_constraintBottom_toBottomOf="@+id/cardViewModeration"
+        app:layout_constraintEnd_toEndOf="@+id/cardViewModeration"
+        app:layout_constraintStart_toStartOf="@+id/cardViewModeration">
 
         <TextView
-            android:id="@+id/listRatingByCategory"
+            android:id="@+id/listModeration_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
             android:gravity="end"
-            android:text="@string/rating"
+            android:text="@string/add_txt_mod"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2ByCategory"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView2ByCategory"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star"
-            android:contentDescription="" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

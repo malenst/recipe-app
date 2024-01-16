@@ -7,6 +7,10 @@
     <color name="background">#F5F5F5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="vk">#0077FF</color>
+    <color name="status_add">#21A179</color>
+    <color name="status_delete">#E82F2F</color>
+    <color name="status_update">#E4D22E</color>
 
     <color name="blue">#313D5A</color>
     <color name="gray">#EAEAEA</color>
