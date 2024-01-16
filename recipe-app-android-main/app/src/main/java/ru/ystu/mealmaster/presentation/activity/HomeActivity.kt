@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
@@ -31,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
     private lateinit var menu: ImageView
+    private lateinit var fab: FloatingActionButton
     private lateinit var binding: ActivityHomeBinding
 
     private var lottie: LottieAnimationView? = null
@@ -71,6 +73,11 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        fab = findViewById(R.id.floatingActionButton)
+        fab.setOnClickListener {
+            val intent = Intent(this@HomeActivity, AddRecipeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {

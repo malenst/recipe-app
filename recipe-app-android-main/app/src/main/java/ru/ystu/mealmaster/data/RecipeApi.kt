@@ -37,4 +37,10 @@ interface RecipeApi {
         @Query("username") username : String,
         @Query("password") password : String
     ) : Call<ApiResponseDto<List<Recipe>>>
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("recipe")
+    fun addRecipe(
+        @Body recipe: Recipe
+    ) : Call<ApiResponseDto<Recipe>>
 }
