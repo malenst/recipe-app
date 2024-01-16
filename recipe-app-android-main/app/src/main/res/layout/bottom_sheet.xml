@@ -9,7 +9,7 @@
     android:background="@drawable/bottom_sheet_bg">
 
     <LinearLayout
-        android:id="@+id/privacy_policy"
+        android:id="@+id/myRecepiesBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -23,22 +23,22 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="40dp"
-            android:src="@drawable/info_ic" />
+            android:src="@drawable/profile" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="Privacy policy"
-            android:textColor="#191919"
+            android:text="@string/my_recepies"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/about_dev"
+        android:id="@+id/sheet_logoutBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -47,21 +47,21 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/privacy_policy"
+        app:layout_constraintTop_toBottomOf="@+id/myRecepiesBtn"
         tools:ignore="RtlSymmetry">
 
         <ImageView
             android:layout_width="35dp"
             android:layout_height="45dp"
-            android:src="@drawable/developer_ic" />
+            android:src="@drawable/logout" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="About developer"
-            android:textColor="#191919"
+            android:text="@string/logout"
+            android:textColor="@color/status_delete"
             android:textSize="16sp" />
 
 

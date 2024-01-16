@@ -73,7 +73,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        fab = findViewById(R.id.floatingActionButton)
+        fab = findViewById(R.id.recipeBtn_add)
         fab.setOnClickListener {
             val intent = Intent(this@HomeActivity, AddRecipeActivity::class.java)
             startActivity(intent)

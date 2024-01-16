@@ -72,6 +72,9 @@
     <string name="add_ingredient_btn_text">Добавить ингредиент</string>
     <string name="add_step_btn_text">Добавить шаг</string>
     <string name="nutritional_unit">Единица измерения</string>
+    <string name="rating_add">Оставить отзыв</string>
+    <string name="my_recepies">Мои рецепты</string>
+    <string name="logout">Выйти из аккунта</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>

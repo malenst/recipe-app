@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             login(username, password)
         }
 
-        backBtn = findViewById(R.id.loginBackBtn)
+        backBtn = findViewById(R.id.back_btn_login)
         backBtn.setOnClickListener { finish() }
     }
 
