@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
+import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import java.util.*
@@ -39,6 +40,7 @@ class RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
 
+        RecipeApiService.init(this)
         val api = ru.ystu.mealmaster.data.RecipeApiService.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)

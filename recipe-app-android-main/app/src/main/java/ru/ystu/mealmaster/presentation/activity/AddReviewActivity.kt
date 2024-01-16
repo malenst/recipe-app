@@ -14,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.ApiResponseDto
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.domain.Review
 import ru.ystu.mealmaster.domain.ReviewData
 import java.util.*
@@ -29,7 +29,9 @@ class AddReviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_review)
-        api = ru.ystu.mealmaster.data.RecipeApiService.api
+
+        RecipeApiService.init(this)
+        api = RecipeApiService.api
 
         backBtn = findViewById(R.id.backBtnAddReview)
         editTextReview = findViewById(R.id.editTextReview)
@@ -52,35 +54,19 @@ class AddReviewActivity : AppCompatActivity() {
         val reviewData = ReviewData(reviewText, rating)
 
         // TODO: использовать данные пользователя
-        api.login("admin", "admin").enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
-            override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
-            ) {
-                if (response.isSuccessful) {
-                    Log.d("LOGIN", (response.body()?.response.toString()))
-                    api.addReview(recipeId, reviewData).enqueue(object : Callback<ApiResponseDto<Review>> {
-                        override fun onResponse(call: Call<ApiResponseDto<Review>>, response: Response<ApiResponseDto<Review>>) {
-                            if (response.isSuccessful) {
-                                Log.d("REVIEW", response.body()?.response.toString())
-                                showReviewThanksDialog(recipeId)
-                            } else {
-                                Log.d("REVIEW", "Неуспешно")
-                            }
-                        }
-
-                        override fun onFailure(call: Call<ApiResponseDto<Review>>, t: Throwable) {
-                            Log.e("REVIEW", "Ошибка при запросе")
-                            Log.e("REVIEW", t.stackTraceToString())
-                        }
-                    })
+        api.addReview(recipeId, reviewData).enqueue(object : Callback<ApiResponseDto<Review>> {
+            override fun onResponse(call: Call<ApiResponseDto<Review>>, response: Response<ApiResponseDto<Review>>) {
+                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                    Log.d("REVIEW", response.body()?.response.toString())
+                    showReviewThanksDialog(recipeId)
                 } else {
                     Log.d("REVIEW", "Неуспешно")
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
-                Log.e("LOGIN", t.stackTraceToString())
+            override fun onFailure(call: Call<ApiResponseDto<Review>>, t: Throwable) {
+                Log.e("REVIEW", "Ошибка при запросе")
+                Log.e("REVIEW", t.stackTraceToString())
             }
         })
     }

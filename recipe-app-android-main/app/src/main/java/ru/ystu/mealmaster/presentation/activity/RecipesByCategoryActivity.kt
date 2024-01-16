@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ystu.mealmaster.R
+import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityMainBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
@@ -26,6 +27,7 @@ class RecipesByCategoryActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        RecipeApiService.init(this)
         val api = ru.ystu.mealmaster.data.RecipeApiService.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)

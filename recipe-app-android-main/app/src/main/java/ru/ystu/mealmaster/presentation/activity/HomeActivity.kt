@@ -4,24 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.R
+import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.presentation.adapter.CatRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.PopRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
-import ru.ystu.mealmaster.presentation.viewmodel.CatRecipeViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.CatRecipeViewModelFactory
-import ru.ystu.mealmaster.presentation.viewmodel.PopRecipeViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.PopRecipeViewModelFactory
-import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
+import ru.ystu.mealmaster.presentation.viewmodel.*
 
 class HomeActivity : AppCompatActivity() {
     private var recyclerViewHome: RecyclerView? = null
@@ -32,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var recipeViewModel: RecipeViewModel
     private lateinit var popRecipeViewModel: PopRecipeViewModel
     private lateinit var catRecipeViewModel: CatRecipeViewModel
+    private lateinit var profileButton: ImageView
     private lateinit var binding: ActivityHomeBinding
 
     private var lottie: LottieAnimationView? = null
@@ -53,9 +51,15 @@ class HomeActivity : AppCompatActivity() {
         setPopularRecipesList()
         setCategoriesList()
 
+        profileButton = findViewById(R.id.imageView4)
+        profileButton.setOnClickListener {
+            val intent = Intent(this@HomeActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         // Open search activity
         editText!!.setOnClickListener {
-            val intent = Intent(this@HomeActivity, ru.ystu.mealmaster.presentation.activity.SearchActivity::class.java)
+            val intent = Intent(this@HomeActivity, SearchActivity::class.java)
             startActivity(intent)
         }
 
@@ -76,7 +80,8 @@ class HomeActivity : AppCompatActivity() {
     private fun setAllRecipesList() {
         setContentView(binding.root)
 
-        val api = ru.ystu.mealmaster.data.RecipeApiService.api
+        RecipeApiService.init(this)
+        val api = RecipeApiService.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
 
@@ -106,6 +111,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setCategoriesList() {
         setContentView(binding.root)
 
+        RecipeApiService.init(this)
         val api = ru.ystu.mealmaster.data.RecipeApiService.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
@@ -133,6 +139,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setPopularRecipesList() {
+        RecipeApiService.init(this)
         val api = ru.ystu.mealmaster.data.RecipeApiService.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
