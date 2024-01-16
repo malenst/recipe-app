@@ -1,98 +1,46 @@
 package ru.ystu.mealmaster.data
 
-import android.content.Context
-import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import okhttp3.Cookie
-import okhttp3.CookieJar
-import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import ru.ystu.mealmaster.presentation.application.MealMasterApp
-import ru.ystu.mealmaster.util.interceptor.AddCookiesInterceptor
-import ru.ystu.mealmaster.util.interceptor.ReceivedCookiesInterceptor
-import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
-import java.net.CookieHandler
-import java.net.CookieManager
-import java.util.concurrent.TimeUnit
+import retrofit2.Call
+import retrofit2.http.*
+import ru.ystu.mealmaster.domain.Category
+import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.Review
+import ru.ystu.mealmaster.domain.ReviewData
+import java.util.*
 
+interface RecipeApiService {
 
-object RecipeApiService {
-    private const val BASE_URL = "http://10.0.2.2:8080/api/"
+    @GET("recipe")
+    fun getRecipes() : Call<ApiResponseDto<List<Recipe>>>
+    @GET("moderation/recipe/pending")
+    fun getUncheckedRecipes() : Call<ApiResponseDto<List<Recipe>>>
 
-    private lateinit var retrofit: Retrofit
-    lateinit var api: RecipeApi
-    private lateinit var cookieJar: CookieJar
+    @GET("recipe/popular")
+    fun getTop10Recipes() : Call<ApiResponseDto<List<Recipe>>>
 
-    private lateinit var addCookiesInterceptor: AddCookiesInterceptor
-    private lateinit var receivedCookiesInterceptor: ReceivedCookiesInterceptor
+    @GET("recipe/{id}")
+    fun getRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
 
-    fun init(context: Context) {
-        val appContext = context.applicationContext
-        cookieJar = CustomPersistentCookieJar(appContext)
-        addCookiesInterceptor = AddCookiesInterceptor(appContext)
-        receivedCookiesInterceptor = ReceivedCookiesInterceptor(appContext)
+    @GET("recipe")
+    fun getRecipesByCategory(@Query("category") category : String) : Call<ApiResponseDto<List<Recipe>>>
 
-        retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+    @GET("category")
+    fun getCategories() : Call<ApiResponseDto<List<Category>>>
 
-        api = retrofit.create(RecipeApi::class.java)
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("add-review/recipe/{id}")
+    fun addReview(@Path("id") id: UUID, @Body body: ReviewData) : Call<ApiResponseDto<Review>>
 
-        loadCookies()
-    }
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("login")
+    fun login(
+        @Query("username") username : String,
+        @Query("password") password : String
+    ) : Call<ApiResponseDto<List<Recipe>>>
 
-    private fun loadCookies() {
-        val sharedPreferences = MealMasterApp.instance.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val cookiesString = sharedPreferences.getString("cookies", null)
-        cookiesString?.let {
-            val cookies = it.split(";").mapNotNull { cookieString ->
-                Log.d("Cookies", "Loading cookie: $cookieString")
-                Cookie.parse(BASE_URL.toHttpUrl(), cookieString)
-            }
-            cookieJar.loadInitialCookies(cookies)
-        }
-    }
-
-    private fun CookieJar.loadInitialCookies(cookies: List<Cookie>) {
-        cookies.forEach { cookie ->
-            saveFromResponse(BASE_URL.toHttpUrl(), listOf(cookie))
-        }
-    }
-
-    private val client: OkHttpClient by lazy {
-        val cookieHandler: CookieHandler = CookieManager()
-
-        OkHttpClient.Builder()
-            .followRedirects(false)
-            .cookieJar(JavaNetCookieJar(cookieHandler))
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .addInterceptor { chain ->
-                val request = chain.request()
-                val cookies = request.headers
-                Log.d("HTTP", "Cookies from request: $cookies")
-
-                chain.proceed(request)
-            }
-            .addInterceptor(addCookiesInterceptor)
-            .addInterceptor(receivedCookiesInterceptor)
-            .build()
-    }
-
-    private var gson: Gson = GsonBuilder()
-        .setLenient()
-        .create()
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("recipe")
+    fun addRecipe(
+        @Body recipe: Recipe
+    ) : Call<ApiResponseDto<Recipe>>
 }

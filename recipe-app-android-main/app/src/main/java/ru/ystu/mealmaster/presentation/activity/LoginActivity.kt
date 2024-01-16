@@ -20,15 +20,15 @@ import ru.ystu.mealmaster.domain.Recipe
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var api: RecipeApi
+    private lateinit var api: RecipeApiService
     private lateinit var backBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        RecipeApiService.init(this)
-        api = RecipeApiService.api
+        RecipeApi.init(this)
+        api = RecipeApi.api
 
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val txtUsername = findViewById<EditText>(R.id.txtUsername)

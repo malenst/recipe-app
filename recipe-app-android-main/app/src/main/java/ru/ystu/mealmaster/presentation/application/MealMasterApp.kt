@@ -1,7 +1,7 @@
 package ru.ystu.mealmaster.presentation.application
 
 import android.app.Application
-import ru.ystu.mealmaster.data.RecipeApiService
+import ru.ystu.mealmaster.data.RecipeApi
 
 
 class MealMasterApp : Application() {
@@ -13,6 +13,6 @@ class MealMasterApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        RecipeApiService.init(this)
+        RecipeApi.init(this)
     }
 }

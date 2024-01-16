@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.data.RecipeApiService
+import ru.ystu.mealmaster.data.RecipeApi
 
 
 class AddRecipeActivity : AppCompatActivity() {
@@ -28,8 +28,8 @@ class AddRecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_recipe)
 
-        RecipeApiService.init(this)
-        val api = RecipeApiService.api
+        RecipeApi.init(this)
+        val api = RecipeApi.api
 
         layout = findViewById(R.id.activityAddRecipeConstraintLayout)
 

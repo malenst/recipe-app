@@ -8,7 +8,7 @@ import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.RecipeRepository
 import java.util.*
 
-class RecipeRepositoryImpl(private val api: RecipeApi) : RecipeRepository {
+class RecipeRepositoryImpl(private val api: RecipeApiService) : RecipeRepository {
     override fun getRecipes(callback: (Result<List<Recipe>>?) -> Unit) {
         api.getRecipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
             override fun onResponse(

@@ -14,7 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.ApiResponseDto
-import ru.ystu.mealmaster.data.RecipeApiService
+import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.domain.Review
 import ru.ystu.mealmaster.domain.ReviewData
 import java.util.*
@@ -22,7 +22,7 @@ import java.util.*
 
 class AddReviewActivity : AppCompatActivity() {
     private lateinit var backBtn: ImageView
-    private lateinit var api: ru.ystu.mealmaster.data.RecipeApi
+    private lateinit var api: ru.ystu.mealmaster.data.RecipeApiService
     private lateinit var editTextReview: EditText
     private lateinit var ratingBar: RatingBar
 
@@ -30,8 +30,8 @@ class AddReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_review)
 
-        RecipeApiService.init(this)
-        api = RecipeApiService.api
+        RecipeApi.init(this)
+        api = RecipeApi.api
 
         backBtn = findViewById(R.id.backBtnAddReview)
         editTextReview = findViewById(R.id.editTextReview)

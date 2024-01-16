@@ -11,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.data.RecipeApiService
+import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
@@ -96,8 +95,8 @@ class HomeActivity : AppCompatActivity() {
     private fun setAllRecipesList() {
         setContentView(binding.root)
 
-        RecipeApiService.init(this)
-        val api = RecipeApiService.api
+        RecipeApi.init(this)
+        val api = RecipeApi.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
 
@@ -127,8 +126,8 @@ class HomeActivity : AppCompatActivity() {
     private fun setCategoriesList() {
         setContentView(binding.root)
 
-        RecipeApiService.init(this)
-        val api = ru.ystu.mealmaster.data.RecipeApiService.api
+        RecipeApi.init(this)
+        val api = ru.ystu.mealmaster.data.RecipeApi.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
 
@@ -155,8 +154,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setPopularRecipesList() {
-        RecipeApiService.init(this)
-        val api = ru.ystu.mealmaster.data.RecipeApiService.api
+        RecipeApi.init(this)
+        val api = ru.ystu.mealmaster.data.RecipeApi.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
 
