@@ -234,13 +234,13 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/card_back_btn"
-                android:contentDescription="@string/moderation_txt"
-                android:src="@drawable/moderation"
                 android:clickable="true"
+                android:contentDescription="@string/moderation_txt"
+                android:focusable="true"
+                android:src="@drawable/moderation"
                 android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:focusable="true" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/bananas_icon"
@@ -248,13 +248,13 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/bananas_ic"
                 android:clickable="true"
+                android:contentDescription="@string/app_name"
+                android:focusable="true"
+                android:src="@drawable/bananas_ic"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:focusable="true" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

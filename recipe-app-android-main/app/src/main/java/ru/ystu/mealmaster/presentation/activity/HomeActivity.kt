@@ -3,6 +3,7 @@ package ru.ystu.mealmaster.presentation.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
     private lateinit var menu: ImageView
-    private lateinit var fab: FloatingActionButton
+    private lateinit var fab: Button
     private lateinit var binding: ActivityHomeBinding
 
     private var lottie: LottieAnimationView? = null
