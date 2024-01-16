@@ -30,6 +30,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var popRecipeViewModel: PopRecipeViewModel
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
+    private lateinit var menu: ImageView
     private lateinit var binding: ActivityHomeBinding
 
     private var lottie: LottieAnimationView? = null
@@ -54,6 +55,13 @@ class HomeActivity : AppCompatActivity() {
         profileButton = findViewById(R.id.imageView4)
         profileButton.setOnClickListener {
             val intent = Intent(this@HomeActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        menu = findViewById(R.id.menu)
+        menu.setOnClickListener {
+            val intent = Intent(this@HomeActivity, RecipesByCategoryActivity::class.java)
+            intent.putExtra("CATEGORY", "Модерация")
             startActivity(intent)
         }
 

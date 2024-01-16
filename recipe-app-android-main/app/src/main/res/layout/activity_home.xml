@@ -22,6 +22,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:descendantFocusability="afterDescendants"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -172,10 +173,10 @@
                 android:id="@+id/logo"
                 android:layout_width="180dp"
                 android:layout_height="30dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintBottom_toBottomOf="@+id/menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/menu"
                 app:srcCompat="@drawable/logo" />
 
             <EditText
@@ -210,7 +211,7 @@
                 app:layout_constraintTop_toTopOf="@+id/editText" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/menu"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"

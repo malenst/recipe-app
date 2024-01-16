@@ -17,13 +17,15 @@ import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
 import ru.ystu.mealmaster.presentation.viewmodel.RecipesByCategoryViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.RecipesByCategoryViewModelFactory
+import ru.ystu.mealmaster.presentation.viewmodel.UncheckedRecipeViewModel
+import ru.ystu.mealmaster.presentation.viewmodel.UncheckedRecipeViewModelFactory
 
 class RecipesByCategoryActivity : AppCompatActivity() {
     private lateinit var recipesByCategoryAdapter: RecipesByCategoryAdapter
     private lateinit var recipesByCategoryViewModel: RecipesByCategoryViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var recipeAdapter: RecipeAdapter
-    private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var recipeViewModel: UncheckedRecipeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,8 +72,8 @@ class RecipesByCategoryActivity : AppCompatActivity() {
 
             recipeViewModel = ViewModelProvider(
                 this,
-                RecipeViewModelFactory(interactor)
-            )[RecipeViewModel::class.java]
+                UncheckedRecipeViewModelFactory(interactor)
+            )[UncheckedRecipeViewModel::class.java]
 
             recipeAdapter = RecipeAdapter(emptyList())
 
