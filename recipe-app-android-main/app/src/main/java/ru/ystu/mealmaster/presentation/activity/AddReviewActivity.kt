@@ -53,7 +53,6 @@ class AddReviewActivity : AppCompatActivity() {
     private fun submitReview(recipeId: UUID, reviewText: String, rating: Int) {
         val reviewData = ReviewData(reviewText, rating)
 
-        // TODO: использовать данные пользователя
         api.addReview(recipeId, reviewData).enqueue(object : Callback<ApiResponseDto<Review>> {
             override fun onResponse(call: Call<ApiResponseDto<Review>>, response: Response<ApiResponseDto<Review>>) {
                 if (response.isSuccessful || response.code() == 301 || response.code() == 302) {

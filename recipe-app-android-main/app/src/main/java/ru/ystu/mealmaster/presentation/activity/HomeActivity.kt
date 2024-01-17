@@ -1,11 +1,19 @@
 package ru.ystu.mealmaster.presentation.activity
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
     private lateinit var menu: ImageView
+    private lateinit var logo: ImageView
     private lateinit var fab: Button
     private lateinit var binding: ActivityHomeBinding
 
@@ -62,8 +71,13 @@ class HomeActivity : AppCompatActivity() {
 
         menu = findViewById(R.id.menu)
         menu.setOnClickListener {
-            val intent = Intent(this@HomeActivity, RecipesByCategoryActivity::class.java)
-            intent.putExtra("CATEGORY", "Модерация")
+            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
+            startActivity(intent)
+        }
+
+        logo = findViewById(R.id.logo)
+        logo.setOnClickListener {
+            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
             startActivity(intent)
         }
 
@@ -174,6 +188,32 @@ class HomeActivity : AppCompatActivity() {
                 popRecipeAdapter.updateData(it)
             }
         }
+
+//        open fun showBottomSheet() {
+//            val dialog = Dialog(this)
+//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//            dialog.setContentView(R.layout.bottom_sheet)
+//            val privayPolicy = dialog.findViewById<LinearLayout>(R.id.myRecepiesBtn)
+//            val abtDev = dialog.findViewById<LinearLayout>(R.id.sheet_logoutBtn)
+//            privayPolicy.setOnClickListener { v: View? ->
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.data = Uri.parse(getString(R.string.privacy_policy_url))
+//                startActivity(intent)
+//            }
+//            abtDev.setOnClickListener { v: View? ->
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.data = Uri.parse(getString(R.string.abt_dev))
+//                startActivity(intent)
+//            }
+//            dialog.show()
+//            dialog.window!!.setLayout(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT
+//            )
+//            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+//            dialog.window!!.setGravity(Gravity.BOTTOM)
+//        }
     }
 
     // Start MainActivity(Recipe list) with intent message
