@@ -128,4 +128,22 @@ class RecipeRepositoryImpl(private val api: RecipeApiService) : RecipeRepository
         })
     }
 
+    override fun getCurrentUserRole(callback: (Result<String>) -> Unit) {
+        api.getCurrentUserRole().enqueue(object : Callback<ApiResponseDto<String>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<String>>,
+                response: Response<ApiResponseDto<String>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<String>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
 }

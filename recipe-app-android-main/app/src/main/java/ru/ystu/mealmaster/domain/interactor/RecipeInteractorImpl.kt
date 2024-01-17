@@ -1,9 +1,9 @@
 package ru.ystu.mealmaster.domain.interactor
 
+import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.ystu.mealmaster.domain.Category
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.RecipeRepository
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -70,4 +70,13 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
+    override suspend fun getCurrentUserRole(): String = suspendCoroutine { continuation ->
+        repository.getCurrentUserRole() { result ->
+            if (result.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load current user role"))
+            }
+        }
+    }
 }

@@ -43,4 +43,7 @@ interface RecipeApiService {
     fun addRecipe(
         @Body recipe: Recipe
     ) : Call<ApiResponseDto<Recipe>>
+
+    @GET("account/role")
+    fun getCurrentUserRole() : Call<ApiResponseDto<String>>
 }

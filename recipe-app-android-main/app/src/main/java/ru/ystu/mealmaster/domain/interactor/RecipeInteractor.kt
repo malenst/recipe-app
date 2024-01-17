@@ -11,4 +11,5 @@ interface RecipeInteractor {
     suspend fun getTop10Recipes(): List<Recipe>
     suspend fun getCategories(): List<Category>
     suspend fun getRecipesByCategory(category: String): List<Recipe>
+    suspend fun getCurrentUserRole(): String
 }
