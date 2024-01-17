@@ -60,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        menu = findViewById(R.id.menu)
+        menu = findViewById(R.id.bananas_icon)
         menu.setOnClickListener {
             val intent = Intent(this@HomeActivity, RecipesByCategoryActivity::class.java)
             intent.putExtra("CATEGORY", "Модерация")

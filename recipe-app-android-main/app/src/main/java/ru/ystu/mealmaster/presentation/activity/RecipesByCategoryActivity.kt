@@ -33,7 +33,7 @@ class RecipesByCategoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         RecipeApi.init(this)
-        val api = ru.ystu.mealmaster.data.RecipeApi.api
+        val api = RecipeApi.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
 
@@ -52,7 +52,7 @@ class RecipesByCategoryActivity : AppCompatActivity() {
 
             recipesByCategoryViewModel = ViewModelProvider(
                 this,
-                RecipesByCategoryViewModelFactory(interactor, category!!)
+                RecipesByCategoryViewModelFactory(interactor, category)
             )[RecipesByCategoryViewModel::class.java]
 
             binding.mainRecview.apply {
