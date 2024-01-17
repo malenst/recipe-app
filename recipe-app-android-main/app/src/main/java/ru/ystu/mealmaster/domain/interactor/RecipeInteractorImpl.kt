@@ -70,6 +70,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
+    override suspend fun login(username: String, password: String): Pair<List<Recipe>, List<String>?> = suspendCoroutine { continuation ->
+        repository.login(username, password) { result, cookies ->
+            if (result.isSuccess) {
+                continuation.resume(Pair(result.getOrNull() ?: emptyList(), cookies))
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to login"))
+            }
+        }
+    }
+
     override suspend fun getCurrentUserRole(): String = suspendCoroutine { continuation ->
         repository.getCurrentUserRole() { result ->
             if (result.isSuccess) {

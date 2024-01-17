@@ -1,5 +1,6 @@
 package ru.ystu.mealmaster.data
 
+import android.content.Context
 import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
@@ -7,15 +8,21 @@ import retrofit2.Response
 import ru.ystu.mealmaster.domain.Category
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.util.*
 
-class RecipeRepositoryImpl(private val api: RecipeApiService) : RecipeRepository {
+
+class RecipeRepositoryImpl(private val api: RecipeApiService, private val context: Context) : RecipeRepository {
     override fun getRecipes(callback: (Result<List<Recipe>>?) -> Unit) {
         api.getRecipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<List<Recipe>>>,
                 response: Response<ApiResponseDto<List<Recipe>>>
             ) {
+                val manager = SharedPrefManager(context)
+                val sessionId: String = manager.getSessionId().toString()
+                Log.d("SESSION", sessionId)
+
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()?.response ?: emptyList()))
                 } else {
@@ -128,16 +135,60 @@ class RecipeRepositoryImpl(private val api: RecipeApiService) : RecipeRepository
         })
     }
 
+    override fun login(username: String, password: String, callback: (Result<List<Recipe>>, List<String>?) -> Unit) {
+        api.login(username, password).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<List<Recipe>>>,
+                response: Response<ApiResponseDto<List<Recipe>>>
+            ) {
+                val headers = response.headers()
+                val cookies = headers.values("Set-Cookie")
+                val manager = SharedPrefManager(context)
+                val jsessionIdCookie = cookies.find { it.startsWith("JSESSIONID=") }
+                jsessionIdCookie?.let {
+                    val jsessionIdValue = it.substringAfter("JSESSIONID=").substringBefore(";")
+                    manager.saveSession(jsessionIdValue)
+                }
+                val loginError = headers.values("Location").any { cookie -> "/login?error" in cookie }
+
+                if ((response.isSuccessful || response.code() == 301 || response.code() == 302) && !loginError) {
+                    Log.d("SUCCREPOLOG", "a")
+                    callback(Result.success(response.body()?.response ?: emptyList()), cookies)
+                } else {
+                    Log.d("ERRREPOLOG", "a")
+                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
+                        response.errorBody()?.string()
+                    }"
+                    callback(Result.failure(Exception(errorMessage)), cookies)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+                callback(Result.failure(t), emptyList())
+            }
+        })
+    }
+
+
+
     override fun getCurrentUserRole(callback: (Result<String>) -> Unit) {
         api.getCurrentUserRole().enqueue(object : Callback<ApiResponseDto<String>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<String>>,
                 response: Response<ApiResponseDto<String>>
             ) {
-                if (response.isSuccessful) {
-                    callback(Result.success(response.body()!!.response))
+                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        callback(Result.success(responseBody.response))
+                    } else {
+                        callback(Result.failure(Exception("Ошибка: тело ответа отсутствует")))
+                    }
                 } else {
-                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
+                        response.errorBody()?.string()
+                    }"
+                    callback(Result.failure(Exception(errorMessage)))
                 }
             }
 

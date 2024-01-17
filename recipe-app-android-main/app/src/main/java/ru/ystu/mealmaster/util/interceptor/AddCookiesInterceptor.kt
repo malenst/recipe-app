@@ -1,25 +1,19 @@
 package ru.ystu.mealmaster.util.interceptor
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
+import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.io.IOException
 
-class AddCookiesInterceptor(context: Context) : Interceptor {
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-
+class AddCookiesInterceptor(private val context: Context) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val builder: Request.Builder = chain.request().newBuilder()
+        val builder = chain.request().newBuilder()
 
-        val preferences = sharedPreferences.getStringSet("remember-me", HashSet())
-
-        for (cookie in preferences!!) {
-            builder.addHeader("Cookie", cookie)
-            Log.v("OkHttp", "Adding Header: $cookie")
+        val sharedPrefManager = SharedPrefManager(context)
+        sharedPrefManager.getSessionId()?.let { sessionId ->
+            builder.addHeader("Cookie", "JSESSIONID=$sessionId")
         }
 
         return chain.proceed(builder.build())

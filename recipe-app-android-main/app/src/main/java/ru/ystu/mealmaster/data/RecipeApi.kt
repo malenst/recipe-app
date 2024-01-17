@@ -1,24 +1,15 @@
 package ru.ystu.mealmaster.data
 
 import android.content.Context
-import android.util.Log
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import okhttp3.Cookie
-import okhttp3.CookieJar
-import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import ru.ystu.mealmaster.presentation.application.MealMasterApp
 import ru.ystu.mealmaster.util.interceptor.AddCookiesInterceptor
 import ru.ystu.mealmaster.util.interceptor.ReceivedCookiesInterceptor
 import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
-import java.net.CookieHandler
-import java.net.CookieManager
 import java.util.concurrent.TimeUnit
 
 
@@ -27,16 +18,26 @@ object RecipeApi {
 
     private lateinit var retrofit: Retrofit
     lateinit var api: RecipeApiService
-    private lateinit var cookieJar: CookieJar
-
-    private lateinit var addCookiesInterceptor: AddCookiesInterceptor
-    private lateinit var receivedCookiesInterceptor: ReceivedCookiesInterceptor
 
     fun init(context: Context) {
         val appContext = context.applicationContext
-        cookieJar = CustomPersistentCookieJar(appContext)
-        addCookiesInterceptor = AddCookiesInterceptor(appContext)
-        receivedCookiesInterceptor = ReceivedCookiesInterceptor(appContext)
+
+        val client = OkHttpClient.Builder()
+            .followRedirects(false)
+            .cookieJar(CustomPersistentCookieJar(appContext))
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .addInterceptor(AddCookiesInterceptor(appContext))
+            .addInterceptor(ReceivedCookiesInterceptor(appContext))
+            .build()
+
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
 
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -46,53 +47,5 @@ object RecipeApi {
             .build()
 
         api = retrofit.create(RecipeApiService::class.java)
-
-        loadCookies()
     }
-
-    private fun loadCookies() {
-        val sharedPreferences = MealMasterApp.instance.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val cookiesString = sharedPreferences.getString("cookies", null)
-        cookiesString?.let {
-            val cookies = it.split(";").mapNotNull { cookieString ->
-                Log.d("Cookies", "Loading cookie: $cookieString")
-                Cookie.parse(BASE_URL.toHttpUrl(), cookieString)
-            }
-            cookieJar.loadInitialCookies(cookies)
-        }
-    }
-
-    private fun CookieJar.loadInitialCookies(cookies: List<Cookie>) {
-        cookies.forEach { cookie ->
-            saveFromResponse(BASE_URL.toHttpUrl(), listOf(cookie))
-        }
-    }
-
-    private val client: OkHttpClient by lazy {
-        val cookieHandler: CookieHandler = CookieManager()
-
-        OkHttpClient.Builder()
-            .followRedirects(false)
-            .cookieJar(JavaNetCookieJar(cookieHandler))
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .addInterceptor { chain ->
-                val request = chain.request()
-                val cookies = request.headers
-                Log.d("HTTP", "Cookies from request: $cookies")
-
-                chain.proceed(request)
-            }
-            .addInterceptor(addCookiesInterceptor)
-            .addInterceptor(receivedCookiesInterceptor)
-            .build()
-    }
-
-    private var gson: Gson = GsonBuilder()
-        .setLenient()
-        .create()
 }

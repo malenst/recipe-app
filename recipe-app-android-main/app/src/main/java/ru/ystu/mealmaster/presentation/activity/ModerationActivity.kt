@@ -32,7 +32,7 @@ class ModerationActivity : AppCompatActivity() {
 
         RecipeApi.init(this)
         val api = ru.ystu.mealmaster.data.RecipeApi.api
-        val repository = RecipeRepositoryImpl(api)
+        val repository = RecipeRepositoryImpl(api, this)
         val interactor = RecipeInteractorImpl(repository)
 
         moderationAdapter = ModerationAdapter(emptyList())

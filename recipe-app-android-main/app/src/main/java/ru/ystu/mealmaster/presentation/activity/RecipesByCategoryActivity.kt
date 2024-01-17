@@ -34,7 +34,7 @@ class RecipesByCategoryActivity : AppCompatActivity() {
 
         RecipeApi.init(this)
         val api = RecipeApi.api
-        val repository = RecipeRepositoryImpl(api)
+        val repository = RecipeRepositoryImpl(api, this)
         val interactor = RecipeInteractorImpl(repository)
 
         val category = intent.extras?.getString("CATEGORY")

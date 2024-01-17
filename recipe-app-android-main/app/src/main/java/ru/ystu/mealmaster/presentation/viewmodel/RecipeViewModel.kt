@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
-import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val recipeInteractor: RecipeInteractor) : ViewModel() {
 
@@ -17,7 +17,7 @@ class RecipeViewModel(private val recipeInteractor: RecipeInteractor) : ViewMode
         loadRecipes()
     }
 
-    private fun loadRecipes() {
+    fun loadRecipes() {
         viewModelScope.launch {
             try {
                 val recipeList = recipeInteractor.getRecipes()

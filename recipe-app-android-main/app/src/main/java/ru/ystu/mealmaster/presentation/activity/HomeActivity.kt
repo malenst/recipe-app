@@ -1,28 +1,25 @@
 package ru.ystu.mealmaster.presentation.activity
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
+import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityHomeBinding
+import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.presentation.adapter.CatRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.PopRecipeAdapter
@@ -36,13 +33,18 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var popRecipeAdapter: PopRecipeAdapter
     private lateinit var catRecipeAdapter: CatRecipeAdapter
     private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var currentUserRoleViewModel: CurrentUserRoleViewModel
     private lateinit var popRecipeViewModel: PopRecipeViewModel
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
-    private lateinit var menu: ImageView
+    //private lateinit var menu: ImageView
     private lateinit var logo: ImageView
     private lateinit var fab: Button
     private lateinit var binding: ActivityHomeBinding
+
+    private lateinit var api: RecipeApiService
+    private lateinit var repository: RecipeRepository
+    private lateinit var interactor: RecipeInteractor
 
     private var lottie: LottieAnimationView? = null
     private var editText: EditText? = null
@@ -52,6 +54,18 @@ class HomeActivity : AppCompatActivity() {
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_home)
+
+        RecipeApi.init(this)
+        api = RecipeApi.api
+        repository = RecipeRepositoryImpl(api, this)
+        interactor = RecipeInteractorImpl(repository)
+
+        currentUserRoleViewModel = ViewModelProvider(
+            this,
+            CurrentUserRoleViewModelFactory(interactor)
+        )[CurrentUserRoleViewModel::class.java]
+
+        checkPermissions()
 
         recyclerViewHome = findViewById(R.id.recview)
         popRecyclerViewHome = findViewById(R.id.rcview_popular)
@@ -69,17 +83,13 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        menu = findViewById(R.id.bananas_icon)
-        menu.setOnClickListener {
-            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
-            startActivity(intent)
-        }
+//        menu = findViewById(R.id.menu)
+//        menu.setOnClickListener {
+//            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
+//            startActivity(intent)
+//        }
 
-        logo = findViewById(R.id.logo)
-        logo.setOnClickListener {
-            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
-            startActivity(intent)
-        }
+        logo = findViewById(R.id.bananas_icon)
 
         // Open search activity
         editText!!.setOnClickListener {
@@ -96,23 +106,36 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        loadData()
+        reloadData()
     }
 
-    private fun loadData() {
-        setAllRecipesList()
-        setPopularRecipesList()
-        setCategoriesList()
+    private fun reloadData() {
+        recipeViewModel.loadRecipes()
+        checkPermissions()
+    }
+
+    private fun getCurrentUserRoleLiveData(): LiveData<String> {
+        currentUserRoleViewModel.loadCurrentUser()
+        return currentUserRoleViewModel.currentUserRole
+    }
+
+    private fun checkPermissions() {
+        // Get user role
+        getCurrentUserRoleLiveData().observe(this) { currentUserRole ->
+            Log.d("CurrentUserRole", currentUserRole ?: "Role not found")
+
+            if (currentUserRole == "MODERATOR" || currentUserRole == "ADMIN") {
+                Log.d("UserIsModeratorOrAdmin", true.toString())
+                logo.setOnClickListener {
+                    val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     private fun setAllRecipesList() {
         setContentView(binding.root)
-
-        RecipeApi.init(this)
-        val api = RecipeApi.api
-        val repository = RecipeRepositoryImpl(api)
-        val interactor = RecipeInteractorImpl(repository)
 
         recipeViewModel = ViewModelProvider(
             this,
@@ -140,11 +163,6 @@ class HomeActivity : AppCompatActivity() {
     private fun setCategoriesList() {
         setContentView(binding.root)
 
-        RecipeApi.init(this)
-        val api = ru.ystu.mealmaster.data.RecipeApi.api
-        val repository = RecipeRepositoryImpl(api)
-        val interactor = RecipeInteractorImpl(repository)
-
         catRecipeViewModel = ViewModelProvider(
             this,
             CatRecipeViewModelFactory(interactor)
@@ -168,11 +186,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setPopularRecipesList() {
-        RecipeApi.init(this)
-        val api = ru.ystu.mealmaster.data.RecipeApi.api
-        val repository = RecipeRepositoryImpl(api)
-        val interactor = RecipeInteractorImpl(repository)
-
         popRecipeAdapter = PopRecipeAdapter(emptyList())
         popRecipeViewModel = ViewModelProvider(
             this,
@@ -217,6 +230,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     // Start MainActivity(Recipe list) with intent message
+    @Suppress("unused")
     private fun start(p: String?, tittle: String?) {
         val intent = Intent(this@HomeActivity, MainActivity::class.java)
         intent.putExtra("Category", p)

@@ -9,18 +9,22 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.data.ApiResponseDto
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
+import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var api: RecipeApiService
+    private lateinit var repository: RecipeRepository
+    private lateinit var interactor: RecipeInteractor
+
     private lateinit var backBtn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +33,8 @@ class LoginActivity : AppCompatActivity() {
 
         RecipeApi.init(this)
         api = RecipeApi.api
+        repository = RecipeRepositoryImpl(api, this)
+        interactor = RecipeInteractorImpl(repository)
 
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val txtUsername = findViewById<EditText>(R.id.txtUsername)
@@ -46,27 +52,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login(username: String, password: String) {
-        api.login(username, password).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
-            override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
-            ) {
-                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
-                    Log.d("COOK", response.headers().values("Set-Cookie").toString())
-                    saveCookies((response.headers().values("Set-Cookie")))
-
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            try {
+                val (recipes, cookies) = interactor.login(username, password)
+                if (cookies != null) {
+                    saveCookies(cookies)
                 }
+                Log.d("RecipesAfterSuccessfulLogin", recipes.toString())
+                intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            } catch (e: Exception) {
+                Toast.makeText(this@LoginActivity, "Login failed: invalid credentials", Toast.LENGTH_SHORT).show()
             }
-
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
-            }
-        })
+        }
     }
 
     private fun saveCookies(cookies: List<String>) {

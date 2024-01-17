@@ -9,5 +9,6 @@ interface RecipeRepository {
     fun getTop10Recipes(callback: (Result<List<Recipe>>?) -> Unit)
     fun getCategories(callback: (Result<List<Category>>?) -> Unit)
     fun getRecipesByCategory(category: String, callback: (Result<List<Recipe>>?) -> Unit)
+    fun login(username : String, password : String, callback: (Result<List<Recipe>>, List<String>?) -> Unit)
     fun getCurrentUserRole(callback: (Result<String>) -> Unit)
 }
