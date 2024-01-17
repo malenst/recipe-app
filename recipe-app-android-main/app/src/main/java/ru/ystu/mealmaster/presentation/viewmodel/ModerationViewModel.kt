@@ -5,14 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
-import kotlinx.coroutines.launch
 
 class ModerationViewModel(private val recipeInteractor: RecipeInteractor) : ViewModel() {
 
-    private val _recipesByCategory = MutableLiveData<List<Recipe>>()
-    val recipesByCategory: LiveData<List<Recipe>> get() = _recipesByCategory
+    private val _pendingRecipes = MutableLiveData<List<Recipe>>()
+    val pendingRecipes: LiveData<List<Recipe>> get() = _pendingRecipes
 
     init {
         loadUncheckedRecipes()
@@ -23,9 +23,9 @@ class ModerationViewModel(private val recipeInteractor: RecipeInteractor) : View
             try {
                 val recipesList = recipeInteractor.getUncheckedRecipes()
                 Log.d("YABLOKO", recipesList.toString())
-                _recipesByCategory.postValue(recipesList)
+                _pendingRecipes.postValue(recipesList)
             } catch (e: Exception) {
-                _recipesByCategory.postValue(emptyList())
+                _pendingRecipes.postValue(emptyList())
             }
         }
     }

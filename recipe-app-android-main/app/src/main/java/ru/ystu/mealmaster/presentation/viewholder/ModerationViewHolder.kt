@@ -3,24 +3,21 @@ package ru.ystu.mealmaster.presentation.viewholder
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.presentation.activity.AddReviewActivity
 import ru.ystu.mealmaster.presentation.activity.RecipeActivity
 
 class ModerationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private val nameTextView = itemView.findViewById<TextView>(R.id.nameByCategory)
-    private val avgRating = itemView.findViewById<TextView>(R.id.listRatingByCategory)
-    private val cookingTimeTextView = itemView.findViewById<TextView>(R.id.cookingTimeByCategory)
-    private val imageView = itemView.findViewById<ImageView>(R.id.imgByCategory)
+    private val nameTextView = itemView.findViewById<TextView>(R.id.nameModeration)
+    //private val avgRating = itemView.findViewById<TextView>(R.id.listRatingByCategory)
+    private val cookingTimeTextView = itemView.findViewById<TextView>(R.id.cookingTimeModeration)
+    private val imageView = itemView.findViewById<ImageView>(R.id.imageViewModeration)
 
     private lateinit var context: Context
     private lateinit var intent: Intent

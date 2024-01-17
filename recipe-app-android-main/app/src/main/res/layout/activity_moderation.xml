@@ -8,10 +8,10 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:orientation="vertical"
-        tools:context=".presentation.activity.MainActivity">
+        tools:context=".presentation.activity.ModerationActivity">
 
         <ImageView
-            android:id="@+id/backBtnMain"
+            android:id="@+id/backBtnModeration"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
@@ -35,8 +35,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/backBtnMain"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.072"
-            app:layout_constraintStart_toEndOf="@+id/backBtnMain"
-            app:layout_constraintTop_toTopOf="@+id/backBtnMain" />
+            app:layout_constraintStart_toEndOf="@+id/backBtnModeration"
+            app:layout_constraintTop_toTopOf="@+id/backBtnModeration" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/moderationRecview"
