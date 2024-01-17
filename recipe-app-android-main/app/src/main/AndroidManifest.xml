@@ -40,6 +40,9 @@
             android:name="ru.ystu.mealmaster.presentation.activity.RecipesByCategoryActivity"
             android:exported="false" />
         <activity
+            android:name="ru.ystu.mealmaster.presentation.activity.ModerationActivity"
+            android:exported="false" />
+        <activity
             android:name="ru.ystu.mealmaster.presentation.activity.AddReviewActivity"
             android:exported="false" />
         <activity

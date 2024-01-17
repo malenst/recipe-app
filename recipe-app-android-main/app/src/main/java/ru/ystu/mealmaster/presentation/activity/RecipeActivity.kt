@@ -1,6 +1,8 @@
 package ru.ystu.mealmaster.presentation.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
@@ -31,9 +34,11 @@ class RecipeActivity : AppCompatActivity() {
     private var reviews: TextView? = null
     private var stepBtn: Button? = null
     private var ing_btn: Button? = null
+    private lateinit var rew_btn: FloatingActionButton
     var isImgCrop = false
     private var scrollView: ScrollView? = null
     private var scrollView_step: ScrollView? = null
+    private lateinit var context: Context
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +49,11 @@ class RecipeActivity : AppCompatActivity() {
         val api = ru.ystu.mealmaster.data.RecipeApi.api
         val repository = RecipeRepositoryImpl(api)
         val interactor = RecipeInteractorImpl(repository)
+        var recipeIdString: String = ""
 
         lifecycleScope.launch {
             try {
-                val recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
+                recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
                 val recipeFromDb = interactor.getRecipeById(UUID.fromString(recipeIdString))
 
                 recipeFromDb.let { recipe ->
@@ -97,6 +103,7 @@ class RecipeActivity : AppCompatActivity() {
         stepBtn = findViewById(R.id.steps_btn)
         reviews = findViewById(R.id.recipeReviews)
         ing_btn = findViewById(R.id.ing_btn)
+        rew_btn = findViewById(R.id.floatingActionButton)
         backBtn = findViewById(R.id.back_btn)
         steps = findViewById(R.id.steps_txt)
         scrollView = findViewById(R.id.ing_scroll)
@@ -150,6 +157,12 @@ class RecipeActivity : AppCompatActivity() {
             stepBtn?.setTextColor(getColor(R.color.black))
             scrollView?.visibility = View.VISIBLE
             scrollView_step?.visibility = View.GONE
+        }
+
+        rew_btn.setOnClickListener{
+            intent = Intent(this@RecipeActivity, AddReviewActivity::class.java)
+            intent.putExtra("RECIPE_ID", recipeIdString)
+            this@RecipeActivity.startActivity(intent)
         }
 
 

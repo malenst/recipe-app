@@ -1,5 +1,6 @@
 package ru.ystu.mealmaster.data
 
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,14 +35,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService) : RecipeRepository
                 call: Call<ApiResponseDto<List<Recipe>>>,
                 response: Response<ApiResponseDto<List<Recipe>>>
             ) {
-                if (response.isSuccessful) {
+                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                    Log.d("APELSIN", response.body()?.response.toString())
                     callback(Result.success(response.body()?.response ?: emptyList()))
                 } else {
+                    Log.d("MANGO", "MANGO")
                     callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
                 }
             }
 
             override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+
                 callback(Result.failure(t))
             }
         })
