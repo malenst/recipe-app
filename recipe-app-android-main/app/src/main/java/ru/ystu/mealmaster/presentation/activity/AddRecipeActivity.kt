@@ -24,7 +24,7 @@ class AddRecipeActivity : AppCompatActivity() {
     private lateinit var editTextIngredientsAmount: EditText
     private lateinit var btnAddIngredient: Button
     private lateinit var btnAddStep: Button
-    private lateinit var btnSaveRecipe: Button
+    private lateinit var btnSaveRecipe: ImageView
     private lateinit var backBtn: ImageView
 
     private lateinit var editTextName: EditText
