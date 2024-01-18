@@ -94,7 +94,7 @@ class AddRecipeActivity : AppCompatActivity() {
         val categoryMapping = RecipeCategory.entries.associateBy(RecipeCategory::ordinal)
         val measureUnitMapping = MeasureUnit.entries.associateBy(MeasureUnit::ordinal)
 
-        btnSaveRecipe = findViewById(R.id.buttonSaveRecipe)
+        btnSaveRecipe = findViewById(R.id.buttonSaveRecipeCheck)
 
         btnSaveRecipe.setOnClickListener {
             val selectedCategoryPosition = spinnerCategory.selectedItemPosition
