@@ -81,7 +81,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun addRecipe(recipe: RecipeData): RecipeData = suspendCoroutine { continuation ->
+    override suspend fun addRecipe(recipe: RecipeData): Recipe = suspendCoroutine { continuation ->
         repository.addRecipe(recipe) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull()!!)

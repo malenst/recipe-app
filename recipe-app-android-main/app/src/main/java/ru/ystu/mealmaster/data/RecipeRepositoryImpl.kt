@@ -170,20 +170,20 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
-    override fun addRecipe(recipe: RecipeData, callback: (Result<RecipeData>?) -> Unit) {
-        api.addRecipe(recipe).enqueue(object : Callback<ApiResponseDto<RecipeData>> {
+    override fun addRecipe(recipe: RecipeData, callback: (Result<Recipe>?) -> Unit) {
+        api.addRecipe(recipe).enqueue(object : Callback<ApiResponseDto<Recipe>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<RecipeData>>,
-                response: Response<ApiResponseDto<RecipeData>>
+                call: Call<ApiResponseDto<Recipe>>,
+                response: Response<ApiResponseDto<Recipe>>
             ) {
-                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                if (response.isSuccessful || response.code() == 201 || response.code() == 301 || response.code() == 302) {
                     callback(Result.success(response.body()!!.response))
                 } else {
                     callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<RecipeData>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })

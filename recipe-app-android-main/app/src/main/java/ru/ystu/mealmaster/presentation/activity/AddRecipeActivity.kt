@@ -3,6 +3,7 @@ package ru.ystu.mealmaster.presentation.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,13 @@ class AddRecipeActivity : AppCompatActivity() {
     private lateinit var btnAddStep: Button
     private lateinit var btnSaveRecipe: ImageView
     private lateinit var backBtn: ImageView
+
+    private lateinit var allIngredients : Map<String, String>
+    private lateinit var allSteps : Map<String, String>
+
+    private val ingredientNameEditTexts = mutableListOf<EditText>()
+    private val ingredientAmountEditTexts = mutableListOf<EditText>()
+    private val stepEditTexts = mutableListOf<EditText>()
 
     private lateinit var editTextName: EditText
     private lateinit var editTextDescription: EditText
@@ -64,7 +72,7 @@ class AddRecipeActivity : AppCompatActivity() {
         initNutritionalUnitSpinner()
 
         editTextIngredientName = findViewById(R.id.editTextIngredientName)
-        editTextIngredientsAmount = findViewById(R.id.editTextIngredientAmount)
+        editTextIngredientAmount = findViewById(R.id.editTextIngredientAmount)
         editTextStep = findViewById(R.id.editTextSteps)
         btnAddIngredient = findViewById(R.id.btnAddIngredient)
         lastAddedIngredientConstraintLayout = findViewById(R.id.ingredientLayout)
@@ -82,6 +90,10 @@ class AddRecipeActivity : AppCompatActivity() {
         editTextCookingTime = findViewById(R.id.editTextCookingTime)
         editTextStep = findViewById(R.id.editTextSteps)
 
+        ingredientNameEditTexts.add(editTextIngredientName)
+        ingredientAmountEditTexts.add(editTextIngredientAmount)
+        stepEditTexts.add(editTextStep)
+
         btnAddIngredient.setOnClickListener {
             addNewIngredientFields()
         }
@@ -97,9 +109,10 @@ class AddRecipeActivity : AppCompatActivity() {
         btnSaveRecipe = findViewById(R.id.buttonSaveRecipeCheck)
 
         btnSaveRecipe.setOnClickListener {
+            collectData()
             val selectedCategoryPosition = spinnerCategory.selectedItemPosition
             val recipeCategoryEnum = categoryMapping[selectedCategoryPosition] ?: RecipeCategory.APPETIZERS // Значение по умолчанию, если что-то пойдет не так
-            val selectedMeasureUnitPosition = spinnerCategory.selectedItemPosition
+            val selectedMeasureUnitPosition = spinnerNutritionalUnit.selectedItemPosition
             val measureUnitEnum = measureUnitMapping[selectedMeasureUnitPosition] ?: MeasureUnit.G // Значение по умолчанию, если что-то пойдет не так
 
             val recipe = RecipeData(
@@ -115,8 +128,8 @@ class AddRecipeActivity : AppCompatActivity() {
                     protein = editTextProtein.text.toString().toDouble()
                 ),
                 cookingTime = editTextCookingTime.text.toString().toInt(),
-                ingredients = mapOf(Pair(editTextIngredientName.text.toString(), editTextIngredientsAmount.text.toString())),
-                steps = mapOf(Pair("1", editTextStep.text.toString()))/*,
+                ingredients = allIngredients,
+                steps = allSteps/*,
                 image = upload*/
             )
 
@@ -253,6 +266,9 @@ class AddRecipeActivity : AppCompatActivity() {
             ConstraintSet.BOTTOM
         )
         constraintSet.applyTo(layout)
+
+        ingredientNameEditTexts.add(newIngredientNameEditText)
+        ingredientAmountEditTexts.add(newIngredientAmountEditText)
     }
 
     private fun createNewEditText(hint: String): EditText {
@@ -318,6 +334,21 @@ class AddRecipeActivity : AppCompatActivity() {
         )
 
         constraintSet.applyTo(layout)
+
+        stepEditTexts.add(newEditText)
+    }
+
+    private fun collectData() {
+        allIngredients = gatherIngredients()
+        allSteps = gatherSteps()
+
+        allIngredients.forEach { (ingredient, amount) ->
+            Log.d("Ingredients", "Ингредиент: $ingredient, Количество: $amount")
+        }
+
+        allSteps.forEach { (stepNumber, stepDescription) ->
+            Log.d("Steps", "$stepNumber: $stepDescription")
+        }
     }
 
     private fun addRecipe(recipe: RecipeData) {
@@ -329,9 +360,30 @@ class AddRecipeActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } catch (e: Exception) {
-                Toast.makeText(this@AddRecipeActivity, "Failed to add recipe", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AddRecipeActivity, "Failed to add recipe: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun gatherIngredients(): Map<String, String> {
+        val ingredientsMap = mutableMapOf<String, String>()
+        for (i in ingredientNameEditTexts.indices) {
+            val name = ingredientNameEditTexts[i].text.toString()
+            val amount = ingredientAmountEditTexts.getOrNull(i)?.text.toString()
+            if (name.isNotEmpty() && amount.isNotEmpty()) {
+                ingredientsMap[name] = amount
+            }
+        }
+        return ingredientsMap
+    }
+
+    private fun gatherSteps(): Map<String, String> {
+        val stepsMap = mutableMapOf<String, String>()
+        stepEditTexts.forEachIndexed { index, editText ->
+            val stepNumber = "${index + 1}"
+            stepsMap[stepNumber] = editText.text.toString()
+        }
+        return stepsMap
     }
 
 }

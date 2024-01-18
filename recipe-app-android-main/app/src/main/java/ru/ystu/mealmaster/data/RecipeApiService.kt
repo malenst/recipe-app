@@ -35,12 +35,11 @@ interface RecipeApiService {
         @Query("password") password : String
     ) : Call<ApiResponseDto<List<Recipe>>>
 
-    @Suppress("unused")
     @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("recipe")
     fun addRecipe(
         @Body recipe: RecipeData
-    ) : Call<ApiResponseDto<RecipeData>>
+    ) : Call<ApiResponseDto<Recipe>>
 
     @GET("me/role")
     fun getCurrentUserRole() : Call<ApiResponseDto<String>>
