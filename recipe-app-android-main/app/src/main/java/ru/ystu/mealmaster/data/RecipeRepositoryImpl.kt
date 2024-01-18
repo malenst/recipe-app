@@ -7,6 +7,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.ystu.mealmaster.domain.Category
 import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.RecipeData
 import ru.ystu.mealmaster.domain.RecipeRepository
 import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.util.*
@@ -169,7 +170,24 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
+    override fun addRecipe(recipe: RecipeData, callback: (Result<RecipeData>?) -> Unit) {
+        api.addRecipe(recipe).enqueue(object : Callback<ApiResponseDto<RecipeData>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<RecipeData>>,
+                response: Response<ApiResponseDto<RecipeData>>
+            ) {
+                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
 
+            override fun onFailure(call: Call<ApiResponseDto<RecipeData>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
 
     override fun getCurrentUserRole(callback: (Result<String>) -> Unit) {
         api.getCurrentUserRole().enqueue(object : Callback<ApiResponseDto<String>> {

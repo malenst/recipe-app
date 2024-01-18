@@ -3,6 +3,7 @@ package ru.ystu.mealmaster.domain.interactor
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.ystu.mealmaster.domain.Category
 import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.RecipeData
 import ru.ystu.mealmaster.domain.RecipeRepository
 import java.util.*
 import kotlin.coroutines.resume
@@ -76,6 +77,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
                 continuation.resume(Pair(result.getOrNull() ?: emptyList(), cookies))
             } else {
                 continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to login"))
+            }
+        }
+    }
+
+    override suspend fun addRecipe(recipe: RecipeData): RecipeData = suspendCoroutine { continuation ->
+        repository.addRecipe(recipe) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Error adding recipe"))
             }
         }
     }

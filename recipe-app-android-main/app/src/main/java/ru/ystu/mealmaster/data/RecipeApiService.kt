@@ -2,10 +2,7 @@ package ru.ystu.mealmaster.data
 
 import retrofit2.Call
 import retrofit2.http.*
-import ru.ystu.mealmaster.domain.Category
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.Review
-import ru.ystu.mealmaster.domain.ReviewData
+import ru.ystu.mealmaster.domain.*
 import java.util.*
 
 interface RecipeApiService {
@@ -42,8 +39,8 @@ interface RecipeApiService {
     @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("recipe")
     fun addRecipe(
-        @Body recipe: Recipe
-    ) : Call<ApiResponseDto<Recipe>>
+        @Body recipe: RecipeData
+    ) : Call<ApiResponseDto<RecipeData>>
 
     @GET("me/role")
     fun getCurrentUserRole() : Call<ApiResponseDto<String>>
