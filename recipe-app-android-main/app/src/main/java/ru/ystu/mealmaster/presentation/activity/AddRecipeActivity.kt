@@ -51,7 +51,7 @@ class AddRecipeActivity : AppCompatActivity() {
             addNewEditText(editTextSteps)
         }
 
-        btnSaveRecipe = findViewById(R.id.buttonSaveRecipe)
+//        btnSaveRecipe = findViewById(R.id.buttonSaveRecipe)
         // TODO: Реализовать логику добавления рецепта
 //        btnSaveRecipe.setOnClickListener {
 //            api.addRecipe(
