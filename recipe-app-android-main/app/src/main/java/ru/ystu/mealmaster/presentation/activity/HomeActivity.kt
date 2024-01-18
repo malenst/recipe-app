@@ -1,6 +1,7 @@
 package ru.ystu.mealmaster.presentation.activity
 
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -37,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var popRecipeViewModel: PopRecipeViewModel
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
-    //private lateinit var menu: ImageView
+    private lateinit var menu: ImageView
     private lateinit var logo: ImageView
     private lateinit var fab: Button
     private lateinit var binding: ActivityHomeBinding
@@ -48,6 +49,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var lottie: LottieAnimationView? = null
     private var editText: EditText? = null
+    private lateinit var icon: Icon
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,8 @@ class HomeActivity : AppCompatActivity() {
         api = RecipeApi.api
         repository = RecipeRepositoryImpl(api, this)
         interactor = RecipeInteractorImpl(repository)
+
+        icon = Icon.createWithResource(this@HomeActivity, R.drawable.moderation)
 
         currentUserRoleViewModel = ViewModelProvider(
             this,
@@ -83,7 +87,7 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        menu = findViewById(R.id.menu)
+        menu = findViewById(R.id.menu)
 //        menu.setOnClickListener {
 //            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
 //            startActivity(intent)
@@ -126,6 +130,13 @@ class HomeActivity : AppCompatActivity() {
 
             if (currentUserRole == "MODERATOR" || currentUserRole == "ADMIN") {
                 Log.d("UserIsModeratorOrAdmin", true.toString())
+                logo.setImageIcon(icon)
+                logo.setOnClickListener {
+                    val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
+                    startActivity(intent)
+                }
+            } else  if (currentUserRole == "USER") {
+                Log.d("UserIsUser", true.toString())
                 logo.setOnClickListener {
                     val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
                     startActivity(intent)
