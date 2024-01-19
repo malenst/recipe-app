@@ -13,6 +13,6 @@ data class RecipeData(
     @Embedded
     val nutritionalInfo: NutritionalInfo,
     @SerializedName("cooking_time")
-    val cookingTime: Int/*,
-    val image: String*/
+    val cookingTime: Int,
+    val image: String
 )

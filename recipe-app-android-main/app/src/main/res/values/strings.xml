@@ -75,6 +75,8 @@
     <string name="rating_add">Оставить отзыв</string>
     <string name="my_recepies">Мои рецепты</string>
     <string name="logout">Выйти из аккунта</string>
+    <string name="upload_image_text">Загрузите изображение\n</string>
+    <string name="upload_image_description">Загрузка картинки</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>

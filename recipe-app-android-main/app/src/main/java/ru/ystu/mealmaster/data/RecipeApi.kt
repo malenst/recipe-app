@@ -7,6 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.util.interceptor.AddCookiesInterceptor
 import ru.ystu.mealmaster.util.interceptor.ReceivedCookiesInterceptor
 import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
@@ -14,13 +15,14 @@ import java.util.concurrent.TimeUnit
 
 
 object RecipeApi {
-    private const val BASE_URL = "http://10.0.2.2:8080/api/"
+    private lateinit var BASE_API_URL: String
 
     private lateinit var retrofit: Retrofit
     lateinit var api: RecipeApiService
 
     fun init(context: Context) {
         val appContext = context.applicationContext
+        BASE_API_URL = "${BuildConfig.BASE_PROTOCOL}://${BuildConfig.BASE_HOST}:${BuildConfig.BASE_PORT}${BuildConfig.API_PATH}"
 
         val client = OkHttpClient.Builder()
             .followRedirects(false)
@@ -40,7 +42,7 @@ object RecipeApi {
             .create()
 
         retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_API_URL)
             .client(client)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))

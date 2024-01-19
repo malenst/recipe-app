@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.presentation.activity.AddReviewActivity
@@ -59,7 +60,10 @@ class RecipesByCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(item
         cookingTimeTextView.text = recipe.cookingTime
 
         if (!recipe.image.isNullOrEmpty()) {
-            val imageNorm = recipe.image.replace("localhost", "10.0.2.2")
+            val imageNorm = recipe.image
+                .replace("http", BuildConfig.BASE_PROTOCOL)
+                .replace("localhost", BuildConfig.BASE_HOST)
+                .replace("8080", BuildConfig.BASE_PORT)
             Picasso.get().load(imageNorm).into(imageView)
             imageView.visibility = View.VISIBLE
         }

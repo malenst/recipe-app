@@ -40,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var profileButton: ImageView
     private lateinit var menu: ImageView
     private lateinit var logo: ImageView
+    private lateinit var nameLogo: ImageView
     private lateinit var fab: Button
     private lateinit var binding: ActivityHomeBinding
 
@@ -93,6 +94,7 @@ class HomeActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
+        nameLogo = findViewById(R.id.logo)
         logo = findViewById(R.id.bananas_icon)
 
         // Open search activity

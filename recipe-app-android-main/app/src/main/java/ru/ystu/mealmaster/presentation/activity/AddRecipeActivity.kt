@@ -1,16 +1,23 @@
 package ru.ystu.mealmaster.presentation.activity
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
@@ -18,6 +25,8 @@ import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.domain.*
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 
 class AddRecipeActivity : AppCompatActivity() {
@@ -27,6 +36,9 @@ class AddRecipeActivity : AppCompatActivity() {
     private lateinit var btnAddStep: Button
     private lateinit var btnSaveRecipe: ImageView
     private lateinit var backBtn: ImageView
+    private lateinit var getContent: ActivityResultLauncher<String>
+    private lateinit var uploadImage: ImageView
+    private lateinit var uploadedImageBase64: String
 
     private lateinit var allIngredients : Map<String, String>
     private lateinit var allSteps : Map<String, String>
@@ -71,6 +83,7 @@ class AddRecipeActivity : AppCompatActivity() {
         initCategorySpinner()
         initNutritionalUnitSpinner()
 
+        uploadImage = findViewById(R.id.uploadImage)
         editTextIngredientName = findViewById(R.id.editTextIngredientName)
         editTextIngredientAmount = findViewById(R.id.editTextIngredientAmount)
         editTextStep = findViewById(R.id.editTextSteps)
@@ -93,6 +106,39 @@ class AddRecipeActivity : AppCompatActivity() {
         ingredientNameEditTexts.add(editTextIngredientName)
         ingredientAmountEditTexts.add(editTextIngredientAmount)
         stepEditTexts.add(editTextStep)
+
+        getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) {
+                val imageStream: InputStream? = contentResolver.openInputStream(uri)
+
+                val fileSize = imageStream?.available() ?: 0
+                val maxFileSize = BuildConfig.MAX_RECIPE_IMAGE_SIZE // 1048576 = 1MB
+                if (fileSize > maxFileSize) {
+                    showError("Размер файла не должен превышать ${BuildConfig.MAX_RECIPE_IMAGE_SIZE}")
+                    return@registerForActivityResult
+                }
+
+                val selectedImage = BitmapFactory.decodeStream(imageStream)
+
+                val maxWidth = BuildConfig.MAX_RECIPE_IMAGE_WIDTH
+                val maxHeight = BuildConfig.MAX_RECIPE_IMAGE_HEIGHT
+                if (selectedImage.width > maxWidth || selectedImage.height > maxHeight) {
+                    showError("Разрешение изображения не должно превышать ${maxWidth}x${maxHeight}")
+                    return@registerForActivityResult
+                }
+
+                val outputStream = ByteArrayOutputStream()
+                selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                val byteArray = outputStream.toByteArray()
+
+                val base64Image = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+                uploadedImageBase64 = base64Image
+            }
+        }
+
+        uploadImage.setOnClickListener {
+            selectImage()
+        }
 
         btnAddIngredient.setOnClickListener {
             addNewIngredientFields()
@@ -129,8 +175,8 @@ class AddRecipeActivity : AppCompatActivity() {
                 ),
                 cookingTime = editTextCookingTime.text.toString().toInt(),
                 ingredients = allIngredients,
-                steps = allSteps/*,
-                image = upload*/
+                steps = allSteps,
+                image = uploadedImageBase64
             )
 
             addRecipe(recipe)
@@ -138,6 +184,27 @@ class AddRecipeActivity : AppCompatActivity() {
 
         backBtn = findViewById(R.id.addRecipeBackBtn)
         backBtn.setOnClickListener { finish() }
+    }
+
+    private fun selectImage() {
+        getContent.launch("image/*")
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            Log.d("UPLOADED IMAGE", data.toString())
+        }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+    }
+
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 777
     }
 
     private fun initCategorySpinner() {

@@ -17,9 +17,18 @@ android {
         //noinspection OldTargetApi
         targetSdk 33
         versionCode 1
-        versionName "1.2.5"
+        versionName "1.2.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField 'String', 'BASE_PROTOCOL', '"http"'
+        buildConfigField 'String', 'BASE_HOST', '"10.0.2.2"'
+        buildConfigField 'String', 'BASE_PORT', '"8080"'
+        buildConfigField 'String', 'API_PATH', '"/api/"'
+
+        buildConfigField 'int', 'MAX_RECIPE_IMAGE_SIZE', '1048576' // 1048576 = 1MB
+        buildConfigField 'int', 'MAX_RECIPE_IMAGE_WIDTH', '1920'
+        buildConfigField 'int', 'MAX_RECIPE_IMAGE_HEIGHT', '1080'
     }
 
     buildTypes {

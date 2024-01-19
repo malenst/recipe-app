@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
+import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
@@ -176,7 +177,10 @@ class RecipeActivity : AppCompatActivity() {
                     }
 
                     if (!recipe.image.isNullOrEmpty()) {
-                        val imageNorm = recipe.image.replace("localhost", "10.0.2.2")
+                        val imageNorm = recipe.image
+                            .replace("http", BuildConfig.BASE_PROTOCOL)
+                            .replace("localhost", BuildConfig.BASE_HOST)
+                            .replace("8080", BuildConfig.BASE_PORT)
                         Picasso.get().load(imageNorm).into(img)
                         img?.visibility = View.VISIBLE
                     }

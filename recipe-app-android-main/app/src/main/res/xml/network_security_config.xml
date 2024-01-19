@@ -6,6 +6,8 @@
         <domain includeSubdomains="true">192.168.0.1</domain>
         <domain includeSubdomains="true">10.0.2.16</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">192.168.1.26</domain>
+        <domain includeSubdomains="true">192.168.1.242</domain>
         <domain includeSubdomains="true">recipebookapi.onrender.com</domain>
     </domain-config>
 </network-security-config>

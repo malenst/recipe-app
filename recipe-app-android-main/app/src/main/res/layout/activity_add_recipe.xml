@@ -23,6 +23,36 @@
             android:layout_height="wrap_content"
             tools:context=".presentation.activity.AddRecipeActivity">
 
+            <ImageView
+                android:id="@+id/uploadImage"
+                android:src="@drawable/upload_icon"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/upload_image_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/uploadImageDescription"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:autofillHints=""
+                android:background="@drawable/searchview"
+                android:focusable="true"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/upload_image_description"
+                android:padding="15dp"
+                android:textColorHint="#5A5858"
+                android:textSize="17sp"
+                app:layout_constraintStart_toEndOf="@id/uploadImage"
+                app:layout_constraintTop_toTopOf="@id/uploadImage"
+                app:layout_constraintBottom_toBottomOf="@id/uploadImage" />
+
             <EditText
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
@@ -39,9 +69,9 @@
                 android:paddingStart="47dp"
                 android:textColorHint="#5A5858"
                 android:textSize="17sp"
+                app:layout_constraintTop_toBottomOf="@+id/uploadImage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <EditText
                 android:id="@+id/editTextDescription"
@@ -161,53 +191,13 @@
                 android:focusable="true"
                 android:fontFamily="@font/roboto_light"
                 android:hint="@string/edit_recipe_ni_calories_text"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:paddingStart="47dp"
                 android:textColorHint="#5A5858"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spinnerNutritionalUnit" />
-
-            <EditText
-                android:id="@+id/editTextCarbohydrates"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:autofillHints=""
-                android:background="@drawable/searchview"
-                android:focusable="true"
-                android:fontFamily="@font/roboto_light"
-                android:hint="@string/edit_recipe_ni_carbohydrates_text"
-                android:inputType="numberDecimal"
-                android:paddingStart="47dp"
-                android:textColorHint="#5A5858"
-                android:textSize="17sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextCalories" />
-
-            <EditText
-                android:id="@+id/editTextFat"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:autofillHints=""
-                android:background="@drawable/searchview"
-                android:focusable="true"
-                android:fontFamily="@font/roboto_light"
-                android:hint="@string/edit_recipe_ni_fats_text"
-                android:inputType="numberDecimal"
-                android:paddingStart="47dp"
-                android:textColorHint="#5A5858"
-                android:textSize="17sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextCarbohydrates" />
 
             <EditText
                 android:id="@+id/editTextProtein"
@@ -227,7 +217,48 @@
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextFat" />
+                app:layout_constraintTop_toBottomOf="@id/editTextCalories" />
+
+            <EditText
+                android:id="@+id/editTextFat"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:autofillHints=""
+                android:background="@drawable/searchview"
+                android:focusable="true"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/edit_recipe_ni_fats_text"
+                android:inputType="numberDecimal"
+                android:paddingStart="47dp"
+                android:textColorHint="#5A5858"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextProtein" />
+
+            <EditText
+                android:id="@+id/editTextCarbohydrates"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:autofillHints=""
+                android:background="@drawable/searchview"
+                android:focusable="true"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/edit_recipe_ni_carbohydrates_text"
+                android:inputType="numberDecimal"
+                android:paddingStart="47dp"
+                android:textColorHint="#5A5858"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextFat" />
+
 
             <EditText
                 android:id="@+id/editTextCookingTime"
@@ -247,7 +278,7 @@
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextProtein" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextCarbohydrates" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ingredientLayout"
