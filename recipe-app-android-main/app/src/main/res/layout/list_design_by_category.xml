@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/listrow"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="105dp"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:layout_marginBottom="20dp"
-    android:background="@drawable/card_shape"
-    android:id="@+id/listrow">
+    android:background="@drawable/card_shape">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewByCategory"
@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="15dp"
-        app:cardCornerRadius="50dp"
         android:layout_marginBottom="10dp"
+        app:cardCornerRadius="50dp"
         app:cardElevation="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -26,9 +26,9 @@
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_gravity="center"
+            android:contentDescription=""
             android:scaleType="centerCrop"
-            android:src="@drawable/pizza_sample"
-            android:contentDescription="" />
+            android:src="@drawable/pizza_sample" />
         <!--        <com.google.android.material.imageview.ShapeableImageView-->
         <!--            android:id="@+id/img"-->
         <!--            android:layout_width="70dp"-->
@@ -46,9 +46,9 @@
     <TextView
         android:id="@+id/nameByCategory"
         android:layout_width="135dp"
-        android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
         android:fontFamily="@font/roboto_light"
         android:maxLength="40"
         android:maxLines="2"
@@ -68,10 +68,10 @@
         android:layout_height="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
+        android:contentDescription=""
         android:src="@drawable/clock_icon"
         app:layout_constraintStart_toEndOf="@+id/cardViewByCategory"
-        app:layout_constraintTop_toBottomOf="@+id/nameByCategory"
-        android:contentDescription="" />
+        app:layout_constraintTop_toBottomOf="@+id/nameByCategory" />
 
     <TextView
         android:id="@+id/cookingTimeByCategory"
@@ -106,6 +106,7 @@
         android:layout_marginBottom="-4dp"
         android:background="@drawable/rating_bg"
         android:elevation="12dp"
+        android:outlineProvider="none"
         app:layout_constraintBottom_toBottomOf="@+id/cardViewByCategory"
         app:layout_constraintEnd_toEndOf="@+id/cardViewByCategory"
         app:layout_constraintStart_toStartOf="@+id/cardViewByCategory">
@@ -130,11 +131,11 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_marginStart="8dp"
+            android:contentDescription=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star"
-            android:contentDescription="" />
+            app:srcCompat="@drawable/star" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

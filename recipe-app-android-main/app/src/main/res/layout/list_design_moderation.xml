@@ -105,6 +105,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="-4dp"
         android:background="@drawable/status_add"
+        android:outlineProvider="none"
         android:elevation="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/cardViewModeration"
         app:layout_constraintEnd_toEndOf="@+id/cardViewModeration"

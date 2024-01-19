@@ -104,6 +104,7 @@
         android:layout_marginBottom="-4dp"
         android:background="@drawable/rating_bg"
         android:elevation="12dp"
+        android:outlineProvider="none"
         app:layout_constraintBottom_toBottomOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintStart_toStartOf="@+id/cardView2">
