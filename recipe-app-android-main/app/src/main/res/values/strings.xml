@@ -84,6 +84,7 @@
     <string name="review_placeholder">Очень хвалебный отзыв</string>
     <string name="user_review_placeholder">user12345</string>
     <string name="email_placeholder">Электронная почта</string>
+    <string name="_1000">1000</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>

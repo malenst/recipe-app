@@ -215,4 +215,31 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
             }
         })
     }
+
+    override fun logViewToRecipeById(id: UUID, callback: (Result<Recipe>) -> Unit) {
+        api.logViewToRecipeById(id).enqueue(object : Callback<ApiResponseDto<Recipe>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Recipe>>,
+                response: Response<ApiResponseDto<Recipe>>
+            ) {
+                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        callback(Result.success(responseBody.response))
+                    } else {
+                        callback(Result.failure(Exception("Ошибка: тело ответа отсутствует")))
+                    }
+                } else {
+                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
+                        response.errorBody()?.string()
+                    }"
+                    callback(Result.failure(Exception(errorMessage)))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
 }

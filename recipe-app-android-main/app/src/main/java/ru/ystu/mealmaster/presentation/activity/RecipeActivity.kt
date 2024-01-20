@@ -35,6 +35,7 @@ class RecipeActivity : AppCompatActivity() {
     private var ing: TextView? = null
     private var description: TextView? = null
     private var time: TextView? = null
+    private var views: TextView? = null
     private var ratingBar: RatingBar? = null
     private var steps: TextView? = null
     private var reviews: TextView? = null
@@ -64,13 +65,16 @@ class RecipeActivity : AppCompatActivity() {
         repository = RecipeRepositoryImpl(api, this)
         interactor = RecipeInteractorImpl(repository)
 
+        logViewToRecipeById()
         getRecipeById()
+
         // Find views
         img = findViewById(R.id.recipe_img)
         txt = findViewById(R.id.tittle)
         description = findViewById(R.id.description)
         ing = findViewById(R.id.ing)
         time = findViewById(R.id.time)
+        views = findViewById(R.id.recipeViewText)
         ratingBar = findViewById(R.id.ratingBar2)
         stepBtn = findViewById(R.id.steps_btn)
         reviews = findViewById(R.id.recipeReviews)
@@ -145,6 +149,17 @@ class RecipeActivity : AppCompatActivity() {
         }
     }
 
+    private fun logViewToRecipeById() {
+        lifecycleScope.launch {
+            try {
+                recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
+                interactor.logViewToRecipeById(UUID.fromString(recipeIdString))
+            } catch (e: Exception) {
+                Log.e("RecipeLoadError", "Error loading recipe", e)
+            }
+        }
+    }
+
     private fun getRecipeById() {
         lifecycleScope.launch {
             try {
@@ -167,6 +182,8 @@ class RecipeActivity : AppCompatActivity() {
 
                     ratingBar?.rating = recipe.reviews?.map { it.rating }?.average()?.toFloat()!!
                     txt?.text = recipe.name
+                    Log.d("RECIPE VIEWS", recipe.views.toString())
+                    views?.text = recipe.views.toString()
 
                     val reviewsText = recipe.reviews.joinToString(separator = "\n\n") { review ->
                         "Автор: ${review.author}\nОтзыв: ${review.text}\nОценка: ${review.rating}\nВремя: ${review.date}"
@@ -184,7 +201,6 @@ class RecipeActivity : AppCompatActivity() {
                         Picasso.get().load(imageNorm).into(img)
                         img?.visibility = View.VISIBLE
                     }
-                    Log.d("KARTOFEL", recipe.steps.entries.toString())
                 }
             } catch (e: Exception) {
                 Log.e("RecipeLoadError", "Error loading recipe", e)

@@ -43,4 +43,7 @@ interface RecipeApiService {
 
     @GET("me/role")
     fun getCurrentUserRole() : Call<ApiResponseDto<String>>
+
+    @POST("log/recipe/{id}")
+    fun logViewToRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
 }

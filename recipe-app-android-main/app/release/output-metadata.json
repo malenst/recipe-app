@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.ystu.mealmaster",
+  "applicationId": "ru.ystu.mealmaster",
   "variantName": "release",
   "elements": [
     {

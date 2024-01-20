@@ -100,4 +100,14 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
             }
         }
     }
+
+    override suspend fun logViewToRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
+        repository.logViewToRecipeById(id) { result ->
+            if (result.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to log view to recipe"))
+            }
+        }
+    }
 }
