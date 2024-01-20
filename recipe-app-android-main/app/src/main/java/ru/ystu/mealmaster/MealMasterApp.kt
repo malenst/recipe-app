@@ -1,4 +1,4 @@
-package ru.ystu.mealmaster.presentation.application
+package ru.ystu.mealmaster
 
 import android.app.Application
 import ru.ystu.mealmaster.data.RecipeApi

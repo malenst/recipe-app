@@ -1,4 +1,4 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.enumeration
 
 enum class MeasureUnit(val value: String) {
     PC("шт."),
