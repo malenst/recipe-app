@@ -81,6 +81,39 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/recipeViewIcon"
+            android:src="@drawable/view_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tittle_moderRecipe"
+            android:layout_alignBottom="@+id/tittle_moderRecipe"
+            android:layout_marginEnd="-160sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toEndOf="@+id/tittle_moderRecipe"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#323232"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:contentDescription="" />
+
+        <TextView
+            android:id="@+id/recipeViewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tittle_moderRecipe"
+            android:layout_alignBottom="@+id/tittle_moderRecipe"
+            android:layout_marginStart="-45sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toEndOf="@+id/recipeViewIcon"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:contentDescription="" />
+
         <TextView
             android:id="@+id/tittle_moderRecipe"
             android:layout_width="wrap_content"

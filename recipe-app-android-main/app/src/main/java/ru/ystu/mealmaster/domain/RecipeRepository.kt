@@ -12,4 +12,5 @@ interface RecipeRepository {
     fun login(username : String, password : String, callback: (Result<List<Recipe>>, List<String>?) -> Unit)
     fun addRecipe(recipe: RecipeData, callback: (Result<Recipe>?) -> Unit)
     fun getCurrentUserRole(callback: (Result<String>) -> Unit)
+    fun logViewToRecipeById(id: UUID, callback: (Result<Recipe>) -> Unit)
 }

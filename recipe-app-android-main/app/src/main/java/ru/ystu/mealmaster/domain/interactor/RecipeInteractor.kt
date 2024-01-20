@@ -15,4 +15,5 @@ interface RecipeInteractor {
     suspend fun login(username: String, password: String): Pair<List<Recipe>, List<String>?>
     suspend fun addRecipe(recipe: RecipeData): Recipe
     suspend fun getCurrentUserRole(): String
+    suspend fun logViewToRecipeById(id: UUID): Recipe
 }

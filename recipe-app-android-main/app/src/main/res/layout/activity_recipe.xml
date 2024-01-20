@@ -112,6 +112,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/recipeViewIcon"
+            android:src="@drawable/view_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tittle"
+            android:layout_alignBottom="@+id/tittle"
+            android:layout_marginEnd="-140sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toEndOf="@+id/tittle"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#323232"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:contentDescription="" />
+
+        <TextView
+            android:id="@+id/recipeViewText"
+            android:text="@string/_1000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/recipeViewIcon"
+            android:layout_alignBottom="@+id/recipeViewIcon"
+            android:layout_marginStart="-45sp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toEndOf="@+id/recipeViewIcon"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#323232"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:contentDescription="" />
+
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
