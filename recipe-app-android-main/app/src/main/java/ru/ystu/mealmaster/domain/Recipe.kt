@@ -1,7 +1,8 @@
 package ru.ystu.mealmaster.domain
 
 import com.google.gson.annotations.SerializedName
-import java.util.UUID
+import ru.ystu.mealmaster.domain.enumeration.ChangeType
+import java.util.*
 
 data class Recipe(
     val id: UUID,
@@ -19,5 +20,9 @@ data class Recipe(
     @SerializedName("image_url")
     val image: String?,
     @SerializedName("last_updated")
-    val lastUpdated: String
+    val lastUpdated: String,
+
+    // RecipeDraft fields
+    @SerializedName("change_type")
+    val changeType: ChangeType?
 )

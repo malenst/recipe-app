@@ -22,7 +22,11 @@ import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
-import ru.ystu.mealmaster.domain.*
+import ru.ystu.mealmaster.domain.NutritionalInfo
+import ru.ystu.mealmaster.domain.RecipeData
+import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.enumeration.MeasureUnit
+import ru.ystu.mealmaster.domain.enumeration.RecipeCategory
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import java.io.ByteArrayOutputStream
@@ -168,7 +172,7 @@ class AddRecipeActivity : AppCompatActivity() {
                 nutritionalInfo = NutritionalInfo(
                     amount = editTextNutritionalAmount.text.toString().toInt(),
                     unit = measureUnitEnum.name,
-                    calories = editTextCalories.text.toString().toInt(),
+                    calories = editTextCalories.text.toString().toDouble(),
                     carbohydrates = editTextCarbohydrates.text.toString().toDouble(),
                     fat = editTextFat.text.toString().toDouble(),
                     protein = editTextProtein.text.toString().toDouble()
