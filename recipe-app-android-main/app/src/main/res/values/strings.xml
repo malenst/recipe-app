@@ -79,6 +79,9 @@
     <string name="upload_image_description">Загрузка картинки</string>
     <string name="moderation_accept">Принять</string>
     <string name="moderation_decline">Отклонить</string>
+    <string name="date_placeholder">01.01.2024</string>
+    <string name="review_placeholder">Очень хвалебный отзыв</string>
+    <string name="user_review_placeholder">user12345</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>
