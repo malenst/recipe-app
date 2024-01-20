@@ -1,10 +1,7 @@
 package ru.ystu.mealmaster.domain.interactor
 
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.ystu.mealmaster.domain.Category
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.RecipeData
-import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.*
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -77,6 +74,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
                 continuation.resume(Pair(result.getOrNull() ?: emptyList(), cookies))
             } else {
                 continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to login"))
+            }
+        }
+    }
+
+    override suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User = suspendCoroutine { continuation ->
+        repository.register(registrationRequestDTO) { result ->
+            if (result.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to register"))
             }
         }
     }

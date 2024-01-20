@@ -5,10 +5,7 @@ import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ru.ystu.mealmaster.domain.Category
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.RecipeData
-import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.*
 import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.util.*
 
@@ -166,6 +163,28 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
 
             override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
                 callback(Result.failure(t), emptyList())
+            }
+        })
+    }
+
+    override fun register(registrationRequestDTO: RegistrationRequestDTO, callback: (Result<User>) -> Unit) {
+        api.register(registrationRequestDTO).enqueue(object : Callback<ApiResponseDto<User>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<User>>,
+                response: Response<ApiResponseDto<User>>
+            ) {
+                if ((response.isSuccessful || response.code() == 301 || response.code() == 302)) {
+                    callback(Result.success(response.body()?.response!!))
+                } else {
+                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
+                        response.errorBody()?.string()
+                    }"
+                    callback(Result.failure(Exception(errorMessage)))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<User>>, t: Throwable) {
+                callback(Result.failure(t))
             }
         })
     }
