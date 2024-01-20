@@ -7,6 +7,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.ystu.mealmaster.domain.*
 import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
+import ru.ystu.mealmaster.domain.Category
+import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.RecipeData
+import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.RegistrationRequestDTO
+import ru.ystu.mealmaster.domain.Review
+import ru.ystu.mealmaster.domain.User
 import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.util.*
 
@@ -276,6 +283,25 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
             }
 
             override fun onFailure(call: Call<ApiResponseDto<String>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
+    override fun getReviewsById(id: UUID, callback: (Result<List<Review>>) -> Unit) {
+        api.getReviewsById(id).enqueue(object : Callback<ApiResponseDto<List<Review>>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<List<Review>>>,
+                response: Response<ApiResponseDto<List<Review>>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<List<Review>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })

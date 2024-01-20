@@ -5,37 +5,30 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.ScrollView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
-import ru.ystu.mealmaster.databinding.ActivityRecipeBinding
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
-import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.domain.RecipeRepository
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
-import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
-import ru.ystu.mealmaster.presentation.adapter.ReviewAdapter
-import ru.ystu.mealmaster.presentation.viewmodel.ReciewViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.ReciewViewModelFactory
-import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
-import java.util.*
+import java.util.UUID
 
-class RecipeActivity : AppCompatActivity() {
+class ModRecipeActivity : AppCompatActivity() {
     private var img: ImageView? = null
     private var rewievRecycleView: RecyclerView? = null
     private var backBtn: ImageView? = null
@@ -63,17 +56,15 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var context: Context
 
     private lateinit var recipeIdString: String
-    private lateinit var reviewAdapter: ReviewAdapter
+
     private lateinit var api: RecipeApiService
     private lateinit var repository: RecipeRepository
     private lateinit var interactor: RecipeInteractor
-    private lateinit var binding: ActivityRecipeBinding
-    private lateinit var reviewViewModel: ReciewViewModel
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipe)
+        setContentView(R.layout.activity_recipe_moderation)
 
         RecipeApi.init(this)
         api = RecipeApi.api
@@ -82,26 +73,24 @@ class RecipeActivity : AppCompatActivity() {
 
         logViewToRecipeById()
         getRecipeById()
-        setAllReviewsList()
 
         // Find views
-        img = findViewById(R.id.recipe_img)
-        txt = findViewById(R.id.tittle)
-        description = findViewById(R.id.description)
-        ing = findViewById(R.id.ing)
-        time = findViewById(R.id.time)
-        views = findViewById(R.id.recipeViewText)
-        ratingBar = findViewById(R.id.ratingBar2)
-        stepBtn = findViewById(R.id.steps_btn)
-        reviews = findViewById(R.id.recipeReviews)
-        ing_btn = findViewById(R.id.ing_btn)
-        rew_btn = findViewById(R.id.floatingActionButton)
-        backBtn = findViewById(R.id.back_btn)
-        steps = findViewById(R.id.steps_txt)
-        scrollView = findViewById(R.id.ing_scroll)
-        scrollView_step = findViewById(R.id.steps)
-        overlay = findViewById(R.id.image_gradient)
-        rewievRecycleView = findViewById(R.id.review_recview)
+        img = findViewById(R.id.recipe_img_moderRecipe)
+        txt = findViewById(R.id.tittle_moderRecipe)
+        description = findViewById(R.id.description_moderRecipe)
+        ing = findViewById(R.id.ing_moderRecipe)
+        time = findViewById(R.id.time_moderRecipe)
+        views = findViewById(R.id.recipeViewText_moderRecipe)
+        ratingBar = findViewById(R.id.ratingBar2_moderRecipe)
+        stepBtn = findViewById(R.id.steps_btn_moderRecipe)
+        reviews = findViewById(R.id.recipeReviews_moderRecipe)
+        ing_btn = findViewById(R.id.ing_btn_moderRecipe)
+        backBtn = findViewById(R.id.back_btn_moderRecipe)
+        steps = findViewById(R.id.steps_txt_moderRecipe)
+        scrollView = findViewById(R.id.ing_scroll_moderRecipe)
+        scrollView_step = findViewById(R.id.steps_moderRecipe)
+        overlay = findViewById(R.id.image_gradient_moderRecipe)
+        rewievRecycleView = findViewById(R.id.review_recview_moderRecipe)
 
         Log.d("LUK SELENII", steps?.text.toString())
         stepBtn?.setTextColor(getColor(R.color.black))
@@ -116,24 +105,6 @@ class RecipeActivity : AppCompatActivity() {
         // Set recipe title
         txt?.text = intent.getStringExtra("tittle")
 
-//        // Set recipe ingredients
-//        ingList = getIntent().getStringExtra("ing").split("\n");
-        // Set time
-//        time.setText(ingList[0]);
-
-
-//        for (int i = 1; i<ingList.length; i++){
-//            ing.setText(ing.getText()+"\uD83D\uDFE2  "+ingList[i]+"\n");
-        /*if(ingList[i].startsWith(" ")){
-                ing.setText(ing.getText()+"\uD83D\uDFE2  "+ingList[i].trim().replaceAll("\\s{2,}", " ")+"\n");
-            }else{
-
-            }*/
-//
-//        }
-        // Set recipe steps
-//        steps?.setText(intent.getStringExtra("des"))
-        // steps.setText(Html.fromHtml(getIntent().getStringExtra("des")));
         stepBtn?.background = null
         stepBtn?.setOnClickListener {
             stepBtn?.setBackgroundResource(R.drawable.btn_ing)
@@ -152,20 +123,7 @@ class RecipeActivity : AppCompatActivity() {
             scrollView_step?.visibility = View.GONE
         }
 
-        rew_btn.setOnClickListener{
-            intent = Intent(this@RecipeActivity, AddReviewActivity::class.java)
-            intent.putExtra("RECIPE_ID", recipeIdString)
-            this@RecipeActivity.startActivity(intent)
-        }
 
-
-        // Exit activity
-        backBtn?.setOnClickListener {
-            intent = Intent(this@RecipeActivity, HomeActivity::class.java)
-            this@RecipeActivity.startActivity(intent)
-        }
-
-        rewievRecycleView = findViewById(R.id.review_recview)
     }
 
     private fun logViewToRecipeById() {
@@ -225,36 +183,6 @@ class RecipeActivity : AppCompatActivity() {
                 Log.e("RecipeLoadError", "Error loading recipe", e)
             }
         }
-    }
-
-    private fun setAllReviewsList() {
-        binding = ActivityRecipeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        var id: UUID?
-        try {
-            id = UUID.fromString(intent.extras?.getString("RECIPE_ID")) ?: throw IllegalArgumentException("Recipe ID not found.")
-        } catch (e: Exception) {
-            Log.e("RecipeLoadError", "Error loading recipe", e)
-            id = null
-        }
-        reviewViewModel = ViewModelProvider(
-            this,
-            ReciewViewModelFactory(interactor, id!!)
-        )[ReciewViewModel::class.java]
-
-        reviewAdapter = ReviewAdapter(emptyList())
-
-        binding.reviewRecview.apply {
-            layoutManager = LinearLayoutManager(this@RecipeActivity)
-            adapter = reviewAdapter
-        }
-
-        reviewViewModel.reviews.observe(this@RecipeActivity) { recipes ->
-            recipes?.let {
-                reviewAdapter.updateData(it)
-            }
-        }
-
     }
 
     private fun reloadData() {

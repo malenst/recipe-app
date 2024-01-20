@@ -56,6 +56,9 @@ interface RecipeApiService {
     @GET("me/role")
     fun getCurrentUserRole() : Call<ApiResponseDto<String>>
 
+    @GET("reviews/{id}")
+    fun getReviewsById(@Path("id") id : UUID) : Call<ApiResponseDto<List<Review>>>
+
     @POST("log/recipe/{id}")
     fun logViewToRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
 }

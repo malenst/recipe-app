@@ -34,7 +34,7 @@
         android:maxLines="1"
         android:text="@string/user_review_placeholder"
         android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:textColor="@color/blue"
         android:textSize="16sp"
         android:textStyle="normal"
         app:emojiCompatEnabled="true"
