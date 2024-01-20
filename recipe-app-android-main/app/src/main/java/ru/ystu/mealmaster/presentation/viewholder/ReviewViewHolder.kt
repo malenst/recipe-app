@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import ru.ystu.mealmaster.presentation.activity.AddReviewActivity
 
 class ReviewViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView)  {
     private val userName = itemView.findViewById<TextView>(R.id.user_review)
-    private val rating = itemView.findViewById<TextView>(R.id.ratingBar_review)
+    private val rating = itemView.findViewById<RatingBar>(R.id.ratingBar_review)
     private val date = itemView.findViewById<TextView>(R.id.date_review)
     private val reviewText = itemView.findViewById<TextView>(R.id.text_review)
 
@@ -28,12 +29,7 @@ class ReviewViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView)  {
         userName.text = review.author
         date.text = review.date
         reviewText.text = review.text
-
-
-            rating.visibility = View.VISIBLE
-            val averageRating = review.rating
-            Log.d("TIKVA", averageRating.toString())
-            rating.text = String.format("%.1f", averageRating.toFloat())
+        rating.rating = review.rating.toFloat()!!
 
 
 

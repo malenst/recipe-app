@@ -7,23 +7,25 @@ import androidx.lifecycle.viewModelScope
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import kotlinx.coroutines.launch
+import ru.ystu.mealmaster.domain.Review
+import java.util.UUID
 
-class ReciewViewModel(private val recipeInteractor: RecipeInteractor, private val category: String) : ViewModel() {
+class ReciewViewModel(private val recipeInteractor: RecipeInteractor, private val id: UUID) : ViewModel() {
 
-    private val _recipesByCategory = MutableLiveData<List<Recipe>>()
-    val recipesByCategory: LiveData<List<Recipe>> get() = _recipesByCategory
+    private val _reviews = MutableLiveData<List<Review>>()
+    val reviews: LiveData<List<Review>> get() = _reviews
 
     init {
-        loadRecipesByCategory()
+        loadReviewsByCategory()
     }
 
-    private fun loadRecipesByCategory() {
+    private fun loadReviewsByCategory() {
         viewModelScope.launch {
             try {
-                val recipesList = recipeInteractor.getRecipesByCategory(category)
-                _recipesByCategory.postValue(recipesList)
+                val reviewsList = recipeInteractor.getReviewsById(id)
+                _reviews.postValue(reviewsList)
             } catch (e: Exception) {
-                _recipesByCategory.postValue(emptyList())
+                _reviews.postValue(emptyList())
             }
         }
     }

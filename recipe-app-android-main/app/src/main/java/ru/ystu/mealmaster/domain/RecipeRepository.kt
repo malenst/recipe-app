@@ -13,5 +13,6 @@ interface RecipeRepository {
     fun register(registrationRequestDTO: RegistrationRequestDTO, callback: (Result<User>) -> Unit)
     fun addRecipe(recipe: RecipeData, callback: (Result<Recipe>?) -> Unit)
     fun getCurrentUserRole(callback: (Result<String>) -> Unit)
+    fun getReviewsById(id: UUID, callback: (Result<List<Review>>) -> Unit)
     fun logViewToRecipeById(id: UUID, callback: (Result<Recipe>) -> Unit)
 }
