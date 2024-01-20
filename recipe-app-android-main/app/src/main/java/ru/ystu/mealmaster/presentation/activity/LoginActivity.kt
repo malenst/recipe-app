@@ -123,8 +123,9 @@ class LoginActivity : AppCompatActivity() {
     private fun register(username: String, email: String, password: String) {
         lifecycleScope.launch {
             try {
+                @Suppress("UNUSED_VARIABLE")
                 val user = interactor.register(RegistrationRequestDTO(username, email, password))
-                Log.d("User registered", user.toString())
+                login(username, password)
                 intent = Intent(this@LoginActivity, HomeActivity::class.java)
                 startActivity(intent)
                 finish()

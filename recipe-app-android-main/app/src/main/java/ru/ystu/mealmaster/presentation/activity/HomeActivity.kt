@@ -137,10 +137,16 @@ class HomeActivity : AppCompatActivity() {
                     val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
                     startActivity(intent)
                 }
-            } else  if (currentUserRole == "USER") {
+            } else if (currentUserRole == "USER") {
                 Log.d("UserIsUser", true.toString())
                 logo.setOnClickListener {
                     val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            if (currentUserRole != "ANONYMOUS") {
+                profileButton.setOnClickListener {
+                    val intent = Intent(this@HomeActivity, AccountActivity::class.java)
                     startActivity(intent)
                 }
             }

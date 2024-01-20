@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.ystu.mealmaster.domain.*
+import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
 import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.util.*
 
@@ -167,8 +168,58 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
+    override fun logout(callback: (Result<String>?) -> Unit) {
+        api.logout().enqueue(object : Callback<String> {
+            override fun onResponse(
+                call: Call<String>,
+                response: Response<String>
+            ) {
+                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
+                    val manager = SharedPrefManager(context)
+                    manager.clearSession()
+
+                    (RecipeApi.client.cookieJar as? CustomPersistentCookieJar)?.clear()
+
+                    Log.d("LOGOUT", "Logged out successfully.")
+                    callback(Result.success(response.message()))
+                } else {
+                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
+                        response.errorBody()?.string()
+                    }"
+                    callback(Result.failure(Exception(errorMessage)))
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
     override fun register(registrationRequestDTO: RegistrationRequestDTO, callback: (Result<User>) -> Unit) {
         api.register(registrationRequestDTO).enqueue(object : Callback<ApiResponseDto<User>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<User>>,
+                response: Response<ApiResponseDto<User>>
+            ) {
+                if ((response.isSuccessful || response.code() == 301 || response.code() == 302)) {
+                    callback(Result.success(response.body()?.response!!))
+                } else {
+                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
+                        response.errorBody()?.string()
+                    }"
+                    callback(Result.failure(Exception(errorMessage)))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<User>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
+    override fun getAccountInfo(callback: (Result<User>) -> Unit) {
+        api.getAccountInfo().enqueue(object : Callback<ApiResponseDto<User>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<User>>,
                 response: Response<ApiResponseDto<User>>
@@ -215,12 +266,7 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 response: Response<ApiResponseDto<String>>
             ) {
                 if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        callback(Result.success(responseBody.response))
-                    } else {
-                        callback(Result.failure(Exception("Ошибка: тело ответа отсутствует")))
-                    }
+                    callback(Result.success(response.body()!!.response))
                 } else {
                     val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
                         response.errorBody()?.string()

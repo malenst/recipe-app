@@ -11,7 +11,9 @@ interface RecipeInteractor {
     suspend fun getCategories(): List<Category>
     suspend fun getRecipesByCategory(category: String): List<Recipe>
     suspend fun login(username: String, password: String): Pair<List<Recipe>, List<String>?>
+    suspend fun logout(): String
     suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User
+    suspend fun getAccountInfo(): User
     suspend fun addRecipe(recipe: RecipeData): Recipe
     suspend fun getCurrentUserRole(): String
     suspend fun logViewToRecipeById(id: UUID): Recipe

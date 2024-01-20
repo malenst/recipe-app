@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit
 object RecipeApi {
     private lateinit var BASE_API_URL: String
 
+    lateinit var client: OkHttpClient
     private lateinit var retrofit: Retrofit
     lateinit var api: RecipeApiService
 
@@ -24,7 +25,7 @@ object RecipeApi {
         val appContext = context.applicationContext
         BASE_API_URL = "${BuildConfig.BASE_PROTOCOL}://${BuildConfig.BASE_HOST}:${BuildConfig.BASE_PORT}${BuildConfig.API_PATH}"
 
-        val client = OkHttpClient.Builder()
+        client = OkHttpClient.Builder()
             .followRedirects(false)
             .cookieJar(CustomPersistentCookieJar(appContext))
             .connectTimeout(10, TimeUnit.SECONDS)

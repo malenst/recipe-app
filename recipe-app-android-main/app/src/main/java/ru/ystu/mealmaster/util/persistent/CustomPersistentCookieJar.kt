@@ -16,4 +16,8 @@ class CustomPersistentCookieJar(context: Context) : CookieJar {
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
         cookiePersistor.saveAll(cookies)
     }
+
+    fun clear() {
+        cookiePersistor.clear()
+    }
 }

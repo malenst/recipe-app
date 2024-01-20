@@ -47,6 +47,9 @@
             android:name="ru.ystu.mealmaster.presentation.activity.AddReviewActivity"
             android:exported="false" />
         <activity
+            android:name="ru.ystu.mealmaster.presentation.activity.AccountActivity"
+            android:exported="false" />
+        <activity
             android:name="ru.ystu.mealmaster.presentation.activity.MainActivity"
             android:exported="true" />
 

@@ -33,4 +33,8 @@ class SharedPrefManager(
     companion object {
         private const val PREF_NAME = "AndroidHivePref"
     }
+
+    fun clearSession() {
+        pref.edit().remove("SESSION_ID").apply()
+    }
 }

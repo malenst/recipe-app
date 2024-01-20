@@ -78,8 +78,28 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
+    override suspend fun logout(): String = suspendCoroutine {continuation ->
+        repository.logout { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to logout"))
+            }
+        }
+    }
+
     override suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User = suspendCoroutine { continuation ->
         repository.register(registrationRequestDTO) { result ->
+            if (result.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to register"))
+            }
+        }
+    }
+
+    override suspend fun getAccountInfo(): User = suspendCoroutine {continuation ->
+        repository.getAccountInfo() { result ->
             if (result.isSuccess) {
                 continuation.resume(result.getOrNull()!!)
             } else {
