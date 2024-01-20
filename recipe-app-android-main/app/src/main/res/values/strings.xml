@@ -53,8 +53,11 @@
     <string name="register_txt">/ Регистрация</string>
     <string name="moderation_txt">Модерация</string>
     <string name="delete_txt_mod">Удаление</string>
+    <string name="delete_txt_mod_btn">Удалить</string>
     <string name="add_txt_mod">Добавление</string>
+    <string name="add_txt_mod_btn">Добавить</string>
     <string name="update_txt_mod">Обновление</string>
+    <string name="update_txt_mod_btn">Обновить</string>
     <string name="add_recipe_btn_text">Добавить рецепт</string>
     <string name="edit_recipe_name_text">Название рецепта</string>
     <string name="edit_recipe_description_text">Описание рецепта</string>
