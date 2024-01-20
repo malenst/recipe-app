@@ -63,7 +63,7 @@
             android:layout_marginTop="2dp"
             android:contentDescription=""
             android:src="@drawable/clock_icon"
-            app:tint="#019267" />
+            app:tint="@color/green" />
 
         <TextView
             android:id="@+id/time_moderRecipe"
@@ -82,37 +82,33 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/recipeViewIcon"
-            android:src="@drawable/view_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tittle_moderRecipe"
-            android:layout_alignBottom="@+id/tittle_moderRecipe"
-            android:layout_marginEnd="-160sp"
+            android:id="@+id/recipeViewIcon_moderRecipe"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@+id/tittle_moderRecipe"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
-            android:layout_toEndOf="@+id/tittle_moderRecipe"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="#323232"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:contentDescription="" />
+            android:layout_toEndOf="@+id/time_moderRecipe"
+            android:contentDescription=""
+            android:src="@drawable/view"
+            app:layout_constraintStart_toEndOf="@id/clock_moderRecipe"
+            app:tint="@color/green" />
 
         <TextView
-            android:id="@+id/recipeViewText"
+            android:id="@+id/recipeViewText_moderRecipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tittle_moderRecipe"
-            android:layout_alignBottom="@+id/tittle_moderRecipe"
-            android:layout_marginStart="-45sp"
+            android:layout_alignTop="@+id/clock_moderRecipe"
+            android:layout_alignBottom="@+id/clock_moderRecipe"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="3dp"
-            android:layout_toEndOf="@+id/recipeViewIcon"
+            android:layout_toEndOf="@+id/recipeViewIcon_moderRecipe"
             android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/black"
+            android:text="@string/_1000"
+            android:textColor="#323232"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:contentDescription="" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tittle_moderRecipe"
