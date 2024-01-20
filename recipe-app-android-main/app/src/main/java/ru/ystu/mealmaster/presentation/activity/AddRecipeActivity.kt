@@ -171,7 +171,7 @@ class AddRecipeActivity : AppCompatActivity() {
                 category = recipeCategoryEnum.name,
                 nutritionalInfo = NutritionalInfo(
                     amount = editTextNutritionalAmount.text.toString().toInt(),
-                    unit = measureUnitEnum.name,
+                    measureUnit = measureUnitEnum.name,
                     calories = editTextCalories.text.toString().toDouble(),
                     carbohydrates = editTextCarbohydrates.text.toString().toDouble(),
                     fat = editTextFat.text.toString().toDouble(),

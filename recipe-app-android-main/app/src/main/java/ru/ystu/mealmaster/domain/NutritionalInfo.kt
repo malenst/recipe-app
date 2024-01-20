@@ -2,7 +2,7 @@ package ru.ystu.mealmaster.domain
 
 data class NutritionalInfo (
     val amount: Int,
-    val unit: String,
+    val measureUnit: String,
     val calories: Double,
     val carbohydrates: Double,
     val fat: Double,

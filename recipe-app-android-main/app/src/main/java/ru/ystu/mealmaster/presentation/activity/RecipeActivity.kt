@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -13,26 +12,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.squareup.picasso.Picasso
-import ru.ystu.mealmaster.databinding.ActivityRecipeBinding
 import kotlinx.coroutines.launch
-import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
-import ru.ystu.mealmaster.databinding.ActivityHomeBinding
+import ru.ystu.mealmaster.databinding.ActivityRecipeBinding
 import ru.ystu.mealmaster.domain.RecipeRepository
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
-import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.ReviewAdapter
-import ru.ystu.mealmaster.presentation.viewmodel.ReciewViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.ReciewViewModelFactory
-import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
+import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModel
+import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModelFactory
+import ru.ystu.mealmaster.util.RecipeUtils
 import java.util.*
 
 class RecipeActivity : AppCompatActivity() {
@@ -49,6 +42,12 @@ class RecipeActivity : AppCompatActivity() {
     private var description: TextView? = null
     private var time: TextView? = null
     private var views: TextView? = null
+    private var amount: TextView? = null
+    private var measureUnit: TextView? = null
+    private var calories: TextView? = null
+    private var proteins: TextView? = null
+    private var fats: TextView? = null
+    private var carbohydrates: TextView? = null
     private var ratingBar: RatingBar? = null
     private var steps: TextView? = null
     private var reviews: TextView? = null
@@ -68,20 +67,22 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var repository: RecipeRepository
     private lateinit var interactor: RecipeInteractor
     private lateinit var binding: ActivityRecipeBinding
-    private lateinit var reviewViewModel: ReciewViewModel
+    private lateinit var reviewViewModel: ReviewViewModel
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recipe)
+
+        binding = ActivityRecipeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         RecipeApi.init(this)
         api = RecipeApi.api
         repository = RecipeRepositoryImpl(api, this)
         interactor = RecipeInteractorImpl(repository)
 
-        logViewToRecipeById()
         getRecipeById()
+        logViewToRecipeById()
         setAllReviewsList()
 
         // Find views
@@ -91,6 +92,12 @@ class RecipeActivity : AppCompatActivity() {
         ing = findViewById(R.id.ing)
         time = findViewById(R.id.time)
         views = findViewById(R.id.recipeViewText)
+        amount = findViewById(R.id.nutritionalAmountValue)
+        measureUnit = findViewById(R.id.nutritionalMeasureUnitValue)
+        calories = findViewById(R.id.nutritionalCaloriesValue)
+        proteins = findViewById(R.id.nutritionalProteinValue)
+        fats = findViewById(R.id.nutritionalFatsValue)
+        carbohydrates = findViewById(R.id.nutritionalCarbohydratesValue)
         ratingBar = findViewById(R.id.ratingBar2)
         stepBtn = findViewById(R.id.steps_btn)
         reviews = findViewById(R.id.recipeReviews)
@@ -110,30 +117,6 @@ class RecipeActivity : AppCompatActivity() {
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
 
-        // Load recipe image from link
-        Glide.with(applicationContext).load(intent.getStringExtra("img"))
-            .into(img!!)
-        // Set recipe title
-        txt?.text = intent.getStringExtra("tittle")
-
-//        // Set recipe ingredients
-//        ingList = getIntent().getStringExtra("ing").split("\n");
-        // Set time
-//        time.setText(ingList[0]);
-
-
-//        for (int i = 1; i<ingList.length; i++){
-//            ing.setText(ing.getText()+"\uD83D\uDFE2  "+ingList[i]+"\n");
-        /*if(ingList[i].startsWith(" ")){
-                ing.setText(ing.getText()+"\uD83D\uDFE2  "+ingList[i].trim().replaceAll("\\s{2,}", " ")+"\n");
-            }else{
-
-            }*/
-//
-//        }
-        // Set recipe steps
-//        steps?.setText(intent.getStringExtra("des"))
-        // steps.setText(Html.fromHtml(getIntent().getStringExtra("des")));
         stepBtn?.background = null
         stepBtn?.setOnClickListener {
             stepBtn?.setBackgroundResource(R.drawable.btn_ing)
@@ -164,8 +147,6 @@ class RecipeActivity : AppCompatActivity() {
             intent = Intent(this@RecipeActivity, HomeActivity::class.java)
             this@RecipeActivity.startActivity(intent)
         }
-
-        rewievRecycleView = findViewById(R.id.review_recview)
     }
 
     private fun logViewToRecipeById() {
@@ -179,6 +160,7 @@ class RecipeActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getRecipeById() {
         lifecycleScope.launch {
             try {
@@ -199,27 +181,15 @@ class RecipeActivity : AppCompatActivity() {
                     time?.text = recipe.cookingTime
                     description?.text = recipe.description
 
+                    amount?.text = recipe.nutritionalInfo.amount.toString() + " "
+                    measureUnit?.text = recipe.nutritionalInfo.measureUnit
+                    calories?.text = recipe.nutritionalInfo.calories.toString()
+                    proteins?.text = recipe.nutritionalInfo.protein.toString()
+                    fats?.text = recipe.nutritionalInfo.fat.toString()
+                    carbohydrates?.text = recipe.nutritionalInfo.carbohydrates.toString()
+
                     ratingBar?.rating = recipe.reviews?.map { it.rating }?.average()?.toFloat()!!
-                    txt?.text = recipe.name
-                    Log.d("RECIPE VIEWS", recipe.views.toString())
-                    views?.text = recipe.views.toString()
-
-                    val reviewsText = recipe.reviews.joinToString(separator = "\n\n") { review ->
-                        "Автор: ${review.author}\nОтзыв: ${review.text}\nОценка: ${review.rating}\nВремя: ${review.date}"
-                    }
-
-                    if (reviewsText.isNotEmpty()) {
-                        reviews?.text = reviewsText
-                    }
-
-                    if (!recipe.image.isNullOrEmpty()) {
-                        val imageNorm = recipe.image
-                            .replace("http", BuildConfig.BASE_PROTOCOL)
-                            .replace("localhost", BuildConfig.BASE_HOST)
-                            .replace("8080", BuildConfig.BASE_PORT)
-                        Picasso.get().load(imageNorm).into(img)
-                        img?.visibility = View.VISIBLE
-                    }
+                    RecipeUtils.formatRecipeInfo(recipe, txt, views, reviews, img)
                 }
             } catch (e: Exception) {
                 Log.e("RecipeLoadError", "Error loading recipe", e)
@@ -228,8 +198,6 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun setAllReviewsList() {
-        binding = ActivityRecipeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         var id: UUID?
         try {
             id = UUID.fromString(intent.extras?.getString("RECIPE_ID")) ?: throw IllegalArgumentException("Recipe ID not found.")
@@ -239,8 +207,8 @@ class RecipeActivity : AppCompatActivity() {
         }
         reviewViewModel = ViewModelProvider(
             this,
-            ReciewViewModelFactory(interactor, id!!)
-        )[ReciewViewModel::class.java]
+            ReviewViewModelFactory(interactor, id!!)
+        )[ReviewViewModel::class.java]
 
         reviewAdapter = ReviewAdapter(emptyList())
 
@@ -259,6 +227,7 @@ class RecipeActivity : AppCompatActivity() {
 
     private fun reloadData() {
         getRecipeById()
+        setAllReviewsList()
     }
 
     override fun onResume() {

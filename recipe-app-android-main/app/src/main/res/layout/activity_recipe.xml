@@ -312,6 +312,51 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:id="@+id/nutritionalAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text=" на "
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/nutritionalTitle"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/nutritionalAmountValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="100 "
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/nutritionalAmount"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/nutritionalMeasureUnitValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="г"
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/nutritionalAmountValue"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
                             android:id="@+id/nutritionalProtein"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

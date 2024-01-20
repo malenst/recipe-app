@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.domain.Review
-import java.util.UUID
+import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
+import java.util.*
 
-class ReciewViewModel(private val recipeInteractor: RecipeInteractor, private val id: UUID) : ViewModel() {
+class ReviewViewModel(private val recipeInteractor: RecipeInteractor, private val id: UUID) : ViewModel() {
 
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews

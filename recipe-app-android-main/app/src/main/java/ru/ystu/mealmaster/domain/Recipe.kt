@@ -14,7 +14,7 @@ data class Recipe(
     val reviews: List<Review>?,
     val views: Int,
     @SerializedName("nutritional_info")
-    val nutritionalInfo: String,
+    val nutritionalInfo: NutritionalInfo,
     @SerializedName("cooking_time")
     val cookingTime: String,
     @SerializedName("image_url")
