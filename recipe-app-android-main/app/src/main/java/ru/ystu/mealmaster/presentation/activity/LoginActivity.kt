@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
@@ -26,6 +30,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var interactor: RecipeInteractor
 
     private lateinit var backBtn: ImageView
+    private lateinit var registerTextButton: TextView
+    private lateinit var loginTextButton: TextView
+
+    private var loginConstraint: ConstraintLayout? = null
+    private var registerConstraint: ConstraintLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +58,31 @@ class LoginActivity : AppCompatActivity() {
 
         backBtn = findViewById(R.id.back_btn_login)
         backBtn.setOnClickListener { finish() }
+
+        registerTextButton = findViewById(R.id.textView_register)
+        loginTextButton = findViewById(R.id.textView_auth)
+
+        registerConstraint = findViewById(R.id.constraintLayout_register)
+        loginConstraint = findViewById(R.id.constraintLayout_auth)
+
+        val colorBlack = resources.getColor(R.color.black)
+        val colorBlack60 = resources.getColor(R.color.black60)
+
+        registerTextButton?.setOnClickListener {
+
+            loginTextButton.setTextColor(colorBlack60)
+            registerTextButton.setTextColor(colorBlack)
+            registerConstraint?.visibility = View.VISIBLE
+            loginConstraint?.visibility = View.GONE
+        }
+
+        loginTextButton?.setOnClickListener {
+            registerTextButton.setTextColor(colorBlack60)
+            loginTextButton.setTextColor(colorBlack)
+            registerConstraint?.visibility = View.GONE
+            loginConstraint?.visibility = View.VISIBLE
+        }
+
     }
 
     private fun login(username: String, password: String) {

@@ -16,7 +16,7 @@ import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.presentation.activity.AddReviewActivity
 import ru.ystu.mealmaster.presentation.activity.RecipeActivity
 
-class RecipesByCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class RecipesByCategoryViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView = itemView.findViewById<TextView>(R.id.nameByCategory)
     private val avgRating = itemView.findViewById<TextView>(R.id.listRatingByCategory)

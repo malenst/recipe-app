@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
@@ -25,6 +26,7 @@ import java.util.*
 
 class RecipeActivity : AppCompatActivity() {
     private var img: ImageView? = null
+    private var rewievRecycleView: RecyclerView? = null
     private var backBtn: ImageView? = null
     private var overlay: ImageView? = null
     @Suppress("unused")
@@ -85,6 +87,7 @@ class RecipeActivity : AppCompatActivity() {
         scrollView = findViewById(R.id.ing_scroll)
         scrollView_step = findViewById(R.id.steps)
         overlay = findViewById(R.id.image_gradient)
+        rewievRecycleView = findViewById(R.id.review_recview)
 
         Log.d("LUK SELENII", steps?.text.toString())
         stepBtn?.setTextColor(getColor(R.color.black))
@@ -147,6 +150,8 @@ class RecipeActivity : AppCompatActivity() {
             intent = Intent(this@RecipeActivity, HomeActivity::class.java)
             this@RecipeActivity.startActivity(intent)
         }
+
+        rewievRecycleView = findViewById(R.id.review_recview)
     }
 
     private fun logViewToRecipeById() {
