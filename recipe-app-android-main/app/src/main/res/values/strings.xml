@@ -47,6 +47,7 @@
     <string name="username_placeholded">Имя пользователя</string>
     <string name="password_placeholder">Пароль</string>
     <string name="signin_btn_text">Вход</string>
+    <string name="register_btn_text">Регистрация</string>
     <string name="signin_vk_btn_text">Вход через ВКонтакте</string>
     <string name="auth_txt">Авторизация</string>
     <string name="register_txt">/ Регистрация</string>
@@ -82,6 +83,7 @@
     <string name="date_placeholder">01.01.2024</string>
     <string name="review_placeholder">Очень хвалебный отзыв</string>
     <string name="user_review_placeholder">user12345</string>
+    <string name="email_placeholder">Электронная почта</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>
