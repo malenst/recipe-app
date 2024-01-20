@@ -87,6 +87,10 @@
     <string name="review_placeholder">Очень хвалебный отзыв</string>
     <string name="user_review_placeholder">user12345</string>
     <string name="email_placeholder">Электронная почта</string>
+    <string name="protein">Белки</string>
+    <string name="fats">Жиры</string>
+    <string name="carbohydrates">Углеводы</string>
+    <string name="calories">Калории</string>
     <string name="_1000">1000</string>
     <string-array name="nutritional_units">
         <item>шт.</item>

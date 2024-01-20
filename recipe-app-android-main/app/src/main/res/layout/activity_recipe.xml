@@ -284,10 +284,157 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/nutritionalView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/switchtxt"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/card_shape_review">
+
+                    <TextView
+                        android:id="@+id/nutritionalTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.025"
+                        android:lineSpacingExtra="9dp"
+                        android:text="@string/nutritional_info"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/nutritionalProtein"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.025"
+                        android:lineSpacingExtra="9dp"
+                        android:text="@string/protein"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle" />
+
+                    <TextView
+                        android:id="@+id/nutritionalProteinValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/_1000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/nutritionalProtein"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalProtein" />
+
+                    <TextView
+                        android:id="@+id/nutritionalFats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.025"
+                        android:lineSpacingExtra="9dp"
+                        android:text="@string/fats"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/nutritionalProtein"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle" />
+
+                    <TextView
+                        android:id="@+id/nutritionalFatsValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/_1000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/nutritionalFats"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalFats" />
+
+                    <TextView
+                        android:id="@+id/nutritionalCarbohydrates"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.025"
+                        android:lineSpacingExtra="9dp"
+                        android:text="@string/carbohydrates"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/nutritionalFats"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle" />
+
+                    <TextView
+                        android:id="@+id/nutritionalCarbohydratesValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/_1000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/nutritionalCarbohydrates"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalCarbohydrates" />
+
+                    <TextView
+                        android:id="@+id/nutritionalCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.025"
+                        android:lineSpacingExtra="9dp"
+                        android:text="@string/calories"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/nutritionalCarbohydrates"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle" />
+
+                    <TextView
+                        android:id="@+id/nutritionalCaloriesValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/_1000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/nutritionalCalories"
+                        app:layout_constraintTop_toBottomOf="@+id/nutritionalCalories" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/switchtxt">
+                    android:layout_below="@+id/nutritionalView">
 
                     <TextView
                         android:id="@+id/recipeReviewsTitle"
