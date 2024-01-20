@@ -36,6 +36,12 @@ interface RecipeApiService {
     ) : Call<ApiResponseDto<List<Recipe>>>
 
     @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("register")
+    fun register(
+        @Body registrationRequestDTO: RegistrationRequestDTO
+    ) : Call<ApiResponseDto<User>>
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("recipe")
     fun addRecipe(
         @Body recipe: RecipeData

@@ -1,8 +1,6 @@
 package ru.ystu.mealmaster.domain.interactor
 
-import ru.ystu.mealmaster.domain.Category
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.RecipeData
+import ru.ystu.mealmaster.domain.*
 import java.util.*
 
 interface RecipeInteractor {
@@ -13,6 +11,7 @@ interface RecipeInteractor {
     suspend fun getCategories(): List<Category>
     suspend fun getRecipesByCategory(category: String): List<Recipe>
     suspend fun login(username: String, password: String): Pair<List<Recipe>, List<String>?>
+    suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User
     suspend fun addRecipe(recipe: RecipeData): Recipe
     suspend fun getCurrentUserRole(): String
     suspend fun logViewToRecipeById(id: UUID): Recipe
