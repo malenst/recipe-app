@@ -13,15 +13,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
-import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.data.database.FavouriteRecipeDao
+import ru.ystu.mealmaster.data.database.FavouriteRecipeDatabase
+import ru.ystu.mealmaster.data.entity.FavouriteRecipe
+import ru.ystu.mealmaster.data.repository.FavouriteRecipeRepositoryImpl
+import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityRecipeBinding
-import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.interactor.FavouriteRecipeInteractor
+import ru.ystu.mealmaster.domain.interactor.FavouriteRecipeInteractorImpl
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
+import ru.ystu.mealmaster.domain.repository.FavouriteRecipeRepository
+import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.presentation.adapter.ReviewAdapter
 import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModelFactory
@@ -33,8 +42,10 @@ class RecipeActivity : AppCompatActivity() {
     private var rewievRecycleView: RecyclerView? = null
     private var backBtn: ImageView? = null
     private var overlay: ImageView? = null
+
     @Suppress("unused")
     var scroll: ImageView? = null
+
     @Suppress("unused")
     var zoomImage: ImageView? = null
     private var txt: TextView? = null
@@ -55,12 +66,19 @@ class RecipeActivity : AppCompatActivity() {
     private var stepBtn: Button? = null
     private var ing_btn: Button? = null
     private lateinit var rew_btn: FloatingActionButton
+
     @Suppress("unused")
     var isImgCrop = false
     private var scrollView: ScrollView? = null
     private var scrollView_step: ScrollView? = null
+
     @Suppress("unused")
     private lateinit var context: Context
+
+    private lateinit var dao: FavouriteRecipeDao
+    private lateinit var favRepository: FavouriteRecipeRepository
+    private lateinit var favInteractor: FavouriteRecipeInteractor
+    private lateinit var favIcon: ImageView
 
     private lateinit var recipeIdString: String
     private lateinit var reviewAdapter: ReviewAdapter
@@ -116,6 +134,8 @@ class RecipeActivity : AppCompatActivity() {
         stepBtn?.setTextColor(getColor(R.color.black))
         ing_btn?.setTextColor(getColor(R.color.white))
 
+        favIcon = findViewById(R.id.isFav)
+
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
 
@@ -137,12 +157,22 @@ class RecipeActivity : AppCompatActivity() {
             scrollView_step?.visibility = View.GONE
         }
 
-        rew_btn.setOnClickListener{
+        rew_btn.setOnClickListener {
             intent = Intent(this@RecipeActivity, AddReviewActivity::class.java)
             intent.putExtra("RECIPE_ID", recipeIdString)
             this@RecipeActivity.startActivity(intent)
         }
 
+        dao = FavouriteRecipeDatabase.getInstance(application)?.favouriteRecipeDao()!!
+        //lifecycleScope.launch(Dispatchers.IO) { dao.clearFavouriteRecipes() }
+        favRepository = FavouriteRecipeRepositoryImpl(dao)
+        favInteractor = FavouriteRecipeInteractorImpl(favRepository)
+
+        favIcon.setOnClickListener {
+            toggleFavourite()
+        }
+
+        checkFavouriteStatusAndUpdateIcon()
 
         // Exit activity
         backBtn?.setOnClickListener {
@@ -154,7 +184,8 @@ class RecipeActivity : AppCompatActivity() {
     private fun logViewToRecipeById() {
         lifecycleScope.launch {
             try {
-                recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
+                recipeIdString =
+                    intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
                 interactor.logViewToRecipeById(UUID.fromString(recipeIdString))
             } catch (e: Exception) {
                 Log.e("RecipeLoadError", "Error loading recipe", e)
@@ -166,13 +197,15 @@ class RecipeActivity : AppCompatActivity() {
     private fun getRecipeById() {
         lifecycleScope.launch {
             try {
-                recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
+                recipeIdString =
+                    intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
                 val recipeFromDb = interactor.getRecipeById(UUID.fromString(recipeIdString))
 
                 recipeFromDb.let { recipe ->
-                    val ingredientsFormatted = recipe.ingredients.entries.joinToString(separator = "\n") { (key, value) ->
-                        "• $key ― $value"
-                    }
+                    val ingredientsFormatted =
+                        recipe.ingredients.entries.joinToString(separator = "\n") { (key, value) ->
+                            "• $key ― $value"
+                        }
                     ing?.text = ingredientsFormatted
 
                     val stepsFormatted = recipe.steps.entries.joinToString(separator = "\n") { (key, value) ->
@@ -203,7 +236,8 @@ class RecipeActivity : AppCompatActivity() {
     private fun setAllReviewsList() {
         var id: UUID?
         try {
-            id = UUID.fromString(intent.extras?.getString("RECIPE_ID")) ?: throw IllegalArgumentException("Recipe ID not found.")
+            id = UUID.fromString(intent.extras?.getString("RECIPE_ID"))
+                ?: throw IllegalArgumentException("Recipe ID not found.")
         } catch (e: Exception) {
             Log.e("RecipeLoadError", "Error loading recipe", e)
             id = null
@@ -228,9 +262,62 @@ class RecipeActivity : AppCompatActivity() {
 
     }
 
+    private fun toggleFavourite() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val apiRecipeId = UUID.fromString(recipeIdString)
+                val currentUserUsername = interactor.getAccountInfo().username
+
+                var favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername)
+                Log.d("X", apiRecipeId.toString())
+                Log.d("Y", currentUserUsername)
+                Log.d("Z", favRecipe.toString())
+
+                if (favRecipe != null) {
+                    favInteractor.deleteFavouriteRecipeById(apiRecipeId, currentUserUsername)
+                } else {
+                    val recipe = interactor.getRecipeById(apiRecipeId)
+                    favInteractor.addFavouriteRecipe(FavouriteRecipe.fromRecipe(recipe, currentUserUsername))
+                }
+
+                favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername)
+                updateFavIcon(favRecipe != null)
+
+            } catch (e: Exception) {
+                Log.e("RecipeLoadError", "Error in toggleFavourite", e)
+            }
+        }
+    }
+
+
+    private suspend fun updateFavIcon(isFavourite: Boolean) {
+        withContext(Dispatchers.Main) {
+            if (isFavourite) {
+                favIcon.setImageResource(R.drawable.fav)
+            } else {
+                favIcon.setImageResource(R.drawable.not_fav)
+            }
+        }
+    }
+
+    private fun checkFavouriteStatusAndUpdateIcon() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val apiRecipeId = UUID.fromString(recipeIdString)
+                val currentUserUsername = interactor.getAccountInfo().username
+
+                val favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername)
+                updateFavIcon(favRecipe != null)
+            } catch (e: Exception) {
+                Log.e("RecipeLoadError", "Error in checkFavouriteStatusAndUpdateIcon", e)
+            }
+        }
+    }
+
     private fun reloadData() {
         getRecipeById()
         setAllReviewsList()
+        checkFavouriteStatusAndUpdateIcon()
     }
 
     override fun onResume() {

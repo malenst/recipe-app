@@ -1,19 +1,16 @@
-package ru.ystu.mealmaster.data
+package ru.ystu.mealmaster.data.repository
 
 import android.content.Context
 import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.ystu.mealmaster.data.ApiResponseDto
+import ru.ystu.mealmaster.data.RecipeApi
+import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.domain.*
+import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
-import ru.ystu.mealmaster.domain.Category
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.RecipeData
-import ru.ystu.mealmaster.domain.RecipeRepository
-import ru.ystu.mealmaster.domain.RegistrationRequestDTO
-import ru.ystu.mealmaster.domain.Review
-import ru.ystu.mealmaster.domain.User
 import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
 import java.util.*
 

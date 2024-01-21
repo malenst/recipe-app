@@ -17,11 +17,11 @@ import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
-import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityModerationBinding
-import ru.ystu.mealmaster.domain.RecipeRepository
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
+import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.presentation.adapter.ReviewAdapter
 import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModelFactory

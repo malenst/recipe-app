@@ -1,5 +1,6 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.repository
 
+import ru.ystu.mealmaster.domain.*
 import java.util.*
 
 interface RecipeRepository {

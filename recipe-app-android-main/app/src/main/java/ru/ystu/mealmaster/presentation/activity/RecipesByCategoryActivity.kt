@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
-import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityMainBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter

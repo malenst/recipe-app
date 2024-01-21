@@ -1,13 +1,8 @@
 package ru.ystu.mealmaster.domain.interactor
 
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.ystu.mealmaster.domain.Category
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.RecipeData
-import ru.ystu.mealmaster.domain.RecipeRepository
-import ru.ystu.mealmaster.domain.RegistrationRequestDTO
-import ru.ystu.mealmaster.domain.Review
-import ru.ystu.mealmaster.domain.User
+import ru.ystu.mealmaster.domain.*
+import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -136,7 +131,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
 
     override suspend fun getReviewsById(id: UUID): List<Review> = suspendCoroutine { continuation ->
         repository.getReviewsById(id) { result ->
-            if (result!!.isSuccess) {
+            if (result.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
             } else {
                 continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load recipes for id: $id"))

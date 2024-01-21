@@ -29,6 +29,9 @@
             android:name=".presentation.activity.SearchActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.activity.FavouriteRecipeActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activity.LoginActivity"
             android:exported="true">
             <intent-filter>

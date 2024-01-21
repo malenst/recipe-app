@@ -21,14 +21,14 @@ import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
-import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.domain.NutritionalInfo
 import ru.ystu.mealmaster.domain.RecipeData
-import ru.ystu.mealmaster.domain.RecipeRepository
 import ru.ystu.mealmaster.domain.enumeration.MeasureUnit
 import ru.ystu.mealmaster.domain.enumeration.RecipeCategory
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
+import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 

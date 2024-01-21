@@ -12,11 +12,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
@@ -28,12 +24,12 @@ import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
-import ru.ystu.mealmaster.data.RecipeRepositoryImpl
+import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityHomeBinding
-import ru.ystu.mealmaster.domain.RecipeRepository
 import ru.ystu.mealmaster.domain.User
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
+import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.presentation.adapter.CatRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.PopRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
