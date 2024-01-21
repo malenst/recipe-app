@@ -93,65 +93,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/myEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:padding="8dp"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myUsername">
-
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:src="@drawable/email" />
-
-        <TextView
-            android:id="@+id/myAccountEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Email"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/myRole"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:padding="8dp"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myEmail">
-
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="40dp"
-            android:src="@drawable/info_ic" />
-
-        <TextView
-            android:id="@+id/myAccountRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Роль"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sheet_logoutBtn"
@@ -163,7 +104,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRole"
+        app:layout_constraintTop_toBottomOf="@+id/myUsername"
         tools:ignore="RtlSymmetry">
 
         <ImageView

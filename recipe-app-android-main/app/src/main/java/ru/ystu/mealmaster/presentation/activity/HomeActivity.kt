@@ -16,18 +16,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
+import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityHomeBinding
 import ru.ystu.mealmaster.domain.RecipeRepository
+import ru.ystu.mealmaster.domain.User
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.presentation.adapter.CatRecipeAdapter
@@ -43,6 +47,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var catRecipeAdapter: CatRecipeAdapter
     private lateinit var recipeViewModel: RecipeViewModel
     private lateinit var currentUserRoleViewModel: CurrentUserRoleViewModel
+    private lateinit var accountInfoViewModel: AccountInfoViewModel
     private lateinit var popRecipeViewModel: PopRecipeViewModel
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
@@ -59,6 +64,9 @@ class HomeActivity : AppCompatActivity() {
     private var lottie: LottieAnimationView? = null
     private var editText: EditText? = null
     private lateinit var icon: Icon
+    private lateinit var userRole: String
+    private lateinit var userEmail: String
+    private lateinit var userName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +85,11 @@ class HomeActivity : AppCompatActivity() {
             this,
             CurrentUserRoleViewModelFactory(interactor)
         )[CurrentUserRoleViewModel::class.java]
+
+        accountInfoViewModel = ViewModelProvider(
+            this,
+            AccountInfoViewModelFactory(interactor)
+        )[AccountInfoViewModel::class.java]
 
         checkPermissions()
 
@@ -133,11 +146,16 @@ class HomeActivity : AppCompatActivity() {
         return currentUserRoleViewModel.currentUserRole
     }
 
+    private fun getAccountInfoLiveData(): LiveData<User> {
+        accountInfoViewModel.loadAccountInfo()
+        return accountInfoViewModel.accountInfo
+    }
+
     private fun checkPermissions() {
         // Get user role
         getCurrentUserRoleLiveData().observe(this) { currentUserRole ->
             Log.d("CurrentUserRole", currentUserRole ?: "Role not found")
-
+            userRole = currentUserRole.toString()
             if (currentUserRole == "MODERATOR" || currentUserRole == "ADMIN") {
                 Log.d("UserIsModeratorOrAdmin", true.toString())
                 logo.setImageIcon(icon)
@@ -238,19 +256,30 @@ class HomeActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.bottom_sheet)
         val myRecipes = dialog.findViewById<LinearLayout>(R.id.myRecepiesBtn)
         val userName = dialog.findViewById<LinearLayout>(R.id.myUsername)
-        val email = dialog.findViewById<LinearLayout>(R.id.myEmail)
-        val role = dialog.findViewById<LinearLayout>(R.id.myRole)
+        val userNameText = dialog.findViewById<TextView>(R.id.myAccountUsername)
         val logout = dialog.findViewById<LinearLayout>(R.id.sheet_logoutBtn)
+
+        getAccountInfoLiveData().observe(this) { account ->
+            userNameText.text = account.username
+
+        }
+
         myRecipes.setOnClickListener { v: View? ->
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(getString(R.string.privacy_policy_url))
             startActivity(intent)
         }
-        userName.setOnClickListener { v: View? ->
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.data = Uri.parse(getString(R.string.abt_dev))
-//            startActivity(intent)
+        userName.setOnClickListener {
+            val intent = Intent(this@HomeActivity, AccountActivity::class.java)
+            startActivity(intent)
         }
+
+        logout.setOnClickListener {
+            lifecycleScope.launch {
+                interactor.logout()
+            }
+        }
+
         dialog.show()
         dialog.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
