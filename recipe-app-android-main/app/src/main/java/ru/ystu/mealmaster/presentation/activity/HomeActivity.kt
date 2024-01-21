@@ -1,13 +1,21 @@
 package ru.ystu.mealmaster.presentation.activity
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Icon
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
@@ -139,10 +147,10 @@ class HomeActivity : AppCompatActivity() {
                 }
             } else if (currentUserRole == "USER") {
                 Log.d("UserIsUser", true.toString())
+                Log.d("MENU", menu.toString())
+
                 logo.setOnClickListener {
-                    val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
-                    startActivity(intent)
-                }
+                    showBottomSheet() }
             }
             if (currentUserRole != "ANONYMOUS") {
                 profileButton.setOnClickListener {
@@ -211,7 +219,8 @@ class HomeActivity : AppCompatActivity() {
             PopRecipeViewModelFactory(interactor)
         )[PopRecipeViewModel::class.java]
         binding.rcviewPopular.apply {
-            layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = popRecipeAdapter
         }
 
@@ -221,33 +230,36 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-//        open fun showBottomSheet() {
-//            val dialog = Dialog(this)
-//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//            dialog.setContentView(R.layout.bottom_sheet)
-//            val privayPolicy = dialog.findViewById<LinearLayout>(R.id.myRecepiesBtn)
-//            val abtDev = dialog.findViewById<LinearLayout>(R.id.sheet_logoutBtn)
-//            privayPolicy.setOnClickListener { v: View? ->
-//                val intent = Intent(Intent.ACTION_VIEW)
-//                intent.data = Uri.parse(getString(R.string.privacy_policy_url))
-//                startActivity(intent)
-//            }
-//            abtDev.setOnClickListener { v: View? ->
-//                val intent = Intent(Intent.ACTION_VIEW)
-//                intent.data = Uri.parse(getString(R.string.abt_dev))
-//                startActivity(intent)
-//            }
-//            dialog.show()
-//            dialog.window!!.setLayout(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.WRAP_CONTENT
-//            )
-//            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//            dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-//            dialog.window!!.setGravity(Gravity.BOTTOM)
-//        }
-    }
 
+    }
+    private fun showBottomSheet() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_sheet)
+        val myRecipes = dialog.findViewById<LinearLayout>(R.id.myRecepiesBtn)
+        val userName = dialog.findViewById<LinearLayout>(R.id.myUsername)
+        val email = dialog.findViewById<LinearLayout>(R.id.myEmail)
+        val role = dialog.findViewById<LinearLayout>(R.id.myRole)
+        val logout = dialog.findViewById<LinearLayout>(R.id.sheet_logoutBtn)
+        myRecipes.setOnClickListener { v: View? ->
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(getString(R.string.privacy_policy_url))
+            startActivity(intent)
+        }
+        userName.setOnClickListener { v: View? ->
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.data = Uri.parse(getString(R.string.abt_dev))
+//            startActivity(intent)
+        }
+        dialog.show()
+        dialog.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setGravity(Gravity.BOTTOM)
+    }
     // Start MainActivity(Recipe list) with intent message
     @Suppress("unused")
     private fun start(p: String?, tittle: String?) {
