@@ -2,6 +2,7 @@ package ru.ystu.mealmaster.presentation.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -169,6 +170,10 @@ class ModRecipeActivity : AppCompatActivity() {
             scrollView_step?.visibility = View.GONE
         }
 
+        backBtn?.setOnClickListener {
+            intent = Intent(this@ModRecipeActivity, HomeActivity::class.java)
+            this@ModRecipeActivity.startActivity(intent)
+        }
 
     }
 

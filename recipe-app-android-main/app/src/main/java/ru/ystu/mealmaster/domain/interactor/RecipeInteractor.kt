@@ -12,9 +12,11 @@ interface RecipeInteractor {
     suspend fun getRecipes(): List<Recipe>
     suspend fun getUncheckedRecipes(): List<Recipe>
     suspend fun getRecipeById(id: UUID): Recipe
+    suspend fun deleteRecipeById(id: UUID): Recipe
     suspend fun getTop10Recipes(): List<Recipe>
     suspend fun getCategories(): List<Category>
     suspend fun getRecipesByCategory(category: String): List<Recipe>
+    suspend fun getRecipesByUser(username: String): List<Recipe>
     suspend fun login(username: String, password: String): Pair<List<Recipe>, List<String>?>
     suspend fun logout(): String
     suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User

@@ -259,10 +259,12 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
-        myRecipes.setOnClickListener { v: View? ->
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(getString(R.string.privacy_policy_url))
+        myRecipes.setOnClickListener {
+            val intent = Intent(this@HomeActivity, MyRecipesActivity::class.java)
             startActivity(intent)
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.data = Uri.parse(getString(R.string.privacy_policy_url))
+//            startActivity(intent)
         }
         userName.setOnClickListener {
             val intent = Intent(this@HomeActivity, AccountActivity::class.java)

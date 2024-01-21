@@ -138,6 +138,25 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
+    override fun getRecipesByUser(username: String, callback: (Result<List<Recipe>>?) -> Unit) {
+        api.getRecipesByUser(username).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<List<Recipe>>>,
+                response: Response<ApiResponseDto<List<Recipe>>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()?.response ?: emptyList()))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
     override fun login(username: String, password: String, callback: (Result<List<Recipe>>, List<String>?) -> Unit) {
         api.login(username, password).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
             override fun onResponse(
