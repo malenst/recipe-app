@@ -10,6 +10,7 @@ interface RecipeRepository {
     fun getTop10Recipes(callback: (Result<List<Recipe>>?) -> Unit)
     fun getCategories(callback: (Result<List<Category>>?) -> Unit)
     fun getRecipesByCategory(category: String, callback: (Result<List<Recipe>>?) -> Unit)
+    fun getRecipesByUser(category: String, callback: (Result<List<Recipe>>?) -> Unit)
     fun login(username : String, password : String, callback: (Result<List<Recipe>>, List<String>?) -> Unit)
     fun logout(callback: (Result<String>?) -> Unit)
     fun register(registrationRequestDTO: RegistrationRequestDTO, callback: (Result<User>) -> Unit)

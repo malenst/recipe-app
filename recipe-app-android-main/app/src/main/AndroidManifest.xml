@@ -66,6 +66,9 @@
         <activity
             android:name="ru.ystu.mealmaster.presentation.activity.MainActivity"
             android:exported="true" />
+        <activity
+            android:name="ru.ystu.mealmaster.presentation.activity.MyRecipesActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

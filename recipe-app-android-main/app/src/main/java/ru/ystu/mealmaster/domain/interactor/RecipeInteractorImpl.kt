@@ -39,6 +39,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
+    override suspend fun deleteRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
+        repository.getRecipeById(id) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException("Recipe not found"))
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Error fetching recipe by ID"))
+            }
+        }
+    }
+
     override suspend fun getTop10Recipes(): List<Recipe> = suspendCoroutine { continuation ->
         repository.getTop10Recipes { result ->
             if (result!!.isSuccess) {
@@ -65,6 +75,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
                 continuation.resume(result.getOrNull() ?: emptyList())
             } else {
                 continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load recipes for category: $category"))
+            }
+        }
+    }
+
+    override suspend fun getRecipesByUser(username: String): List<Recipe> = suspendCoroutine { continuation ->
+        repository.getRecipesByUser(username) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: emptyList())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load recipes for category: $username"))
             }
         }
     }
