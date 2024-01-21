@@ -38,6 +38,7 @@ class ModRecipeActivity : AppCompatActivity() {
     @Suppress("unused")
     var zoomImage: ImageView? = null
     private var txt: TextView? = null
+    private var author: TextView? = null
     private var ing: TextView? = null
     private var description: TextView? = null
     private var time: TextView? = null
@@ -89,6 +90,7 @@ class ModRecipeActivity : AppCompatActivity() {
         // Find views
         img = findViewById(R.id.recipe_img_moderRecipe)
         txt = findViewById(R.id.tittle_moderRecipe)
+        author = findViewById(R.id.author_moderRecipe)
         description = findViewById(R.id.description_moderRecipe)
         ing = findViewById(R.id.ing_moderRecipe)
         time = findViewById(R.id.time_moderRecipe)
@@ -155,6 +157,7 @@ class ModRecipeActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getRecipeById() {
         lifecycleScope.launch {
             try {
@@ -174,6 +177,7 @@ class ModRecipeActivity : AppCompatActivity() {
 
                     time?.text = recipe.cookingTime
                     description?.text = recipe.description
+                    author?.text = recipe.author
 
                     amount?.text = recipe.nutritionalInfo.amount.toString() + " "
                     measureUnit?.text = recipe.nutritionalInfo.measureUnit

@@ -1,5 +1,6 @@
 package ru.ystu.mealmaster.data
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 import ru.ystu.mealmaster.domain.*
@@ -34,6 +35,9 @@ interface RecipeApiService {
         @Query("username") username : String,
         @Query("password") password : String
     ) : Call<ApiResponseDto<List<Recipe>>>
+
+    @GET("oauth2/authorization/VK")
+    fun loginWithVK() : Call<ResponseBody>
 
     @POST("logout")
     fun logout() : Call<String>

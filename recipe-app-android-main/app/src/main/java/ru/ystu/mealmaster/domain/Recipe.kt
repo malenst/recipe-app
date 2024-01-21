@@ -7,6 +7,7 @@ import java.util.*
 data class Recipe(
     val id: UUID,
     val name: String,
+    val author: String,
     val description: String,
     val category: String,
     val ingredients: Map<String, String>,

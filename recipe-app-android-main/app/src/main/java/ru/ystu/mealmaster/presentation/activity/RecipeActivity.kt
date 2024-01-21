@@ -38,6 +38,7 @@ class RecipeActivity : AppCompatActivity() {
     @Suppress("unused")
     var zoomImage: ImageView? = null
     private var txt: TextView? = null
+    private var author: TextView? = null
     private var ing: TextView? = null
     private var description: TextView? = null
     private var time: TextView? = null
@@ -88,6 +89,7 @@ class RecipeActivity : AppCompatActivity() {
         // Find views
         img = findViewById(R.id.recipe_img)
         txt = findViewById(R.id.tittle)
+        author = findViewById(R.id.author)
         description = findViewById(R.id.description)
         ing = findViewById(R.id.ing)
         time = findViewById(R.id.time)
@@ -180,6 +182,7 @@ class RecipeActivity : AppCompatActivity() {
 
                     time?.text = recipe.cookingTime
                     description?.text = recipe.description
+                    author?.text = recipe.author
 
                     amount?.text = recipe.nutritionalInfo.amount.toString() + " "
                     measureUnit?.text = recipe.nutritionalInfo.measureUnit

@@ -2,6 +2,7 @@ package ru.ystu.mealmaster.presentation.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,7 +10,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
@@ -42,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
         interactor = RecipeInteractorImpl(repository)
 
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val btnLoginWithVK = findViewById<Button>(R.id.btnLoginVK)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
         val txtUsername = findViewById<EditText>(R.id.txtUsername)
         val txtUsernameRegister = findViewById<EditText>(R.id.txtUsername_register)
@@ -54,6 +59,19 @@ class LoginActivity : AppCompatActivity() {
             val password = txtPassword.text.toString()
 
             login(username, password)
+        }
+
+        btnLoginWithVK.setOnClickListener {
+            loginWithVk()
+        }
+
+        intent?.data?.let { uri ->
+            if (uri.host == "oauth2_redirect") {
+                val code = uri.getQueryParameter("code")
+                if (code != null) {
+                    // Используйте код для получения токена доступа
+                }
+            }
         }
 
         btnRegister.setOnClickListener {
@@ -108,6 +126,23 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Login failed: invalid credentials", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun loginWithVk() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val response = withContext(Dispatchers.IO) { api.loginWithVK().execute() }
+            if (response.isSuccessful) {
+                val redirectUrl = response.raw().request.url.toString()
+                openAuthUrlInBrowser(redirectUrl)
+            } else {
+                // Обработка ошибки
+            }
+        }
+    }
+
+    private fun openAuthUrlInBrowser(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 
     private fun saveCookies(cookies: List<String>) {

@@ -44,6 +44,7 @@
     <string name="send_btn_text">Отправить</string>
     <string name="no_reviews_yet">Отзывов пока нет, будьте первыми!</string>
     <string name="reviewsTitle">Отзывы</string>
+    <string name="author_placeholder">author</string>
     <string name="username_placeholded">Имя пользователя</string>
     <string name="password_placeholder">Пароль</string>
     <string name="signin_btn_text">Вход</string>

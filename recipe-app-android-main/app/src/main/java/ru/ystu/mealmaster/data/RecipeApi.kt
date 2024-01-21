@@ -26,7 +26,7 @@ object RecipeApi {
         BASE_API_URL = "${BuildConfig.BASE_PROTOCOL}://${BuildConfig.BASE_HOST}:${BuildConfig.BASE_PORT}${BuildConfig.API_PATH}"
 
         client = OkHttpClient.Builder()
-            .followRedirects(false)
+            //.followRedirects(false)
             .cookieJar(CustomPersistentCookieJar(appContext))
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
