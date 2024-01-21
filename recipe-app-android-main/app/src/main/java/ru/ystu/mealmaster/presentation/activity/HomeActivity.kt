@@ -101,9 +101,7 @@ class HomeActivity : AppCompatActivity() {
 
         profileButton = findViewById(R.id.imageView4)
         profileButton.setOnClickListener {
-            val intent = Intent(this@HomeActivity, LoginActivity::class.java)
-            startActivity(intent)
-        }
+            showBottomSheet() }
 
         menu = findViewById(R.id.menu)
 //        menu.setOnClickListener {
@@ -163,12 +161,12 @@ class HomeActivity : AppCompatActivity() {
                 Log.d("UserIsUser", true.toString())
                 Log.d("MENU", menu.toString())
 
-                logo.setOnClickListener {
+                profileButton.setOnClickListener {
                     showBottomSheet() }
             }
-            if (currentUserRole != "ANONYMOUS") {
+            if (currentUserRole == "ANONYMOUS") {
                 profileButton.setOnClickListener {
-                    val intent = Intent(this@HomeActivity, AccountActivity::class.java)
+                    val intent = Intent(this@HomeActivity, LoginActivity::class.java)
                     startActivity(intent)
                 }
             }
@@ -247,6 +245,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
     private fun showBottomSheet() {
+        Log.d("PERETZ", "SHIT")
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet)
@@ -282,7 +281,7 @@ class HomeActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setGravity(Gravity.BOTTOM)
     }
     // Start MainActivity(Recipe list) with intent message

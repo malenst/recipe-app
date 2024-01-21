@@ -49,6 +49,9 @@
             android:name="ru.ystu.mealmaster.presentation.activity.RecipeActivity"
             android:exported="false" />
         <activity
+            android:name="ru.ystu.mealmaster.presentation.activity.ModRecipeActivity"
+            android:exported="false" />
+        <activity
             android:name="ru.ystu.mealmaster.presentation.activity.RecipesByCategoryActivity"
             android:exported="false" />
         <activity

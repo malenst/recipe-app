@@ -43,20 +43,73 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/popular_time"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="7dp"
-            android:fontFamily="@font/roboto_medium"
-            android:maxLength="7"
-            android:text="@string/recipe_time_ph"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            app:emojiCompatEnabled="true"
-            tools:ignore="RtlHardcoded,SmallSp" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:elevation="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/popular_img"
+            app:layout_constraintEnd_toStartOf="@+id/popular_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/popular_clockIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/clock_icon"
+                app:tint="@color/green" />
+
+            <TextView
+                android:id="@+id/popular_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLength="7"
+                android:text="@string/recipe_time_ph"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="end"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/popular_clockIcon"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/popular_recipeViewIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/popular_time"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/view"
+                app:tint="@color/green" />
+
+            <TextView
+                android:id="@+id/popular_recipeViewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="end"
+                android:text="@string/_1000"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/popular_recipeViewIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"

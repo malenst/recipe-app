@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,8 @@ import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
-import ru.ystu.mealmaster.databinding.ActivityModerationBinding
+import ru.ystu.mealmaster.databinding.ActivityRecipeModerationBinding
+import ru.ystu.mealmaster.domain.enumeration.ChangeType
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
@@ -33,8 +35,10 @@ class ModRecipeActivity : AppCompatActivity() {
     private var rewievRecycleView: RecyclerView? = null
     private var backBtn: ImageView? = null
     private var overlay: ImageView? = null
+
     @Suppress("unused")
     var scroll: ImageView? = null
+
     @Suppress("unused")
     var zoomImage: ImageView? = null
     private var txt: TextView? = null
@@ -54,11 +58,14 @@ class ModRecipeActivity : AppCompatActivity() {
     private var reviews: TextView? = null
     private var stepBtn: Button? = null
     private var ing_btn: Button? = null
-    private lateinit var rew_btn: FloatingActionButton
+    private var action_btn: Button? = null
+    private var reject_btn: Button? = null
+
     @Suppress("unused")
     var isImgCrop = false
     private var scrollView: ScrollView? = null
     private var scrollView_step: ScrollView? = null
+
     @Suppress("unused")
     private lateinit var context: Context
 
@@ -68,14 +75,14 @@ class ModRecipeActivity : AppCompatActivity() {
     private lateinit var api: RecipeApiService
     private lateinit var repository: RecipeRepository
     private lateinit var interactor: RecipeInteractor
-    private lateinit var binding: ActivityModerationBinding
+    private lateinit var binding: ActivityRecipeModerationBinding
     private lateinit var reviewViewModel: ReviewViewModel
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityModerationBinding.inflate(layoutInflater)
+        binding = ActivityRecipeModerationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         RecipeApi.init(this)
@@ -111,6 +118,8 @@ class ModRecipeActivity : AppCompatActivity() {
         scrollView_step = findViewById(R.id.steps_moderRecipe)
         overlay = findViewById(R.id.image_gradient_moderRecipe)
         rewievRecycleView = findViewById(R.id.review_recview_moderRecipe)
+        action_btn = findViewById(R.id.accept_btn_moderRecipe)
+        reject_btn = findViewById(R.id.decline_btn_moderRecipe)
 
         Log.d("LUK SELENII", steps?.text.toString())
         stepBtn?.setTextColor(getColor(R.color.black))
@@ -118,6 +127,23 @@ class ModRecipeActivity : AppCompatActivity() {
 
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
+
+        when (intent.getStringExtra("CHANGE_TYPE")) {
+            "CREATE" -> {
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_add)
+                action_btn!!.text = ChangeType.CREATE.value
+            }
+
+            "UPDATE" -> {
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
+                action_btn!!.text = ChangeType.UPDATE.value
+            }
+
+            "DELETE" -> {
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_delete)
+                action_btn!!.text = ChangeType.DELETE.value
+            }
+        }
 
         // Load recipe image from link
         Glide.with(applicationContext).load(intent.getStringExtra("img"))
@@ -149,7 +175,8 @@ class ModRecipeActivity : AppCompatActivity() {
     private fun logViewToRecipeById() {
         lifecycleScope.launch {
             try {
-                recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
+                recipeIdString = intent.extras?.getString("RECIPE_ID")
+                    ?: throw IllegalArgumentException("Recipe ID not found.")
                 interactor.logViewToRecipeById(UUID.fromString(recipeIdString))
             } catch (e: Exception) {
                 Log.e("RecipeLoadError", "Error loading recipe", e)
@@ -161,18 +188,21 @@ class ModRecipeActivity : AppCompatActivity() {
     private fun getRecipeById() {
         lifecycleScope.launch {
             try {
-                recipeIdString = intent.extras?.getString("RECIPE_ID") ?: throw IllegalArgumentException("Recipe ID not found.")
+                recipeIdString = intent.extras?.getString("RECIPE_ID")
+                    ?: throw IllegalArgumentException("Recipe ID not found.")
                 val recipeFromDb = interactor.getRecipeById(UUID.fromString(recipeIdString))
 
                 recipeFromDb.let { recipe ->
-                    val ingredientsFormatted = recipe.ingredients.entries.joinToString(separator = "\n") { (key, value) ->
-                        "• $key ― $value"
-                    }
+                    val ingredientsFormatted =
+                        recipe.ingredients.entries.joinToString(separator = "\n") { (key, value) ->
+                            "• $key ― $value"
+                        }
                     ing?.text = ingredientsFormatted
 
-                    val stepsFormatted = recipe.steps.entries.joinToString(separator = "\n") { (key, value) ->
-                        "$key) $value"
-                    }
+                    val stepsFormatted =
+                        recipe.steps.entries.joinToString(separator = "\n") { (key, value) ->
+                            "$key) $value"
+                        }
                     steps?.text = stepsFormatted
 
                     time?.text = recipe.cookingTime
@@ -198,7 +228,8 @@ class ModRecipeActivity : AppCompatActivity() {
     private fun setAllReviewsList() {
         var id: UUID?
         try {
-            id = UUID.fromString(intent.extras?.getString("RECIPE_ID")) ?: throw IllegalArgumentException("Recipe ID not found.")
+            id = UUID.fromString(intent.extras?.getString("RECIPE_ID"))
+                ?: throw IllegalArgumentException("Recipe ID not found.")
         } catch (e: Exception) {
             Log.e("RecipeLoadError", "Error loading recipe", e)
             id = null
@@ -210,7 +241,7 @@ class ModRecipeActivity : AppCompatActivity() {
 
         reviewAdapter = ReviewAdapter(emptyList())
 
-        binding.moderationRecview.apply {
+        binding.reviewRecviewModerRecipe.apply {
             layoutManager = LinearLayoutManager(this@ModRecipeActivity)
             adapter = reviewAdapter
         }

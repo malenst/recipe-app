@@ -1,552 +1,555 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_recipe_scene"
-    tools:context=".presentation.activity.RecipeActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/recipe_img_moderRecipe"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#F6F6F6"
-        android:hapticFeedbackEnabled="true"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pizza_sample"
-        android:contentDescription="" />
-
-    <ImageView
-        android:id="@+id/image_gradient_moderRecipe"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/recipe_img_moderRecipe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/image_btm_overlay"
-        android:contentDescription="" />
-
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout_moderRecipe"
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="230dp"
-        android:background="@drawable/card_recipe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RatingBar
-            android:id="@+id/ratingBar2_moderRecipe"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tittle_moderRecipe"
-            android:layout_marginStart="-40dp"
-            android:layout_marginTop="6dp"
-            android:layout_toEndOf="@+id/tittle_moderRecipe" />
+        app:layoutDescription="@xml/activity_recipe_scene"
+        tools:context=".presentation.activity.RecipeActivity">
 
         <ImageView
-            android:id="@+id/clock_moderRecipe"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/author_moderRecipe"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="2dp"
-            android:contentDescription=""
-            android:src="@drawable/clock_icon"
-            app:tint="@color/green" />
-
-        <TextView
-            android:id="@+id/time_moderRecipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/clock_moderRecipe"
-            android:layout_alignBottom="@+id/clock_moderRecipe"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
-            android:layout_toEndOf="@+id/clock_moderRecipe"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/recipe_time_ph"
-            android:textColor="#323232"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/recipeViewIcon_moderRecipe"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/author_moderRecipe"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="2dp"
-            android:layout_toEndOf="@+id/time_moderRecipe"
-            android:contentDescription=""
-            android:src="@drawable/view"
-            app:layout_constraintStart_toEndOf="@id/clock_moderRecipe"
-            app:tint="@color/green" />
-
-        <TextView
-            android:id="@+id/recipeViewText_moderRecipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/clock_moderRecipe"
-            android:layout_alignBottom="@+id/clock_moderRecipe"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
-            android:layout_toEndOf="@+id/recipeViewIcon_moderRecipe"
-            android:fontFamily="@font/roboto_regular"
-            android:text="@string/_1000"
-            android:textColor="#323232"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tittle_moderRecipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="45dp"
-            android:fontFamily="@font/roboto_bold"
-            android:maxWidth="290dp"
-            android:text="@string/recipe_name_ph"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <TextView
-            android:id="@+id/author_moderRecipe"
-            android:textSize="14sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tittle_moderRecipe"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="45dp"
-            android:fontFamily="@font/roboto_light"
-            android:maxWidth="290dp"
-            android:text="@string/author_placeholder"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/description_moderRecipe"
+            android:id="@+id/recipe_img_moderRecipe"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/clock_moderRecipe"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="45dp"
-            android:fontFamily="@font/poppins_light"
-            android:text="@string/recipe_name_ph"
-            android:textColor="@color/black"
-            android:textSize="15sp"
+            android:layout_height="250dp"
+            android:background="#F6F6F6"
+            android:contentDescription=""
+            android:hapticFeedbackEnabled="true"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clock_moderRecipe" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pizza_sample" />
 
-        <ScrollView
+        <ImageView
+            android:id="@+id/image_gradient_moderRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:contentDescription=""
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/recipe_img_moderRecipe"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/image_btm_overlay" />
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_moderRecipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/constraintLayout_moderation_buttons"
-            android:layout_below="@id/description_moderRecipe"
-            android:fillViewport="true"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="230dp"
+            android:background="@drawable/card_recipe"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_moderRecipe">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <RatingBar
+                android:id="@+id/ratingBar2_moderRecipe"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tittle_moderRecipe"
+                android:layout_marginStart="-40dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@+id/tittle_moderRecipe" />
+
+            <ImageView
+                android:id="@+id/clock_moderRecipe"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/author_moderRecipe"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="2dp"
+                android:contentDescription=""
+                android:src="@drawable/clock_icon"
+                app:tint="@color/green" />
+
+            <TextView
+                android:id="@+id/time_moderRecipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/clock_moderRecipe"
+                android:layout_alignBottom="@+id/clock_moderRecipe"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_toEndOf="@+id/clock_moderRecipe"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/recipe_time_ph"
+                android:textColor="#323232"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/recipeViewIcon_moderRecipe"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/author_moderRecipe"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_toEndOf="@+id/time_moderRecipe"
+                android:contentDescription=""
+                android:src="@drawable/view"
+                app:layout_constraintStart_toEndOf="@id/clock_moderRecipe"
+                app:tint="@color/green" />
+
+            <TextView
+                android:id="@+id/recipeViewText_moderRecipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/clock_moderRecipe"
+                android:layout_alignBottom="@+id/clock_moderRecipe"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_toEndOf="@+id/recipeViewIcon_moderRecipe"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/_1000"
+                android:textColor="#323232"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tittle_moderRecipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="45dp"
+                android:fontFamily="@font/roboto_bold"
+                android:maxWidth="290dp"
+                android:text="@string/recipe_name_ph"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:id="@+id/author_moderRecipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tittle_moderRecipe"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="45dp"
+                android:fontFamily="@font/roboto_light"
+                android:maxWidth="290dp"
+                android:text="@string/author_placeholder"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/description_moderRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_below="@+id/clock_moderRecipe"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="45dp"
+                android:fontFamily="@font/poppins_light"
+                android:text="@string/recipe_name_ph"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clock_moderRecipe" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/switchtxt_moderRecipe"
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/constraintLayout_moderation_buttons"
+                android:layout_below="@id/description_moderRecipe"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_moderRecipe">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/clock_moderRecipe">
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/ing_btn_moderRecipe"
-                        android:layout_width="190dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="14dp"
-                        android:background="@drawable/btn_ing"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/ingredients"
-                        android:textAllCaps="false"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <Button
-                        android:id="@+id/steps_btn_moderRecipe"
-                        android:layout_width="190dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@drawable/btn_ing"
-                        android:fontFamily="@font/roboto_medium"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/steps"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ScrollView
-                        android:id="@+id/ing_scroll_moderRecipe"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/switchtxt_moderRecipe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/ing_btn_moderRecipe"
-                        android:layout_alignParentStart="true"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        app:layout_constraintTop_toBottomOf="@id/ing_btn_moderRecipe">
+                        android:layout_below="@id/clock_moderRecipe">
 
-                        <TextView
-                            android:id="@+id/ing_moderRecipe"
+                        <Button
+                            android:id="@+id/ing_btn_moderRecipe"
+                            android:layout_width="190dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="14dp"
+                            android:background="@drawable/btn_ing"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="@string/ingredients"
+                            android:textAllCaps="false"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/steps_btn_moderRecipe"
+                            android:layout_width="190dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/btn_ing"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="@string/steps"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ScrollView
+                            android:id="@+id/ing_scroll_moderRecipe"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:lineSpacingExtra="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:text=""
+                            android:layout_below="@+id/ing_btn_moderRecipe"
+                            android:layout_alignParentStart="true"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="20dp"
+                            app:layout_constraintTop_toBottomOf="@id/ing_btn_moderRecipe">
+
+                            <TextView
+                                android:id="@+id/ing_moderRecipe"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:lineSpacingExtra="10dp"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="20dp"
+                                android:text=""
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                app:emojiCompatEnabled="true" />
+
+                        </ScrollView>
+
+                        <ScrollView
+                            android:id="@+id/steps_moderRecipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ing_btn_moderRecipe"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="3dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="20dp"
+                            android:visibility="gone"
+                            app:layout_constraintTop_toBottomOf="@id/ing_btn_moderRecipe">
+
+                            <TextView
+                                android:id="@+id/steps_txt_moderRecipe"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:letterSpacing="0.025"
+                                android:lineSpacingExtra="9dp"
+                                android:paddingTop="12dp"
+                                android:paddingBottom="50dp"
+                                android:text="@string/steps_default"
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                app:emojiCompatEnabled="true" />
+
+                        </ScrollView>
+
+                        <ImageView
+                            android:id="@+id/recipeImgViewWTF_moderRecipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="22dp"
+                            android:layout_below="@+id/ing_btn_moderRecipe"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="5dp"
+                            android:contentDescription=""
+                            android:src="@drawable/text_overlay"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/nutritionalView_moderRecipe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/switchtxt_moderRecipe"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/card_shape_review">
+
+                        <TextView
+                            android:id="@+id/nutritionalTitle_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="@string/nutritional_info"
                             android:textColor="#000000"
-                            android:textSize="15sp"
-                            app:emojiCompatEnabled="true" />
-
-                    </ScrollView>
-
-                    <ScrollView
-                        android:id="@+id/steps_moderRecipe"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ing_btn_moderRecipe"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="3dp"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@id/ing_btn_moderRecipe">
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/steps_txt_moderRecipe"
+                            android:id="@+id/nutritionalProtein_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="@string/protein"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalProteinValue_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/_1000"
+                            android:textColor="@color/green"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/nutritionalProtein_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalProtein_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalFats_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="@string/fats"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/nutritionalProtein_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalFatsValue_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/_1000"
+                            android:textColor="@color/green"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/nutritionalFats_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalFats_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalCarbohydrates_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="@string/carbohydrates"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/nutritionalFats_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalCarbohydratesValue_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/_1000"
+                            android:textColor="@color/green"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/nutritionalCarbohydrates_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalCarbohydrates_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalCalories_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:text="@string/calories"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/nutritionalCarbohydrates_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+
+                        <TextView
+                            android:id="@+id/nutritionalCaloriesValue_moderRecipe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/_1000"
+                            android:textColor="@color/blue"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/nutritionalCalories_moderRecipe"
+                            app:layout_constraintTop_toBottomOf="@+id/nutritionalCalories_moderRecipe" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/nutritionalView_moderRecipe">
+
+                        <TextView
+                            android:id="@+id/recipeReviewsTitle_moderRecipe"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/roboto_bold"
                             android:letterSpacing="0.025"
                             android:lineSpacingExtra="9dp"
                             android:paddingTop="12dp"
-                            android:paddingBottom="50dp"
-                            android:text="@string/steps_default"
+                            android:paddingBottom="10dp"
+                            android:text="@string/reviewsTitle"
                             android:textColor="#000000"
-                            android:textSize="15sp"
-                            app:emojiCompatEnabled="true" />
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
 
-                    </ScrollView>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/review_recview_moderRecipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:layout_below="@+id/recipeReviewsTitle_moderRecipe"
+                            android:visibility="visible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="parent"
+                            tools:listitem="@layout/list_review" />
 
-                    <ImageView
-                        android:id="@+id/recipeImgViewWTF_moderRecipe"
-                        android:layout_width="match_parent"
-                        android:layout_height="22dp"
-                        android:layout_below="@+id/ing_btn_moderRecipe"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="5dp"
-                        android:contentDescription=""
-                        android:src="@drawable/text_overlay"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:id="@+id/recipeReviews_moderRecipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/recipeReviewsTitle_moderRecipe"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:letterSpacing="0.025"
+                            android:lineSpacingExtra="9dp"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="10dp"
+                            android:text="@string/no_reviews_yet"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            android:visibility="invisible" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    </RelativeLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/nutritionalView_moderRecipe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/switchtxt_moderRecipe"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/card_shape_review">
+                </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/nutritionalTitle_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:text="@string/nutritional_info"
-                        android:textColor="#000000"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+            </ScrollView>
 
-                    <TextView
-                        android:id="@+id/nutritionalProtein_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:text="@string/protein"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_moderation_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/background"
+                android:elevation="2dp">
 
-                    <TextView
-                        android:id="@+id/nutritionalProteinValue_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/_1000"
-                        android:textColor="@color/green"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/nutritionalProtein_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalProtein_moderRecipe" />
+                <Button
+                    android:id="@+id/accept_btn_moderRecipe"
+                    android:layout_width="190dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/status_add"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/add_txt_mod_btn"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/nutritionalFats_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:text="@string/fats"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/nutritionalProtein_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+                <Button
+                    android:id="@+id/decline_btn_moderRecipe"
+                    android:layout_width="190dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/btn_black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/moderation_decline"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/nutritionalFatsValue_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/_1000"
-                        android:textColor="@color/green"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/nutritionalFats_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalFats_moderRecipe" />
+        </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/nutritionalCarbohydrates_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:text="@string/carbohydrates"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/nutritionalFats_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
+        <ImageView
+            android:id="@+id/back_btn_moderRecipe"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_back_btn"
+            android:clickable="false"
+            android:contentDescription=""
+            android:foregroundGravity="center"
+            android:hapticFeedbackEnabled="true"
+            android:padding="2dp"
+            android:src="@drawable/back_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/nutritionalCarbohydratesValue_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/_1000"
-                        android:textColor="@color/green"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/nutritionalCarbohydrates_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalCarbohydrates_moderRecipe" />
-
-                    <TextView
-                        android:id="@+id/nutritionalCalories_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:text="@string/calories"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/nutritionalCarbohydrates_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalTitle_moderRecipe" />
-
-                    <TextView
-                        android:id="@+id/nutritionalCaloriesValue_moderRecipe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/_1000"
-                        android:textColor="@color/blue"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/nutritionalCalories_moderRecipe"
-                        app:layout_constraintTop_toBottomOf="@+id/nutritionalCalories_moderRecipe" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/nutritionalView_moderRecipe">
-
-                    <TextView
-                        android:id="@+id/recipeReviewsTitle_moderRecipe"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="10dp"
-                        android:text="@string/reviewsTitle"
-                        android:textColor="#000000"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/review_recview_moderRecipe"
-                        android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:layout_below="@+id/recipeReviewsTitle_moderRecipe"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="parent"
-                        tools:listitem="@layout/list_review" />
-
-                    <TextView
-                        android:id="@+id/recipeReviews_moderRecipe"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/recipeReviewsTitle_moderRecipe"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:letterSpacing="0.025"
-                        android:lineSpacingExtra="9dp"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="10dp"
-                        android:text="@string/no_reviews_yet"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:visibility="invisible" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_moderation_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="76dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/background"
-            android:elevation="2dp">
-
-            <Button
-                android:id="@+id/accept_btn_moderRecipe"
-                android:layout_width="190dp"
-                android:layout_height="48dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/status_add"
-                android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="@string/add_txt_mod_btn"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/decline_btn_moderRecipe"
-                android:layout_width="190dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_black"
-                android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="@string/moderation_decline"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/back_btn_moderRecipe"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/card_back_btn"
-        android:clickable="false"
-        android:foregroundGravity="center"
-        android:hapticFeedbackEnabled="true"
-        android:padding="2dp"
-        android:src="@drawable/back_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="" />
-
-</androidx.constraintlayout.motion.widget.MotionLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>
