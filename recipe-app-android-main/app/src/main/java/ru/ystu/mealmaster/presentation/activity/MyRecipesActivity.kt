@@ -16,7 +16,6 @@ import ru.ystu.mealmaster.presentation.viewmodel.AccountInfoViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.AccountInfoViewModelFactory
 import ru.ystu.mealmaster.presentation.viewmodel.MyRecipesViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.MyRecipesViewModelFactory
-import java.util.UUID
 
 class MyRecipesActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
@@ -49,7 +48,7 @@ class MyRecipesActivity : AppCompatActivity() {
 
         accountInfoViewModel.loadAccountInfo()
         accountInfoViewModel.accountInfo.observe(this) { account ->
-            username = account.username
+            username = account.username!!
             myRecipesViewModel = ViewModelProvider(
                 this,
                 MyRecipesViewModelFactory(interactor, username)

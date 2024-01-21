@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -78,6 +79,7 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var dao: FavouriteRecipeDao
     private lateinit var favRepository: FavouriteRecipeRepository
     private lateinit var favInteractor: FavouriteRecipeInteractor
+    private var currentUserRole: String? = null
     private lateinit var favIcon: ImageView
 
     private lateinit var recipeIdString: String
@@ -134,7 +136,18 @@ class RecipeActivity : AppCompatActivity() {
         stepBtn?.setTextColor(getColor(R.color.black))
         ing_btn?.setTextColor(getColor(R.color.white))
 
-        favIcon = findViewById(R.id.isFav)
+        favIcon = findViewById(R.id.image_favourite)
+        lifecycleScope.launch {
+            currentUserRole = interactor.getCurrentUserRole()
+            if (currentUserRole != "ANONYMOUS") {
+                favIcon.setOnClickListener {
+                    toggleFavourite()
+                }
+            } else {
+                val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
@@ -167,10 +180,6 @@ class RecipeActivity : AppCompatActivity() {
         //lifecycleScope.launch(Dispatchers.IO) { dao.clearFavouriteRecipes() }
         favRepository = FavouriteRecipeRepositoryImpl(dao)
         favInteractor = FavouriteRecipeInteractorImpl(favRepository)
-
-        favIcon.setOnClickListener {
-            toggleFavourite()
-        }
 
         checkFavouriteStatusAndUpdateIcon()
 
@@ -268,10 +277,7 @@ class RecipeActivity : AppCompatActivity() {
                 val apiRecipeId = UUID.fromString(recipeIdString)
                 val currentUserUsername = interactor.getAccountInfo().username
 
-                var favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername)
-                Log.d("X", apiRecipeId.toString())
-                Log.d("Y", currentUserUsername)
-                Log.d("Z", favRecipe.toString())
+                var favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername!!)
 
                 if (favRecipe != null) {
                     favInteractor.deleteFavouriteRecipeById(apiRecipeId, currentUserUsername)
@@ -292,10 +298,12 @@ class RecipeActivity : AppCompatActivity() {
 
     private suspend fun updateFavIcon(isFavourite: Boolean) {
         withContext(Dispatchers.Main) {
-            if (isFavourite) {
-                favIcon.setImageResource(R.drawable.fav)
-            } else {
-                favIcon.setImageResource(R.drawable.not_fav)
+            favIcon.let {
+                if (isFavourite) {
+                    it.setBackgroundResource(R.drawable.btn_favourite_green)
+                } else {
+                    it.setBackgroundResource(R.drawable.btn_favourite)
+                }
             }
         }
     }
@@ -306,8 +314,9 @@ class RecipeActivity : AppCompatActivity() {
                 val apiRecipeId = UUID.fromString(recipeIdString)
                 val currentUserUsername = interactor.getAccountInfo().username
 
-                val favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername)
+                val favRecipe = favInteractor.getFavouriteRecipeById(apiRecipeId, currentUserUsername!!)
                 updateFavIcon(favRecipe != null)
+            } catch (ignored: JsonSyntaxException) {
             } catch (e: Exception) {
                 Log.e("RecipeLoadError", "Error in checkFavouriteStatusAndUpdateIcon", e)
             }
@@ -318,6 +327,18 @@ class RecipeActivity : AppCompatActivity() {
         getRecipeById()
         setAllReviewsList()
         checkFavouriteStatusAndUpdateIcon()
+
+        lifecycleScope.launch {
+            currentUserRole = interactor.getCurrentUserRole()
+            if (currentUserRole != "ANONYMOUS") {
+                favIcon.setOnClickListener {
+                    toggleFavourite()
+                }
+            } else {
+                val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onResume() {
