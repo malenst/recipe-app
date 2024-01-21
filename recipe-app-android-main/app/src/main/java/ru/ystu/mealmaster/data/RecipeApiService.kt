@@ -19,6 +19,9 @@ interface RecipeApiService {
     @GET("recipe/{id}")
     fun getRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
 
+    @DELETE("recipe/{id}")
+    fun deleteRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
+
     @GET("recipe")
     fun getRecipesByCategory(@Query("category") category : String) : Call<ApiResponseDto<List<Recipe>>>
 
