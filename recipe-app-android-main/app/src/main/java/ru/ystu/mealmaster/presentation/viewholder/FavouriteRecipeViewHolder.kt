@@ -16,8 +16,8 @@ import ru.ystu.mealmaster.presentation.activity.RecipeActivity
 class FavouriteRecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView = itemView.findViewById<TextView>(R.id.favName)
-    //private val avgRating = itemView.findViewById<TextView>(R.id.listRatingByCategory)
     private val cookingTimeTextView = itemView.findViewById<TextView>(R.id.favCookingTime)
+    private val avgRatingTextView = itemView.findViewById<TextView>(R.id.favRating)
     private val imageView = itemView.findViewById<ImageView>(R.id.favImg)
 
     private lateinit var context: Context
@@ -34,6 +34,12 @@ class FavouriteRecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
         }
 
         nameTextView.text = recipe.name
+        val averageRating = recipe.reviews?.map { it.rating }?.average()
+        avgRatingTextView.text = if (averageRating != null && !averageRating.isNaN()) {
+            String.format("%.1f", averageRating.toFloat())
+        } else {
+            ""
+        }
         cookingTimeTextView.text = recipe.cookingTime
 
         if (!recipe.image.isNullOrEmpty()) {
