@@ -34,6 +34,22 @@
             app:srcCompat="@drawable/image_btm_overlay" />
 
 
+        <ImageView
+            android:id="@+id/image_favourite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_favourite"
+            android:src="@drawable/heart"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="8dp"
+            android:contentDescription=""
+            android:clickable="true"
+            android:hapticFeedbackEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusable="true" />
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
@@ -116,7 +132,6 @@
 
             <TextView
                 android:id="@+id/author"
-                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tittle"
@@ -127,7 +142,8 @@
                 android:fontFamily="@font/roboto_light"
                 android:maxWidth="290dp"
                 android:text="@string/author_placeholder"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/recipeViewIcon"
