@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Icon
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -31,7 +30,7 @@ import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.presentation.adapter.CatRecipeAdapter
-import ru.ystu.mealmaster.presentation.adapter.PopRecipeAdapter
+import ru.ystu.mealmaster.presentation.adapter.PopularRecipeAdapter
 import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
 import ru.ystu.mealmaster.presentation.viewmodel.*
 
@@ -39,12 +38,12 @@ class HomeActivity : AppCompatActivity() {
     private var recyclerViewHome: RecyclerView? = null
     private var popRecyclerViewHome: RecyclerView? = null
     private lateinit var recipeAdapter: RecipeAdapter
-    private lateinit var popRecipeAdapter: PopRecipeAdapter
+    private lateinit var popularRecipeAdapter: PopularRecipeAdapter
     private lateinit var catRecipeAdapter: CatRecipeAdapter
     private lateinit var recipeViewModel: RecipeViewModel
     private lateinit var currentUserRoleViewModel: CurrentUserRoleViewModel
     private lateinit var accountInfoViewModel: AccountInfoViewModel
-    private lateinit var popRecipeViewModel: PopRecipeViewModel
+    private lateinit var popularRecipeViewModel: PopularRecipeViewModel
     private lateinit var catRecipeViewModel: CatRecipeViewModel
     private lateinit var profileButton: ImageView
     private lateinit var menu: ImageView
@@ -225,20 +224,20 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setPopularRecipesList() {
-        popRecipeAdapter = PopRecipeAdapter(emptyList())
-        popRecipeViewModel = ViewModelProvider(
+        popularRecipeAdapter = PopularRecipeAdapter(emptyList())
+        popularRecipeViewModel = ViewModelProvider(
             this,
-            PopRecipeViewModelFactory(interactor)
-        )[PopRecipeViewModel::class.java]
+            PopularRecipeViewModelFactory(interactor)
+        )[PopularRecipeViewModel::class.java]
         binding.rcviewPopular.apply {
             layoutManager =
                 LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = popRecipeAdapter
+            adapter = popularRecipeAdapter
         }
 
-        popRecipeViewModel.popRecipes.observe(this@HomeActivity) { recipes ->
+        popularRecipeViewModel.popRecipes.observe(this@HomeActivity) { recipes ->
             recipes?.let {
-                popRecipeAdapter.updateData(it)
+                popularRecipeAdapter.updateData(it)
             }
         }
 
