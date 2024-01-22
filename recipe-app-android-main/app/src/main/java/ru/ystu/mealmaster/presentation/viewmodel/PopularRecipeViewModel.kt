@@ -17,7 +17,7 @@ class PopularRecipeViewModel(private val recipeInteractor: RecipeInteractor) : V
         loadPopularRecipes()
     }
 
-    private fun loadPopularRecipes() {
+    fun loadPopularRecipes() {
         viewModelScope.launch {
             try {
                 val popularRecipesList = recipeInteractor.getTop10Recipes()

@@ -67,7 +67,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_home)
+        setContentView(binding.root)
 
         RecipeApi.init(this)
         api = RecipeApi.api
@@ -91,7 +91,7 @@ class HomeActivity : AppCompatActivity() {
         recyclerViewHome = findViewById(R.id.recview)
         popRecyclerViewHome = findViewById(R.id.rcview_popular)
         lottie = findViewById(R.id.lottie)
-        editText = findViewById(R.id.editText)
+        editText = findViewById(R.id.editTextSearch)
 
         // Set all recipes
         setAllRecipesList()
@@ -113,6 +113,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Open search activity
         editText!!.setOnClickListener {
+            Log.d("FDS", "FDS")
             val intent = Intent(this@HomeActivity, SearchActivity::class.java)
             startActivity(intent)
         }

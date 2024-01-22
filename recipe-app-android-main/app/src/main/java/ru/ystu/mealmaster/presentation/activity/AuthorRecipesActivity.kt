@@ -31,7 +31,7 @@ class AuthorRecipesActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        activityAuthorRecipesTittleTextView = findViewById(R.id.activitySearchTittle)
+        //activityAuthorRecipesTittleTextView = findViewById(R.id.activitySearchTittle)
         recyclerView = findViewById(R.id.rcview)
 
         RecipeApi.init(this)

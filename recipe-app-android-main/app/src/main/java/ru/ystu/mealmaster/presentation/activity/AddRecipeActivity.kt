@@ -233,16 +233,21 @@ class AddRecipeActivity : AppCompatActivity() {
     }
 
     private fun addNewIngredientFields() {
+        val prevId = View.generateViewId()
         val newIngredientLayout = ConstraintLayout(this).apply {
-            id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(
-                0,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            )
+            id = prevId
+            layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT).apply {
+                startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                topToBottom = prevId
+            }
         }
 
-        val newIngredientNameEditText = createNewEditText("Ингредиент")
-        val newIngredientAmountEditText = createNewEditText("Количество")
+        val newIngredientNameEditText = createEditTextIngredientName()
+        val newIngredientAmountEditText = createEditTextIngredientAmount()
+
+        newIngredientNameEditText.id = View.generateViewId()
+        newIngredientAmountEditText.id = View.generateViewId()
 
         newIngredientLayout.addView(newIngredientNameEditText)
         newIngredientLayout.addView(newIngredientAmountEditText)
@@ -342,28 +347,51 @@ class AddRecipeActivity : AppCompatActivity() {
         ingredientAmountEditTexts.add(newIngredientAmountEditText)
     }
 
-    private fun createNewEditText(hint: String): EditText {
-        return EditText(this).apply {
-            id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(
-                0,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(8, 8, 8, 8)
-            }
-            setHint(hint)
+    private fun createEditTextIngredientName(): EditText {
+        return EditText(this, null, 0, R.style.MyEditText).apply {
+            id = R.id.editTextIngredientName
+            setHint(R.string.edit_recipe_ingredient_name_text)
             inputType = InputType.TYPE_CLASS_TEXT
+            layoutParams = ConstraintLayout.LayoutParams(240.dpToPx(), 55.dpToPx()).apply {
+                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+                startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                topMargin = 8.dpToPx()
+                marginStart = (-58).dpToPx()
+            }
         }
     }
 
+    private fun createEditTextIngredientAmount(): EditText {
+        return EditText(this, null, 0, R.style.MyEditText).apply {
+            id = R.id.editTextIngredientAmount
+            setHint(R.string.edit_recipe_ingredient_amount_text)
+            inputType = InputType.TYPE_CLASS_TEXT
+            layoutParams = ConstraintLayout.LayoutParams(130.dpToPx(), 55.dpToPx()).apply {
+                topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+                endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                topMargin = 8.dpToPx()
+                marginEnd = (-58).dpToPx()
+            }
+            setPaddingRelative(16.dpToPx(), 0, 0, 0)
+        }
+    }
+
+    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
+
     private fun addNewEditText(targetEditText: EditText) {
-        val newEditText = EditText(this)
+        val newEditText = EditText(this, null, 0, R.style.MyEditText)
         newEditText.id = View.generateViewId()
 
         val layoutParams = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
-        )
+            55.dpToPx()
+        ).apply {
+            topMargin = 8.dpToPx()
+            marginStart = 16.dpToPx()
+            marginEnd = 16.dpToPx()
+        }
         newEditText.layoutParams = layoutParams
 
         newEditText.hint = targetEditText.hint

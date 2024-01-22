@@ -195,7 +195,7 @@
                 app:srcCompat="@drawable/logo" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="24dp"
@@ -223,9 +223,9 @@
                 android:contentDescription=""
                 android:padding="5dp"
                 android:src="@drawable/search_ic"
-                app:layout_constraintBottom_toBottomOf="@+id/editText"
-                app:layout_constraintStart_toStartOf="@+id/editText"
-                app:layout_constraintTop_toTopOf="@+id/editText" />
+                app:layout_constraintBottom_toBottomOf="@+id/editTextSearch"
+                app:layout_constraintStart_toStartOf="@+id/editTextSearch"
+                app:layout_constraintTop_toTopOf="@+id/editTextSearch" />
 
             <ImageView
                 android:id="@+id/menu"

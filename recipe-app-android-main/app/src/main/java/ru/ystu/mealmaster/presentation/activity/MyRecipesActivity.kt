@@ -34,7 +34,7 @@ class MyRecipesActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        activityAuthorRecipesTittleTextView = findViewById(R.id.activitySearchTittle)
+        //activityAuthorRecipesTittleTextView = findViewById(R.id.activitySearchTittle)
         recyclerView = findViewById(R.id.rcview)
 
         RecipeApi.init(this)
@@ -52,7 +52,7 @@ class MyRecipesActivity : AppCompatActivity() {
         accountInfoViewModel.loadAccountInfo()
         accountInfoViewModel.accountInfo.observe(this) { account ->
             username = account.username!!
-            activityAuthorRecipesTittleTextView.text = getString(R.string.my_recipes)
+            //activityAuthorRecipesTittleTextView.text = getString(R.string.my_recipes)
             myRecipesViewModel = ViewModelProvider(
                 this,
                 MyRecipesViewModelFactory(interactor, username, false)
