@@ -2,6 +2,8 @@ package ru.ystu.mealmaster.presentation.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -10,35 +12,38 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivitySearchBinding
+import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.presentation.adapter.RecipeAdapter
-import ru.ystu.mealmaster.presentation.viewmodel.PopularRecipeViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.PopularRecipeViewModelFactory
+import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModel
+import ru.ystu.mealmaster.presentation.viewmodel.RecipeViewModelFactory
+import java.util.*
 
 class SearchActivity : AppCompatActivity() {
     private var search: EditText? = null
     private var backBtn: ImageView? = null
     private var recyclerview: RecyclerView? = null
     private var popularRecipeAdapter: RecipeAdapter? = null
-    private var popularRecipeViewModel: PopularRecipeViewModel? = null
+    private var popularRecipeViewModel: RecipeViewModel? = null
     private var binding: ActivitySearchBinding? = null
 
     private lateinit var api: RecipeApiService
     private lateinit var repository: RecipeRepository
     private lateinit var interactor: RecipeInteractor
 
-    //    List<User> dataPopular = new ArrayList<>();
-    //    SearchAdapter adapter;
-    //    List<User> recipes;
+    private lateinit var recipes: List<Recipe>
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,16 +67,16 @@ class SearchActivity : AppCompatActivity() {
         popularRecipeAdapter = RecipeAdapter(emptyList())
         popularRecipeViewModel = ViewModelProvider(
             this,
-            PopularRecipeViewModelFactory(interactor)
-        )[PopularRecipeViewModel::class.java]
+            RecipeViewModelFactory(interactor)
+        )[RecipeViewModel::class.java]
         binding?.rcview?.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity)
             adapter = popularRecipeAdapter
         }
 
-        popularRecipeViewModel!!.loadPopularRecipes()
+        popularRecipeViewModel!!.loadRecipes()
 
-        popularRecipeViewModel!!.popRecipes.observe(this@SearchActivity) { recipes ->
+        popularRecipeViewModel!!.recipes.observe(this@SearchActivity) { recipes ->
             recipes?.let {
                 Log.d("VVVVVV", recipes.toString())
                 popularRecipeAdapter!!.updateData(it)
@@ -84,53 +89,38 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
+        lifecycleScope.launch {
+            recipes = interactor.getRecipes()
+        }
 
-        // Set adapter to search recyclerView
-//        adapter = new SearchAdapter(dataPopular, getApplicationContext());
-//        rcview.setAdapter(adapter);
+        search?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
 
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            }
 
-        // Search from all recipes when Edittext data changed
-//        search.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                // Method required*
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                // Method required*
-//            }
-//
-////            @Override
-////            public void afterTextChanged(Editable s) {
-////
-////                if(!s.toString().equals("")){ // Search if new alphabet added
-////                    filter(s.toString());
-////                }
-////
-////
-////            }
-//        });
+            override fun afterTextChanged(s: Editable) {
+                filter(s.toString())
+            }
+        })
 
-
-        // Exit activity
-        backBtn?.setOnClickListener { v: View? ->
+        backBtn?.setOnClickListener {
             imm.hideSoftInputFromWindow(search?.windowToken, 0)
             finish()
         }
-    } // Filter the searched item from all recipes
-    //    public void filter(String text) {
-    //        List<User> filterList = new ArrayList<>();
-    //
-    //        for(int i = 0; i<recipes.size(); i++){ // Loop for check searched item in recipe list
-    //            if(recipes.get(i).getTittle().toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))){
-    //                filterList.add(recipes.get(i));
-    //            }
-    //        }
-    //
-    //        // Update search recyclerView with new item
-    //        adapter.filterList(filterList);
-    //
-    //    }
+    }
+
+    // Функция фильтрации данных
+    fun filter(text: String) {
+        val filteredList = ArrayList<Recipe>()
+
+        for (recipe in recipes) {
+            if (recipe.name.lowercase(Locale.ROOT).contains(text.lowercase(Locale.ROOT))) {
+                filteredList.add(recipe)
+            }
+        }
+
+        popularRecipeAdapter?.updateData(filteredList)
+    }
 }

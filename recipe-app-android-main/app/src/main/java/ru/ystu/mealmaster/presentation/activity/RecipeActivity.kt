@@ -140,13 +140,13 @@ class RecipeActivity : AppCompatActivity() {
         favIcon = findViewById(R.id.image_favourite)
         lifecycleScope.launch {
             currentUserUsername = interactor.getAccountInfo().username
+            Log.d("XYU", currentUserUsername.toString())
             currentUserRole = interactor.getCurrentUserRole()
-            if (currentUserRole != "ANONYMOUS") {
-                favIcon.setOnClickListener {
+
+            favIcon.setOnClickListener {
+                if (currentUserRole != "ANONYMOUS" && currentUserUsername != null) {
                     toggleFavourite()
-                }
-            } else {
-                favIcon.setOnClickListener {
+                } else {
                     val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
                     startActivity(intent)
                 }
@@ -343,7 +343,9 @@ class RecipeActivity : AppCompatActivity() {
         getRecipeById()
         setAllReviewsList()
         checkFavouriteStatusAndUpdateIcon()
+    }
 
+    private fun setupFavIconClickListener() {
         lifecycleScope.launch {
             currentUserUsername = interactor.getAccountInfo().username
             currentUserRole = interactor.getCurrentUserRole()
@@ -363,5 +365,6 @@ class RecipeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         reloadData()
+        setupFavIconClickListener()
     }
 }

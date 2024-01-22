@@ -50,7 +50,7 @@ class FavouriteRecipeActivity : AppCompatActivity() {
         interactor = RecipeInteractorImpl(repository)
 
         lifecycleScope.launch {
-            val belongsTo = interactor.getAccountInfo().username!!
+            val belongsTo = interactor.getAccountInfo()?.username!!
 
             favViewModel = ViewModelProvider(
                 this@FavouriteRecipeActivity,
@@ -79,7 +79,7 @@ class FavouriteRecipeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            val belongsTo = interactor.getAccountInfo().username!!
+            val belongsTo = interactor.getAccountInfo()?.username!!
 
             favViewModel = ViewModelProvider(
                 this@FavouriteRecipeActivity,

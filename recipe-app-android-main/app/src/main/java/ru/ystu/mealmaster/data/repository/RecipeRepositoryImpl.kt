@@ -266,13 +266,11 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 call: Call<ApiResponseDto<User>>,
                 response: Response<ApiResponseDto<User>>
             ) {
-                if ((response.isSuccessful || response.code() == 301 || response.code() == 302)) {
-                    callback(Result.success(response.body()?.response!!))
-                } else {
-                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
-                        response.errorBody()?.string()
-                    }"
-                    callback(Result.failure(Exception(errorMessage)))
+                try {
+                    if ((response.isSuccessful || response.code() == 301 || response.code() == 302)) {
+                        callback(Result.success(response.body()?.response!!))
+                    }
+                } catch (ignored: Exception) {
                 }
             }
 

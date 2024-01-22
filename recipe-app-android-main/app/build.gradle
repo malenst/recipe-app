@@ -18,10 +18,12 @@ android {
         //noinspection OldTargetApi
         targetSdk 33
         versionCode 1
-        versionName "1.8.0"
+        versionName "1.8.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        //buildConfigField 'String', 'BASE_PROTOCOL', '"https"'
+        //buildConfigField 'String', 'BASE_HOST', '"recipebookapi.onrender.com"'
         buildConfigField 'String', 'BASE_PROTOCOL', '"http"'
         buildConfigField 'String', 'BASE_HOST', '"10.0.2.2"'
         buildConfigField 'String', 'BASE_PORT', '"8080"'
