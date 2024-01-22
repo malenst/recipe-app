@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
@@ -31,7 +30,7 @@ import ru.ystu.mealmaster.presentation.viewmodel.ReviewViewModelFactory
 import ru.ystu.mealmaster.util.RecipeUtils
 import java.util.*
 
-class ModRecipeActivity : AppCompatActivity() {
+class OwnRecipeActivity : AppCompatActivity() {
     private var img: ImageView? = null
     private var rewievRecycleView: RecyclerView? = null
     private var backBtn: ImageView? = null
@@ -61,6 +60,7 @@ class ModRecipeActivity : AppCompatActivity() {
     private var ing_btn: Button? = null
     private var action_btn: Button? = null
     private var reject_btn: Button? = null
+    private lateinit var recipeId: UUID
 
     @Suppress("unused")
     var isImgCrop = false
@@ -128,18 +128,11 @@ class ModRecipeActivity : AppCompatActivity() {
 
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
-        Log.d("QWER", intent.getStringExtra("CHANGE_TYPE")!!)
+
         when (intent.getStringExtra("CHANGE_TYPE")) {
             "CREATE" -> {
-                Log.d("CREATE", "THIS IS CREATE")
-                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_add)
                 action_btn!!.text = ChangeType.CREATE.value
-
-                action_btn?.setOnClickListener {
-                    setActionButton("CREATE")
-                    intent = Intent(this@ModRecipeActivity, HomeActivity::class.java)
-                    this@ModRecipeActivity.startActivity(intent)
-                }
             }
 
             "UPDATE" -> {
@@ -160,6 +153,13 @@ class ModRecipeActivity : AppCompatActivity() {
         txt?.text = intent.getStringExtra("tittle")
 
         stepBtn?.background = null
+        action_btn?.background = ContextCompat.getDrawable(this, R.drawable.status_delete)
+        reject_btn?.background = ContextCompat.getDrawable(this, R.drawable.status_update)
+        reject_btn?.text = ContextCompat.getString(this, R.string.to_change)
+        action_btn?.text = ContextCompat.getString(this, R.string.to_delete)
+
+        recipeId = UUID.fromString(intent.extras?.getString("RECIPE_ID"))
+
         stepBtn?.setOnClickListener {
             stepBtn?.setBackgroundResource(R.drawable.btn_ing)
             stepBtn?.setTextColor(getColor(R.color.white))
@@ -177,42 +177,34 @@ class ModRecipeActivity : AppCompatActivity() {
             scrollView_step?.visibility = View.GONE
         }
 
-        backBtn?.setOnClickListener {
-            intent = Intent(this@ModRecipeActivity, HomeActivity::class.java)
-            this@ModRecipeActivity.startActivity(intent)
-        }
+        action_btn?.setOnClickListener {
+            lifecycleScope.launch {
+                try {
+                    recipeIdString = intent.extras?.getString("RECIPE_ID")
+                        ?: throw IllegalArgumentException("Recipe ID not found.")
 
-    }
-
-    private fun setActionButton(action: String) {
-        lifecycleScope.launch {
-            try {
-                recipeIdString = intent.extras?.getString("RECIPE_ID")
-                    ?: throw IllegalArgumentException("Recipe ID not found.")
-
-                when (action) {
-                    "CREATE" -> {
-                            interactor.approveCreateRecipe(UUID.fromString(recipeIdString))
-
-
-                    }
-
-                    "UPDATE" -> {
-                        interactor.approveCreateRecipe(UUID.fromString(recipeIdString))
-                    }
-
-                    "DELETE" -> {
-                        interactor.deleteRecipeById(UUID.fromString(recipeIdString))
-                    }
+                    interactor.deleteRecipeById(UUID.fromString(recipeIdString))
+                    Log.d("DELETE", "DELETE")
+                    intent = Intent(this@OwnRecipeActivity, AuthorRecipesActivity::class.java)
+                    this@OwnRecipeActivity.startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("RecipeLoadError", "Error loading recipe", e)
                 }
-
-                intent = Intent(this@ModRecipeActivity, MyRecipesActivity::class.java)
-                this@ModRecipeActivity.startActivity(intent)
-            } catch (e: Exception) {
-                Log.e("RecipeLoadError", "Error loading recipe", e)
             }
+
         }
+
+        reject_btn?.setOnClickListener {
+
+        }
+
+        backBtn?.setOnClickListener {
+            intent = Intent(this@OwnRecipeActivity, AuthorRecipesActivity::class.java)
+            this@OwnRecipeActivity.startActivity(intent)
+        }
+
     }
+
     private fun logViewToRecipeById() {
         lifecycleScope.launch {
             try {
@@ -283,11 +275,11 @@ class ModRecipeActivity : AppCompatActivity() {
         reviewAdapter = ReviewAdapter(emptyList())
 
         binding.reviewRecviewModerRecipe.apply {
-            layoutManager = LinearLayoutManager(this@ModRecipeActivity)
+            layoutManager = LinearLayoutManager(this@OwnRecipeActivity)
             adapter = reviewAdapter
         }
 
-        reviewViewModel.reviews.observe(this@ModRecipeActivity) { recipes ->
+        reviewViewModel.reviews.observe(this@OwnRecipeActivity) { recipes ->
             recipes?.let {
                 Log.d("GGG", it.toString())
                 reviewAdapter.updateData(it)

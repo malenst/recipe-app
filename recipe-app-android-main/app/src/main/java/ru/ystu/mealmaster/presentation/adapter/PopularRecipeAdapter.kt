@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.presentation.viewholder.PopViewHolder
+import ru.ystu.mealmaster.presentation.viewholder.PopularRecipeViewHolder
 
-class PopRecipeAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<PopViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopViewHolder {
+class PopularRecipeAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<PopularRecipeViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularRecipeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemView = inflater.inflate(R.layout.popular_list, parent, false)
-        return PopViewHolder(itemView)
+        return PopularRecipeViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: PopViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PopularRecipeViewHolder, position: Int) {
         val recipe = recipes[position]
         holder.bind(recipe)
     }

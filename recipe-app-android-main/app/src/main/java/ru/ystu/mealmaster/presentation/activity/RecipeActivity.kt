@@ -79,6 +79,7 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var dao: FavouriteRecipeDao
     private lateinit var favRepository: FavouriteRecipeRepository
     private lateinit var favInteractor: FavouriteRecipeInteractor
+    private var currentUserUsername: String? = null
     private var currentUserRole: String? = null
     private lateinit var favIcon: ImageView
 
@@ -138,14 +139,17 @@ class RecipeActivity : AppCompatActivity() {
 
         favIcon = findViewById(R.id.image_favourite)
         lifecycleScope.launch {
+            currentUserUsername = interactor.getAccountInfo().username
             currentUserRole = interactor.getCurrentUserRole()
             if (currentUserRole != "ANONYMOUS") {
                 favIcon.setOnClickListener {
                     toggleFavourite()
                 }
             } else {
-                val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
-                startActivity(intent)
+                favIcon.setOnClickListener {
+                    val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
 
@@ -225,6 +229,18 @@ class RecipeActivity : AppCompatActivity() {
                     time?.text = recipe.cookingTime
                     description?.text = recipe.description
                     author?.text = recipe.author
+                    author?.setOnClickListener {
+                        lifecycleScope.launch {
+                            if (currentUserUsername == author!!.text) {
+                                val intent = Intent(this@RecipeActivity, MyRecipesActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                val intent = Intent(this@RecipeActivity, AuthorRecipesActivity::class.java)
+                                intent.putExtra("AUTHOR_USERNAME", author!!.text)
+                                startActivity(intent)
+                            }
+                        }
+                    }
 
                     amount?.text = recipe.nutritionalInfo.amount.toString() + " "
                     measureUnit?.text = recipe.nutritionalInfo.measureUnit
@@ -329,14 +345,17 @@ class RecipeActivity : AppCompatActivity() {
         checkFavouriteStatusAndUpdateIcon()
 
         lifecycleScope.launch {
+            currentUserUsername = interactor.getAccountInfo().username
             currentUserRole = interactor.getCurrentUserRole()
             if (currentUserRole != "ANONYMOUS") {
                 favIcon.setOnClickListener {
                     toggleFavourite()
                 }
             } else {
-                val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
-                startActivity(intent)
+                favIcon.setOnClickListener {
+                    val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }

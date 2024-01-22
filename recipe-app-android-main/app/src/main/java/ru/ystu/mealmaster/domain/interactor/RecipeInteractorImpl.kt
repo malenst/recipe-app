@@ -39,12 +39,12 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun deleteRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
-        repository.getRecipeById(id) { result ->
+    override suspend fun deleteRecipeById(id: UUID) : Boolean = suspendCancellableCoroutine { continuation ->
+        repository.deleteRecipeById(id) { result ->
             if (result!!.isSuccess) {
-                continuation.resume(result.getOrNull() ?: throw RuntimeException("Recipe not found"))
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
             } else {
-                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Error fetching recipe by ID"))
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
             }
         }
     }
@@ -79,8 +79,8 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getRecipesByUser(username: String): List<Recipe> = suspendCoroutine { continuation ->
-        repository.getRecipesByUser(username) { result ->
+    override suspend fun getRecipesByUser(username: String, approvedOnly: Boolean): List<Recipe> = suspendCoroutine { continuation ->
+        repository.getRecipesByUser(username, approvedOnly) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
             } else {
@@ -165,6 +165,46 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
                 continuation.resume(result.getOrNull()!!)
             } else {
                 continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to log view to recipe"))
+            }
+        }
+    }
+
+    override suspend fun approveCreateRecipe(recipeId: UUID) : Boolean = suspendCancellableCoroutine { continuation ->
+        repository.approveCreateRecipe(recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
+
+    override suspend fun rejectCreateRecipe(recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.rejectCreateRecipe(recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
+
+    override suspend fun approveUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.approveUpdateOrDeleteRecipe(isDraft, recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
+
+    override suspend fun rejectUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.rejectUpdateOrDeleteRecipe(isDraft, recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
             }
         }
     }

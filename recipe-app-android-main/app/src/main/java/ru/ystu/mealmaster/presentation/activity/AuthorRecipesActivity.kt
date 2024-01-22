@@ -13,18 +13,15 @@ import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivitySearchBinding
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.presentation.adapter.MyRecipesAdapter
-import ru.ystu.mealmaster.presentation.viewmodel.AccountInfoViewModel
-import ru.ystu.mealmaster.presentation.viewmodel.AccountInfoViewModelFactory
 import ru.ystu.mealmaster.presentation.viewmodel.MyRecipesViewModel
 import ru.ystu.mealmaster.presentation.viewmodel.MyRecipesViewModelFactory
 
-class MyRecipesActivity : AppCompatActivity() {
+class AuthorRecipesActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private lateinit var activityAuthorRecipesTittleTextView: TextView
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var myRecipesAdapter: MyRecipesAdapter
-    private lateinit var myRecipesViewModel: MyRecipesViewModel
-    private lateinit var accountInfoViewModel: AccountInfoViewModel
+    private lateinit var authorRecipesAdapter: MyRecipesAdapter
+    private lateinit var authorRecipesViewModel: MyRecipesViewModel
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,33 +39,29 @@ class MyRecipesActivity : AppCompatActivity() {
         val repository = RecipeRepositoryImpl(api, this)
         val interactor = RecipeInteractorImpl(repository)
 
-        accountInfoViewModel = ViewModelProvider(
+        authorRecipesAdapter = MyRecipesAdapter(emptyList())
+
+        val authorUsername = intent.getStringExtra("AUTHOR_USERNAME")
+        if (authorUsername != null) {
+            username = authorUsername
+            activityAuthorRecipesTittleTextView.text = getString(R.string.author_recipes_text) + " $username"
+        }
+
+        authorRecipesViewModel = ViewModelProvider(
             this,
-            AccountInfoViewModelFactory(interactor)
-        )[AccountInfoViewModel::class.java]
-
-        myRecipesAdapter = MyRecipesAdapter(emptyList())
-
-        accountInfoViewModel.loadAccountInfo()
-        accountInfoViewModel.accountInfo.observe(this) { account ->
-            username = account.username!!
-            activityAuthorRecipesTittleTextView.text = getString(R.string.my_recipes)
-            myRecipesViewModel = ViewModelProvider(
-                this,
-                MyRecipesViewModelFactory(interactor, username, false)
-            )[MyRecipesViewModel::class.java]
+            MyRecipesViewModelFactory(interactor, username, true)
+        )[MyRecipesViewModel::class.java]
 
 
-            myRecipesViewModel.recipesByUser.observe(this@MyRecipesActivity) { recipes ->
-                recipes?.let {
-                    myRecipesAdapter.updateData(it)
-                }
+        authorRecipesViewModel.recipesByUser.observe(this@AuthorRecipesActivity) { recipes ->
+            recipes?.let {
+                authorRecipesAdapter.updateData(it)
             }
         }
 
         binding.rcview.apply {
-            layoutManager = LinearLayoutManager(this@MyRecipesActivity)
-            adapter = myRecipesAdapter
+            layoutManager = LinearLayoutManager(this@AuthorRecipesActivity)
+            adapter = authorRecipesAdapter
         }
 
         val backBtn: ImageView = findViewById(R.id.back_to_home)

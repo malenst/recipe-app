@@ -20,13 +20,13 @@ interface RecipeApiService {
     fun getRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
 
     @DELETE("recipe/{id}")
-    fun deleteRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
+    fun deleteRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Boolean>>
 
     @GET("recipe")
     fun getRecipesByCategory(@Query("category") category : String) : Call<ApiResponseDto<List<Recipe>>>
 
     @GET("user/@{username}/recipe")
-    fun getRecipesByUser(@Path("username") username: String) : Call<ApiResponseDto<List<Recipe>>>
+    fun getRecipesByUser(@Path("username") username: String, @Query("approvedOnly") approvedOnly: Boolean) : Call<ApiResponseDto<List<Recipe>>>
 
     @GET("category")
     fun getCategories() : Call<ApiResponseDto<List<Category>>>
@@ -71,4 +71,16 @@ interface RecipeApiService {
 
     @POST("log/recipe/{id}")
     fun logViewToRecipeById(@Path("id") id : UUID) : Call<ApiResponseDto<Recipe>>
+
+    @POST("/moderation/recipe/{recipeId}/approve")
+    fun approveCreate(@Path("recipeId") id : UUID) : Call<ApiResponseDto<Boolean>>
+
+    @POST("/moderation/recipe/{recipeId}/reject")
+    fun rejectCreate(@Path("recipeId") id : UUID) : Call<ApiResponseDto<Boolean>>
+
+    @POST("/moderation/recipe/{recipeId}/approve")
+    fun approveUpdateOrDelete(@Body isDraft: Boolean, @Path("recipeId") id : UUID) : Call<ApiResponseDto<Boolean>>
+
+    @POST("/moderation/recipe/{recipeId}/reject")
+    fun rejectUpdateOrDelete(@Body isDraft: Boolean, @Path("recipeId") id : UUID) : Call<ApiResponseDto<Boolean>>
 }

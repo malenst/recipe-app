@@ -17,6 +17,7 @@ import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.domain.enumeration.ChangeType
 import ru.ystu.mealmaster.presentation.activity.AddReviewActivity
 import ru.ystu.mealmaster.presentation.activity.ModRecipeActivity
+import ru.ystu.mealmaster.presentation.activity.OwnRecipeActivity
 
 class MyRecipesViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val nameTextView = itemView.findViewById<TextView>(R.id.search_txt)
@@ -32,7 +33,7 @@ class MyRecipesViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
         context = itemView.context
 
         itemView.setOnClickListener {
-            intent = Intent(context, ModRecipeActivity::class.java)
+            intent = Intent(context, OwnRecipeActivity::class.java)
             intent.putExtra("RECIPE_ID", recipe.id.toString())
             intent.putExtra("CHANGE_TYPE", recipe.changeType.toString())
             context.startActivity(intent)

@@ -13,10 +13,11 @@ import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.domain.Recipe
 import ru.ystu.mealmaster.presentation.activity.RecipeActivity
 
-class PopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class PopularRecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val nameTextView = itemView.findViewById<TextView>(R.id.popular_txt)
     private val avgRating = itemView.findViewById<TextView>(R.id.list_rating)
+    private val viewsTextView = itemView.findViewById<TextView>(R.id.popular_recipeViewText)
     private val cookingTimeTextView = itemView.findViewById<TextView>(R.id.popular_time)
     private val imageView = itemView.findViewById<ImageView>(R.id.popular_img)
 
@@ -30,6 +31,7 @@ class PopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
 
         nameTextView.text = recipe.name
+        viewsTextView.text = recipe.views.toString()
 
         if (recipe.reviews.isNullOrEmpty()) {
             avgRating.visibility = View.GONE

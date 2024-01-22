@@ -80,6 +80,25 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
+    override fun deleteRecipeById(id: UUID, callback: (Result<Boolean>?) -> Unit) {
+        api.deleteRecipeById(id).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Boolean>>,
+                response: Response<ApiResponseDto<Boolean>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Boolean>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
 
     override fun getTop10Recipes(callback: (Result<List<Recipe>>?) -> Unit) {
         api.getTop10Recipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
@@ -138,8 +157,8 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
-    override fun getRecipesByUser(username: String, callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getRecipesByUser(username).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getRecipesByUser(username: String, approvedOnly: Boolean, callback: (Result<List<Recipe>>?) -> Unit) {
+        api.getRecipesByUser(username, approvedOnly).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<List<Recipe>>>,
                 response: Response<ApiResponseDto<List<Recipe>>>
@@ -345,6 +364,90 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
             }
 
             override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
+    override fun approveCreateRecipe(recipeId: UUID, callback: (Result<Boolean>?) -> Unit) {
+        api.approveCreate(recipeId).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Boolean>>,
+                response: Response<ApiResponseDto<Boolean>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Boolean>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
+    override fun rejectCreateRecipe(recipeId: UUID, callback: (Result<Boolean>?) -> Unit) {
+        api.rejectCreate(recipeId).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Boolean>>,
+                response: Response<ApiResponseDto<Boolean>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Boolean>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
+    override fun approveUpdateOrDeleteRecipe(
+        isDraft: Boolean,
+        recipeId: UUID,
+        callback: (Result<Boolean>?) -> Unit
+    ) {
+        api.approveUpdateOrDelete(isDraft, recipeId).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Boolean>>,
+                response: Response<ApiResponseDto<Boolean>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Boolean>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
+    override fun rejectUpdateOrDeleteRecipe(
+        isDraft: Boolean,
+        recipeId: UUID,
+        callback: (Result<Boolean>?) -> Unit
+    ) {
+        api.rejectUpdateOrDelete(isDraft, recipeId).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Boolean>>,
+                response: Response<ApiResponseDto<Boolean>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Boolean>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
