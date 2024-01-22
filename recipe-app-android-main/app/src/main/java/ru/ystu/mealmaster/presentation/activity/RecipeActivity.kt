@@ -144,8 +144,10 @@ class RecipeActivity : AppCompatActivity() {
                     toggleFavourite()
                 }
             } else {
-                val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
-                startActivity(intent)
+                favIcon.setOnClickListener {
+                    val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
 
@@ -335,8 +337,10 @@ class RecipeActivity : AppCompatActivity() {
                     toggleFavourite()
                 }
             } else {
-                val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
-                startActivity(intent)
+                favIcon.setOnClickListener {
+                    val intent = Intent(this@RecipeActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }
