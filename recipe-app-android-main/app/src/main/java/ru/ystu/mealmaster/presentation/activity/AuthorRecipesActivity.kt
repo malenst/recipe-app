@@ -44,7 +44,7 @@ class AuthorRecipesActivity : AppCompatActivity() {
         val authorUsername = intent.getStringExtra("AUTHOR_USERNAME")
         if (authorUsername != null) {
             username = authorUsername
-            activityAuthorRecipesTittleTextView.text = getString(R.string.author_recipes_text) + " $username"
+//            activityAuthorRecipesTittleTextView.text = getString(R.string.author_recipes_text) + " $username"
         }
 
         authorRecipesViewModel = ViewModelProvider(

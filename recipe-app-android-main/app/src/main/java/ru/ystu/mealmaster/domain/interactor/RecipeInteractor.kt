@@ -22,6 +22,6 @@ interface RecipeInteractor {
     suspend fun logViewToRecipeById(id: UUID): Recipe
     suspend fun approveCreateRecipe(recipeId: UUID): Boolean
     suspend fun rejectCreateRecipe(recipeId: UUID): Boolean
-    suspend fun approveUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean
-    suspend fun rejectUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean
+    suspend fun approveUpdateOrDeleteRecipe(recipeId: UUID, isDraft: Boolean): Boolean
+    suspend fun rejectUpdateOrDeleteRecipe(recipeId: UUID, isDraft: Boolean): Boolean
 }

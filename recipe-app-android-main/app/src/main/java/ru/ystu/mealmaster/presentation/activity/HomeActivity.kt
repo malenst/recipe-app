@@ -113,7 +113,6 @@ class HomeActivity : AppCompatActivity() {
 
         // Open search activity
         editText!!.setOnClickListener {
-            Log.d("FDS", "FDS")
             val intent = Intent(this@HomeActivity, SearchActivity::class.java)
             startActivity(intent)
         }

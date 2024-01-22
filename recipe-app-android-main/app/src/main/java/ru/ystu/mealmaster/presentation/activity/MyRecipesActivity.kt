@@ -20,7 +20,7 @@ import ru.ystu.mealmaster.presentation.viewmodel.MyRecipesViewModelFactory
 
 class MyRecipesActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
-    private lateinit var activityAuthorRecipesTittleTextView: TextView
+//    private lateinit var activityAuthorRecipesTittleTextView: TextView
     private lateinit var binding: ActivitySearchBinding
     private lateinit var myRecipesAdapter: MyRecipesAdapter
     private lateinit var myRecipesViewModel: MyRecipesViewModel
