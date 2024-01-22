@@ -26,7 +26,7 @@ interface RecipeApiService {
     fun getRecipesByCategory(@Query("category") category : String) : Call<ApiResponseDto<List<Recipe>>>
 
     @GET("user/@{username}/recipe")
-    fun getRecipesByUser(@Path("username") username: String) : Call<ApiResponseDto<List<Recipe>>>
+    fun getRecipesByUser(@Path("username") username: String, @Query("approvedOnly") approvedOnly: Boolean) : Call<ApiResponseDto<List<Recipe>>>
 
     @GET("category")
     fun getCategories() : Call<ApiResponseDto<List<Category>>>

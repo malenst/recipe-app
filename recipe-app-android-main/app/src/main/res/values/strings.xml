@@ -78,7 +78,7 @@
     <string name="add_step_btn_text">Добавить шаг</string>
     <string name="nutritional_unit">Единица измерения</string>
     <string name="rating_add">Оставить отзыв</string>
-    <string name="my_recepies">Мои рецепты</string>
+    <string name="my_recipes">Мои рецепты</string>
     <string name="logout">Выйти из аккаунта</string>
     <string name="upload_image_text">Загрузите изображение\n</string>
     <string name="upload_image_description">Загрузка картинки</string>
@@ -96,6 +96,7 @@
     <string name="favourite_text">Избранное</string>
     <string name="to_change">Изменение</string>
     <string name="to_delete">Удаление</string>
+    <string name="author_recipes_text">Рецепты пользователя</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>

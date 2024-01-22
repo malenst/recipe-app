@@ -157,8 +157,8 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
-    override fun getRecipesByUser(username: String, callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getRecipesByUser(username).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getRecipesByUser(username: String, approvedOnly: Boolean, callback: (Result<List<Recipe>>?) -> Unit) {
+        api.getRecipesByUser(username, approvedOnly).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<List<Recipe>>>,
                 response: Response<ApiResponseDto<List<Recipe>>>

@@ -79,8 +79,8 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getRecipesByUser(username: String): List<Recipe> = suspendCoroutine { continuation ->
-        repository.getRecipesByUser(username) { result ->
+    override suspend fun getRecipesByUser(username: String, approvedOnly: Boolean): List<Recipe> = suspendCoroutine { continuation ->
+        repository.getRecipesByUser(username, approvedOnly) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
             } else {

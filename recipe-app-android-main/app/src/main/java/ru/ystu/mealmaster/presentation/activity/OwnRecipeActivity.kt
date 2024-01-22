@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
@@ -186,7 +185,7 @@ class OwnRecipeActivity : AppCompatActivity() {
 
                     interactor.deleteRecipeById(UUID.fromString(recipeIdString))
                     Log.d("DELETE", "DELETE")
-                    intent = Intent(this@OwnRecipeActivity, MyRecipesActivity::class.java)
+                    intent = Intent(this@OwnRecipeActivity, AuthorRecipesActivity::class.java)
                     this@OwnRecipeActivity.startActivity(intent)
                 } catch (e: Exception) {
                     Log.e("RecipeLoadError", "Error loading recipe", e)
@@ -200,7 +199,7 @@ class OwnRecipeActivity : AppCompatActivity() {
         }
 
         backBtn?.setOnClickListener {
-            intent = Intent(this@OwnRecipeActivity, MyRecipesActivity::class.java)
+            intent = Intent(this@OwnRecipeActivity, AuthorRecipesActivity::class.java)
             this@OwnRecipeActivity.startActivity(intent)
         }
 
