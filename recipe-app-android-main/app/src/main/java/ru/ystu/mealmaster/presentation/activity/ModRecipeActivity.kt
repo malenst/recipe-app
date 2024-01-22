@@ -128,11 +128,18 @@ class ModRecipeActivity : AppCompatActivity() {
 
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
-
+        Log.d("QWER", intent.getStringExtra("CHANGE_TYPE")!!)
         when (intent.getStringExtra("CHANGE_TYPE")) {
             "CREATE" -> {
-                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_add)
+                Log.d("CREATE", "THIS IS CREATE")
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
                 action_btn!!.text = ChangeType.CREATE.value
+
+                action_btn?.setOnClickListener {
+                    setActionButton("CREATE")
+                    intent = Intent(this@ModRecipeActivity, HomeActivity::class.java)
+                    this@ModRecipeActivity.startActivity(intent)
+                }
             }
 
             "UPDATE" -> {
@@ -177,6 +184,35 @@ class ModRecipeActivity : AppCompatActivity() {
 
     }
 
+    private fun setActionButton(action: String) {
+        lifecycleScope.launch {
+            try {
+                recipeIdString = intent.extras?.getString("RECIPE_ID")
+                    ?: throw IllegalArgumentException("Recipe ID not found.")
+
+                when (action) {
+                    "CREATE" -> {
+                            interactor.approveCreateRecipe(UUID.fromString(recipeIdString))
+
+
+                    }
+
+                    "UPDATE" -> {
+                        interactor.approveCreateRecipe(UUID.fromString(recipeIdString))
+                    }
+
+                    "DELETE" -> {
+                        interactor.deleteRecipeById(UUID.fromString(recipeIdString))
+                    }
+                }
+
+                intent = Intent(this@ModRecipeActivity, MyRecipesActivity::class.java)
+                this@ModRecipeActivity.startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("RecipeLoadError", "Error loading recipe", e)
+            }
+        }
+    }
     private fun logViewToRecipeById() {
         lifecycleScope.launch {
             try {

@@ -168,4 +168,44 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
             }
         }
     }
+
+    override suspend fun approveCreateRecipe(recipeId: UUID) : Boolean = suspendCancellableCoroutine { continuation ->
+        repository.approveCreateRecipe(recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
+
+    override suspend fun rejectCreateRecipe(recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.rejectCreateRecipe(recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
+
+    override suspend fun approveUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.approveUpdateOrDeleteRecipe(isDraft, recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
+
+    override suspend fun rejectUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.rejectUpdateOrDeleteRecipe(isDraft, recipeId) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
+            }
+        }
+    }
 }
