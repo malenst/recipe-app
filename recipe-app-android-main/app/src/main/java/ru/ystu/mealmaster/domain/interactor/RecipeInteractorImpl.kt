@@ -39,12 +39,12 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun deleteRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
-        repository.getRecipeById(id) { result ->
+    override suspend fun deleteRecipeById(id: UUID) : Boolean = suspendCancellableCoroutine { continuation ->
+        repository.deleteRecipeById(id) { result ->
             if (result!!.isSuccess) {
-                continuation.resume(result.getOrNull() ?: throw RuntimeException("Recipe not found"))
+                continuation.resume(result.getOrNull() ?: throw RuntimeException())
             } else {
-                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Error fetching recipe by ID"))
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Failed to load top 10 recipes"))
             }
         }
     }

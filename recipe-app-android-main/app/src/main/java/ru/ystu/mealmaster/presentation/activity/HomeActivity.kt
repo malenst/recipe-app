@@ -273,6 +273,8 @@ class HomeActivity : AppCompatActivity() {
         logout.setOnClickListener {
             lifecycleScope.launch {
                 interactor.logout()
+                val intent = Intent(this@HomeActivity, HomeActivity::class.java)
+                startActivity(intent)
             }
         }
 

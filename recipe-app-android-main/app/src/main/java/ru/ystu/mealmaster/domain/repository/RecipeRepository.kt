@@ -7,6 +7,7 @@ interface RecipeRepository {
     fun getRecipes(callback: (Result<List<Recipe>>?) -> Unit)
     fun getUncheckedRecipes(callback: (Result<List<Recipe>>?) -> Unit)
     fun getRecipeById(id: UUID, callback: (Result<Recipe>?) -> Unit)
+    fun deleteRecipeById(id: UUID, callback: (Result<Boolean>?) -> Unit)
     fun getTop10Recipes(callback: (Result<List<Recipe>>?) -> Unit)
     fun getCategories(callback: (Result<List<Category>>?) -> Unit)
     fun getRecipesByCategory(category: String, callback: (Result<List<Recipe>>?) -> Unit)

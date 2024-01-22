@@ -94,6 +94,8 @@
     <string name="calories">Калории</string>
     <string name="_1000">1000</string>
     <string name="favourite_text">Избранное</string>
+    <string name="to_change">Изменение</string>
+    <string name="to_delete">Удаление</string>
     <string-array name="nutritional_units">
         <item>шт.</item>
         <item>г</item>

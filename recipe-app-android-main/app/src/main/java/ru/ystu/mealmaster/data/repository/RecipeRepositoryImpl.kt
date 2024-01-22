@@ -80,6 +80,25 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
+    override fun deleteRecipeById(id: UUID, callback: (Result<Boolean>?) -> Unit) {
+        api.deleteRecipeById(id).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Boolean>>,
+                response: Response<ApiResponseDto<Boolean>>
+            ) {
+                if (response.isSuccessful) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Boolean>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
 
     override fun getTop10Recipes(callback: (Result<List<Recipe>>?) -> Unit) {
         api.getTop10Recipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
