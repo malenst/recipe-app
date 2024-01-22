@@ -299,6 +299,25 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
+    override fun updateRecipe(recipeId: UUID, recipe: RecipeData, callback: (Result<Recipe>?) -> Unit) {
+        api.updateRecipe(recipeId, recipe).enqueue(object : Callback<ApiResponseDto<Recipe>> {
+            override fun onResponse(
+                call: Call<ApiResponseDto<Recipe>>,
+                response: Response<ApiResponseDto<Recipe>>
+            ) {
+                if (response.isSuccessful || response.code() == 201 || response.code() == 301 || response.code() == 302) {
+                    callback(Result.success(response.body()!!.response))
+                } else {
+                    callback(Result.failure(Exception("Ошибка запроса: ${response.message()}")))
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+                callback(Result.failure(t))
+            }
+        })
+    }
+
     override fun getCurrentUserRole(callback: (Result<String>) -> Unit) {
         api.getCurrentUserRole().enqueue(object : Callback<ApiResponseDto<String>> {
             override fun onResponse(
