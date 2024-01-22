@@ -91,7 +91,7 @@ class HomeActivity : AppCompatActivity() {
         recyclerViewHome = findViewById(R.id.recview)
         popRecyclerViewHome = findViewById(R.id.rcview_popular)
         lottie = findViewById(R.id.lottie)
-        editText = findViewById(R.id.editText)
+        editText = findViewById(R.id.search_edit_text)
 
         // Set all recipes
         setAllRecipesList()

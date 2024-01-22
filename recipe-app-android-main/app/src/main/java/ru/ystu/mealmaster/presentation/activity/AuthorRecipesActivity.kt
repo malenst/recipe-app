@@ -31,7 +31,7 @@ class AuthorRecipesActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        activityAuthorRecipesTittleTextView = findViewById(R.id.activitySearchTittle)
+//        activityAuthorRecipesTittleTextView = findViewById(R.id.activitySearchTittle)
         recyclerView = findViewById(R.id.rcview)
 
         RecipeApi.init(this)
@@ -44,7 +44,7 @@ class AuthorRecipesActivity : AppCompatActivity() {
         val authorUsername = intent.getStringExtra("AUTHOR_USERNAME")
         if (authorUsername != null) {
             username = authorUsername
-            activityAuthorRecipesTittleTextView.text = getString(R.string.author_recipes_text) + " $username"
+//            activityAuthorRecipesTittleTextView.text = getString(R.string.author_recipes_text) + " $username"
         }
 
         authorRecipesViewModel = ViewModelProvider(

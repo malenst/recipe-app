@@ -3,6 +3,7 @@ package ru.ystu.mealmaster.presentation.viewholder
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -31,17 +32,20 @@ class ModerationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(recipe: Recipe) {
         context = itemView.context
 
-        itemView.setOnClickListener {
-            intent = Intent(context, ModRecipeActivity::class.java)
-            intent.putExtra("RECIPE_ID", recipe.id.toString())
-            intent.putExtra("CHANGE_TYPE", recipe.changeType.toString())
-            context.startActivity(intent)
-        }
+
 
         nameTextView.text = recipe.name
         cookingTimeTextView.text = recipe.cookingTime
 
         val recipeChangeType = recipe.changeType ?: ChangeType.CREATE
+
+        itemView.setOnClickListener {
+            intent = Intent(context, ModRecipeActivity::class.java)
+            intent.putExtra("RECIPE_ID", recipe.id.toString())
+            Log.d("HREN", recipeChangeType.toString())
+            intent.putExtra("CHANGE_TYPE", recipeChangeType.toString())
+            context.startActivity(intent)
+        }
 
         val moderationChangeType = itemView.findViewById<TextView>(R.id.listModerationChangeType)
         val layout = itemView.findViewById<ConstraintLayout>(R.id.constraintLayoutModerationStatus)

@@ -22,6 +22,6 @@ interface RecipeRepository {
     fun logViewToRecipeById(id: UUID, callback: (Result<Recipe>) -> Unit)
     fun approveCreateRecipe(recipeId: UUID, callback: (Result<Boolean>?) -> Unit)
     fun rejectCreateRecipe(recipeId: UUID, callback: (Result<Boolean>?) -> Unit)
-    fun approveUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID, callback: (Result<Boolean>?) -> Unit)
-    fun rejectUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID, callback: (Result<Boolean>?) -> Unit)
+    fun approveUpdateOrDeleteRecipe(recipeId: UUID, isDraft: Boolean, callback: (Result<Boolean>?) -> Unit)
+    fun rejectUpdateOrDeleteRecipe(recipeId: UUID, isDraft: Boolean, callback: (Result<Boolean>?) -> Unit)
 }

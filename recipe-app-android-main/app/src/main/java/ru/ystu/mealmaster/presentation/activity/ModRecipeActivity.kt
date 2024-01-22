@@ -129,29 +129,43 @@ class ModRecipeActivity : AppCompatActivity() {
         //        scroll = findViewById(R.id.scroll);
 //        zoomImage = findViewById(R.id.zoom_image);
         Log.d("QWER", intent.getStringExtra("CHANGE_TYPE")!!)
-        when (intent.getStringExtra("CHANGE_TYPE")) {
-            "CREATE" -> {
-                Log.d("CREATE", "THIS IS CREATE")
-                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
-                action_btn!!.text = ChangeType.CREATE.value
-
-                action_btn?.setOnClickListener {
-                    setActionButton("CREATE")
-                    intent = Intent(this@ModRecipeActivity, HomeActivity::class.java)
-                    this@ModRecipeActivity.startActivity(intent)
-                }
-            }
-
-            "UPDATE" -> {
-                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
-                action_btn!!.text = ChangeType.UPDATE.value
-            }
-
-            "DELETE" -> {
-                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_delete)
-                action_btn!!.text = ChangeType.DELETE.value
-            }
-        }
+        val changeType: String = intent.getStringExtra("CHANGE_TYPE").toString()
+        setListenersOnClicks(changeType)
+//        when (intent.getStringExtra("CHANGE_TYPE")) {
+//            "CREATE" -> {
+//                Log.d("CREATE", "THIS IS CREATE")
+//                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_add)
+//                action_btn!!.text = ChangeType.CREATE.value
+//
+//                action_btn?.setOnClickListener {
+//                    setActionButton("CREATE")
+//                    intent = Intent(this@ModRecipeActivity, ModerationActivity::class.java)
+//                    this@ModRecipeActivity.startActivity(intent)
+//                }
+//            }
+//
+//            "UPDATE" -> {
+//                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
+//                action_btn!!.text = ChangeType.UPDATE.value
+//
+//                action_btn?.setOnClickListener {
+//                    setActionButton("UPDATE")
+//                    intent = Intent(this@ModRecipeActivity, ModerationActivity::class.java)
+//                    this@ModRecipeActivity.startActivity(intent)
+//                }
+//            }
+//
+//            "DELETE" -> {
+//                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_delete)
+//                action_btn!!.text = ChangeType.DELETE.value
+//
+//                action_btn?.setOnClickListener {
+//                    setActionButton("DELETE")
+//                    intent = Intent(this@ModRecipeActivity, ModerationActivity::class.java)
+//                    this@ModRecipeActivity.startActivity(intent)
+//                }
+//            }
+//        }
 
         // Load recipe image from link
         Glide.with(applicationContext).load(intent.getStringExtra("img"))
@@ -184,6 +198,35 @@ class ModRecipeActivity : AppCompatActivity() {
 
     }
 
+    private fun setListenersOnClicks(changeType: String) {
+        when(changeType) {
+            "CREATE" -> {
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_add)
+                action_btn!!.text = ChangeType.CREATE.value
+            }
+            "UPDATE" -> {
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_update)
+                action_btn!!.text = ChangeType.UPDATE.value
+            }
+            "DELETE" -> {
+                action_btn!!.background = ContextCompat.getDrawable(this, R.drawable.status_delete)
+                action_btn!!.text = ChangeType.DELETE.value
+            }
+        }
+
+        action_btn?.setOnClickListener {
+            setActionButton(changeType)
+            intent = Intent(this@ModRecipeActivity, ModerationActivity::class.java)
+            this@ModRecipeActivity.startActivity(intent)
+        }
+
+        reject_btn?.setOnClickListener {
+            setRejectButton(changeType)
+            intent = Intent(this@ModRecipeActivity, ModerationActivity::class.java)
+            this@ModRecipeActivity.startActivity(intent)
+        }
+    }
+
     private fun setActionButton(action: String) {
         lifecycleScope.launch {
             try {
@@ -193,21 +236,31 @@ class ModRecipeActivity : AppCompatActivity() {
                 when (action) {
                     "CREATE" -> {
                             interactor.approveCreateRecipe(UUID.fromString(recipeIdString))
-
-
                     }
-
-                    "UPDATE" -> {
-                        interactor.approveCreateRecipe(UUID.fromString(recipeIdString))
-                    }
-
-                    "DELETE" -> {
-                        interactor.deleteRecipeById(UUID.fromString(recipeIdString))
+                    "UPDATE", "DELETE" -> {
+                        interactor.approveUpdateOrDeleteRecipe(UUID.fromString(recipeIdString), true)
                     }
                 }
+            } catch (e: Exception) {
+                Log.e("RecipeLoadError", "Error loading recipe", e)
+            }
+        }
+    }
 
-                intent = Intent(this@ModRecipeActivity, MyRecipesActivity::class.java)
-                this@ModRecipeActivity.startActivity(intent)
+    private fun setRejectButton(action: String) {
+        lifecycleScope.launch {
+            try {
+                recipeIdString = intent.extras?.getString("RECIPE_ID")
+                    ?: throw IllegalArgumentException("Recipe ID not found.")
+
+                when (action) {
+                    "CREATE" -> {
+                            interactor.rejectCreateRecipe(UUID.fromString(recipeIdString))
+                    }
+                    "UPDATE", "DELETE" -> {
+                        interactor.rejectUpdateOrDeleteRecipe(UUID.fromString(recipeIdString), true)
+                    }
+                }
             } catch (e: Exception) {
                 Log.e("RecipeLoadError", "Error loading recipe", e)
             }

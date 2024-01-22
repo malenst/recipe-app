@@ -185,7 +185,7 @@ class OwnRecipeActivity : AppCompatActivity() {
 
                     interactor.deleteRecipeById(UUID.fromString(recipeIdString))
                     Log.d("DELETE", "DELETE")
-                    intent = Intent(this@OwnRecipeActivity, AuthorRecipesActivity::class.java)
+                    intent = Intent(this@OwnRecipeActivity, MyRecipesActivity::class.java)
                     this@OwnRecipeActivity.startActivity(intent)
                 } catch (e: Exception) {
                     Log.e("RecipeLoadError", "Error loading recipe", e)
@@ -199,7 +199,7 @@ class OwnRecipeActivity : AppCompatActivity() {
         }
 
         backBtn?.setOnClickListener {
-            intent = Intent(this@OwnRecipeActivity, AuthorRecipesActivity::class.java)
+            intent = Intent(this@OwnRecipeActivity, MyRecipesActivity::class.java)
             this@OwnRecipeActivity.startActivity(intent)
         }
 

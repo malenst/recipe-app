@@ -512,7 +512,8 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="visible"/>
 
                 <Button
                     android:id="@+id/decline_btn_moderRecipe"

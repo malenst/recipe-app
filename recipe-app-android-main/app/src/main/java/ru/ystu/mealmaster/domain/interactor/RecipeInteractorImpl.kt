@@ -189,8 +189,8 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun approveUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
-        repository.approveUpdateOrDeleteRecipe(isDraft, recipeId) { result ->
+    override suspend fun approveUpdateOrDeleteRecipe(recipeId: UUID, isDraft: Boolean): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.approveUpdateOrDeleteRecipe(recipeId, isDraft) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: throw RuntimeException())
             } else {
@@ -199,8 +199,8 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun rejectUpdateOrDeleteRecipe(isDraft: Boolean, recipeId: UUID): Boolean = suspendCancellableCoroutine { continuation ->
-        repository.rejectUpdateOrDeleteRecipe(isDraft, recipeId) { result ->
+    override suspend fun rejectUpdateOrDeleteRecipe(recipeId: UUID, isDraft: Boolean): Boolean = suspendCancellableCoroutine { continuation ->
+        repository.rejectUpdateOrDeleteRecipe(recipeId, isDraft) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: throw RuntimeException())
             } else {

@@ -408,11 +408,11 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
     }
 
     override fun approveUpdateOrDeleteRecipe(
-        isDraft: Boolean,
         recipeId: UUID,
+        isDraft: Boolean,
         callback: (Result<Boolean>?) -> Unit
     ) {
-        api.approveUpdateOrDelete(isDraft, recipeId).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+        api.approveUpdateOrDelete(recipeId, isDraft).enqueue(object : Callback<ApiResponseDto<Boolean>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<Boolean>>,
                 response: Response<ApiResponseDto<Boolean>>
@@ -431,11 +431,11 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
     }
 
     override fun rejectUpdateOrDeleteRecipe(
-        isDraft: Boolean,
         recipeId: UUID,
+        isDraft: Boolean,
         callback: (Result<Boolean>?) -> Unit
     ) {
-        api.rejectUpdateOrDelete(isDraft, recipeId).enqueue(object : Callback<ApiResponseDto<Boolean>> {
+        api.rejectUpdateOrDelete(recipeId, isDraft).enqueue(object : Callback<ApiResponseDto<Boolean>> {
             override fun onResponse(
                 call: Call<ApiResponseDto<Boolean>>,
                 response: Response<ApiResponseDto<Boolean>>
