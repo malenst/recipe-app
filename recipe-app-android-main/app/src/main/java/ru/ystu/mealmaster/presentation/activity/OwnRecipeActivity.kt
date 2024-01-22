@@ -59,7 +59,7 @@ class OwnRecipeActivity : AppCompatActivity() {
     private var stepBtn: Button? = null
     private var ing_btn: Button? = null
     private var action_btn: Button? = null
-    private var reject_btn: Button? = null
+    private var upd_btn: Button? = null
     private lateinit var recipeId: UUID
 
     @Suppress("unused")
@@ -120,7 +120,7 @@ class OwnRecipeActivity : AppCompatActivity() {
         overlay = findViewById(R.id.image_gradient_moderRecipe)
         rewievRecycleView = findViewById(R.id.review_recview_moderRecipe)
         action_btn = findViewById(R.id.accept_btn_moderRecipe)
-        reject_btn = findViewById(R.id.decline_btn_moderRecipe)
+        upd_btn = findViewById(R.id.decline_btn_moderRecipe)
 
         Log.d("LUK SELENII", steps?.text.toString())
         stepBtn?.setTextColor(getColor(R.color.black))
@@ -154,11 +154,17 @@ class OwnRecipeActivity : AppCompatActivity() {
 
         stepBtn?.background = null
         action_btn?.background = ContextCompat.getDrawable(this, R.drawable.status_delete)
-        reject_btn?.background = ContextCompat.getDrawable(this, R.drawable.status_update)
-        reject_btn?.text = ContextCompat.getString(this, R.string.to_change)
+        upd_btn?.background = ContextCompat.getDrawable(this, R.drawable.status_update)
+        upd_btn?.text = ContextCompat.getString(this, R.string.to_change)
         action_btn?.text = ContextCompat.getString(this, R.string.to_delete)
 
         recipeId = UUID.fromString(intent.extras?.getString("RECIPE_ID"))
+
+        upd_btn?.setOnClickListener {
+            intent = Intent(this@OwnRecipeActivity, UpdateRecipeActivity::class.java)
+            intent.putExtra("RECIPE_ID", recipeId.toString())
+            this@OwnRecipeActivity.startActivity(intent)
+        }
 
         stepBtn?.setOnClickListener {
             stepBtn?.setBackgroundResource(R.drawable.btn_ing)
@@ -194,9 +200,7 @@ class OwnRecipeActivity : AppCompatActivity() {
 
         }
 
-        reject_btn?.setOnClickListener {
 
-        }
 
         backBtn?.setOnClickListener {
             intent = Intent(this@OwnRecipeActivity, MyRecipesActivity::class.java)

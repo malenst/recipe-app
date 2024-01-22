@@ -17,6 +17,7 @@ interface RecipeInteractor {
     suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User
     suspend fun getAccountInfo(): User
     suspend fun addRecipe(recipe: RecipeData): Recipe
+    suspend fun updateRecipe(recipeId: UUID, recipe: RecipeData): Recipe
     suspend fun getCurrentUserRole(): String
     suspend fun getReviewsById(id: UUID): List<Review>
     suspend fun logViewToRecipeById(id: UUID): Recipe

@@ -139,6 +139,16 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
+    override suspend fun updateRecipe(recipeId: UUID, recipe: RecipeData): Recipe = suspendCoroutine { continuation ->
+        repository.updateRecipe(recipeId, recipe) { result ->
+            if (result!!.isSuccess) {
+                continuation.resume(result.getOrNull()!!)
+            } else {
+                continuation.resumeWithException(result.exceptionOrNull() ?: RuntimeException("Error adding recipe"))
+            }
+        }
+    }
+
     override suspend fun getCurrentUserRole(): String = suspendCoroutine { continuation ->
         repository.getCurrentUserRole() { result ->
             if (result.isSuccess) {

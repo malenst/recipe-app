@@ -63,6 +63,12 @@ interface RecipeApiService {
         @Body recipe: RecipeData
     ) : Call<ApiResponseDto<Recipe>>
 
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @PUT("recipe/{recipeId}")
+    fun updateRecipe(
+        @Path("recipeId") recipeId: UUID, @Body recipe: RecipeData
+    ) : Call<ApiResponseDto<Recipe>>
+
     @GET("me/role")
     fun getCurrentUserRole() : Call<ApiResponseDto<String>>
 
