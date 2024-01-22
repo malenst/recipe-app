@@ -29,13 +29,12 @@
             android:id="@+id/activityAuthorRecipesTittle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto_bold"
             android:text="@string/author_recipes_text"
             android:textColor="@color/black"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@+id/backBtnAuthorRecipes"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.072"
             app:layout_constraintStart_toEndOf="@+id/backBtnAuthorRecipes"
             app:layout_constraintTop_toTopOf="@+id/backBtnAuthorRecipes" />
 
