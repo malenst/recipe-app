@@ -258,7 +258,7 @@
                 <EditText
                     android:id="@+id/editTextIngredientName"
                     style="@style/MyEditText"
-                    android:layout_width="240dp"
+                    android:layout_width="0dp"
                     android:layout_marginTop="8dp"
                     android:autofillHints=""
                     android:hint="@string/edit_recipe_ingredient_name_text"
@@ -267,12 +267,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent="0.5" />
+                    app:layout_constraintWidth_percent="0.65" />
 
                 <EditText
                     android:id="@+id/editTextIngredientAmount"
                     style="@style/MyEditText"
-                    android:layout_width="130dp"
+                    android:layout_width="0dp"
                     android:autofillHints=""
                     android:hint="@string/edit_recipe_ingredient_amount_text"
                     android:inputType="text"
@@ -281,7 +281,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent="0.5" />
+                    app:layout_constraintWidth_percent="0.35" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

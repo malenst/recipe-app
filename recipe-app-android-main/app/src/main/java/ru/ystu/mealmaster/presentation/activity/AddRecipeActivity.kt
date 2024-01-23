@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Base64
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
@@ -73,9 +74,15 @@ class AddRecipeActivity : AppCompatActivity() {
     private var lastAddedIngredientConstraintLayout: ConstraintLayout? = null
     private var lastAddedStepEditText: EditText? = null
 
+    private var dp: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_recipe)
+        dp = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 1f,
+            this.resources.displayMetrics
+        ).toInt()
 
         RecipeApi.init(this)
         api = RecipeApi.api
@@ -290,7 +297,7 @@ class AddRecipeActivity : AppCompatActivity() {
             newIngredientNameEditText.id,
             ConstraintSet.END, newIngredientAmountEditText.id,
             ConstraintSet.START,
-            8
+            0
         )
         constraintSet.connect(
             newIngredientNameEditText.id,
@@ -310,7 +317,7 @@ class AddRecipeActivity : AppCompatActivity() {
             ConstraintSet.START,
             newIngredientNameEditText.id,
             ConstraintSet.END,
-            8
+            0
         )
         constraintSet.connect(
             newIngredientAmountEditText.id,
@@ -352,12 +359,12 @@ class AddRecipeActivity : AppCompatActivity() {
             id = R.id.editTextIngredientName
             setHint(R.string.edit_recipe_ingredient_name_text)
             inputType = InputType.TYPE_CLASS_TEXT
-            layoutParams = ConstraintLayout.LayoutParams(240.dpToPx(), 55.dpToPx()).apply {
+            layoutParams = ConstraintLayout.LayoutParams(0, 55 * dp).apply {
                 topToTop = ConstraintLayout.LayoutParams.PARENT_ID
                 startToStart = ConstraintLayout.LayoutParams.PARENT_ID
                 bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-                topMargin = 8.dpToPx()
-                marginStart = (-58).dpToPx()
+                topMargin = 8
+                matchConstraintPercentWidth = 0.65f
             }
         }
     }
@@ -367,31 +374,23 @@ class AddRecipeActivity : AppCompatActivity() {
             id = R.id.editTextIngredientAmount
             setHint(R.string.edit_recipe_ingredient_amount_text)
             inputType = InputType.TYPE_CLASS_TEXT
-            layoutParams = ConstraintLayout.LayoutParams(130.dpToPx(), 55.dpToPx()).apply {
+            layoutParams = ConstraintLayout.LayoutParams(0, 55 * dp).apply {
                 topToTop = ConstraintLayout.LayoutParams.PARENT_ID
                 endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
                 bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-                topMargin = 8.dpToPx()
-                marginEnd = (-58).dpToPx()
+                matchConstraintPercentWidth = 0.35f
             }
-            setPaddingRelative(16.dpToPx(), 0, 0, 0)
         }
     }
-
-    private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
 
     private fun addNewEditText(targetEditText: EditText) {
         val newEditText = EditText(this, null, 0, R.style.MyEditText)
         newEditText.id = View.generateViewId()
 
         val layoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
-            55.dpToPx()
-        ).apply {
-            topMargin = 8.dpToPx()
-            marginStart = 16.dpToPx()
-            marginEnd = 16.dpToPx()
-        }
+            0,
+            55 * dp
+        )
         newEditText.layoutParams = layoutParams
 
         newEditText.hint = targetEditText.hint
