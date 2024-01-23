@@ -103,10 +103,6 @@ class HomeActivity : AppCompatActivity() {
             showBottomSheet() }
 
         menu = findViewById(R.id.menu)
-//        menu.setOnClickListener {
-//            val intent = Intent(this@HomeActivity, ModerationActivity::class.java)
-//            startActivity(intent)
-//        }
 
         nameLogo = findViewById(R.id.logo)
         logo = findViewById(R.id.bananas_icon)
@@ -261,9 +257,6 @@ class HomeActivity : AppCompatActivity() {
         myRecipes.setOnClickListener {
             val intent = Intent(this@HomeActivity, MyRecipesActivity::class.java)
             startActivity(intent)
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.data = Uri.parse(getString(R.string.privacy_policy_url))
-//            startActivity(intent)
         }
         userName.setOnClickListener {
             val intent = Intent(this@HomeActivity, AccountActivity::class.java)

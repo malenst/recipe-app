@@ -53,23 +53,6 @@ class ModerationActivity : AppCompatActivity() {
             }
         }
 
-//        api.getUncheckedRecipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
-//            override fun onResponse(
-//                call: Call<ApiResponseDto<List<Recipe>>>,
-//                response: Response<ApiResponseDto<List<Recipe>>>
-//            ) {
-//                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
-//                    Log.d("MANGO", "MANGO")
-//                } else {
-//                    Log.d("MANGO", "MANGO")
-//                 }
-//            }
-//
-//            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
-//                Log.d("KLUKVA", "KLUKVA")
-//             }
-//        })
-
 
         val backBtn: ImageView = findViewById(R.id.backBtnModeration)
         // Exit activity

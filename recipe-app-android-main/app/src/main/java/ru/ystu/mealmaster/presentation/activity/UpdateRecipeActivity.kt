@@ -45,7 +45,7 @@ class UpdateRecipeActivity : AppCompatActivity() {
     private lateinit var backBtn: ImageView
     private lateinit var getContent: ActivityResultLauncher<String>
     private lateinit var uploadImage: ImageView
-    private lateinit var uploadedImageBase64: String
+    private var uploadedImageBase64: String? = null
 
     private lateinit var allIngredients : Map<String, String>
     private lateinit var allSteps : Map<String, String>
@@ -58,6 +58,7 @@ class UpdateRecipeActivity : AppCompatActivity() {
     private lateinit var editTextName: EditText
     private lateinit var editTextDescription: EditText
     private lateinit var spinnerCategory: Spinner
+    private lateinit var spinnerMeasure: Spinner
     private lateinit var editTextNutritionalAmount: EditText
     private lateinit var spinnerNutritionalUnit: Spinner
     private lateinit var editTextCalories: EditText
@@ -174,18 +175,18 @@ class UpdateRecipeActivity : AppCompatActivity() {
             val measureUnitEnum = measureUnitMapping[selectedMeasureUnitPosition] ?: MeasureUnit.G // Значение по умолчанию, если что-то пойдет не так
 
             val recipe = RecipeData(
-                name = editTextName.text.toString(),
-                description = editTextDescription.text.toString(),
+                name = editTextName.text.toString().takeIf { it.isNotBlank() },
+                description = editTextDescription.text.toString().takeIf { it.isNotBlank() },
                 category = recipeCategoryEnum.name,
                 nutritionalInfo = NutritionalInfo(
-                    amount = editTextNutritionalAmount.text.toString().toInt(),
+                    amount = editTextNutritionalAmount.text.toString().toIntOrNull(),
                     measureUnit = measureUnitEnum.name,
-                    calories = editTextCalories.text.toString().toDouble(),
-                    carbohydrates = editTextCarbohydrates.text.toString().toDouble(),
-                    fat = editTextFat.text.toString().toDouble(),
-                    protein = editTextProtein.text.toString().toDouble()
+                    calories = editTextCalories.text.toString().toDoubleOrNull(),
+                    carbohydrates = editTextCarbohydrates.text.toString().toDoubleOrNull(),
+                    fat = editTextFat.text.toString().toDoubleOrNull(),
+                    protein = editTextProtein.text.toString().toDoubleOrNull()
                 ),
-                cookingTime = editTextCookingTime.text.toString().toInt(),
+                cookingTime = editTextCookingTime.text.toString().toIntOrNull(),
                 ingredients = allIngredients,
                 steps = allSteps,
                 image = uploadedImageBase64
@@ -214,10 +215,16 @@ class UpdateRecipeActivity : AppCompatActivity() {
                     editTextName.text = Editable.Factory.getInstance().newEditable(recipe.name)
                     editTextCookingTime.text = Editable.Factory.getInstance().newEditable(recipe.cookingTime)
                     editTextDescription.text = Editable.Factory.getInstance().newEditable(recipe.description)
+                    editTextNutritionalAmount.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.amount.toString())
+
                     val adapter = spinnerCategory.adapter
                     val position = (0 until adapter.count).firstOrNull { adapter.getItem(it).toString() == recipe.category }
                         ?: 0
+                    val adapterMeas = spinnerNutritionalUnit.adapter
+                    val positionMeas = (0 until adapterMeas.count).firstOrNull { adapterMeas.getItem(it).toString() == recipe.nutritionalInfo.measureUnit }
+                        ?: 0
                     spinnerCategory.setSelection(position)
+                    spinnerNutritionalUnit.setSelection(positionMeas)
                     editTextCalories.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.calories.toString())
                     editTextProtein.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.protein.toString())
                     editTextFat.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.fat.toString())
@@ -247,8 +254,11 @@ class UpdateRecipeActivity : AppCompatActivity() {
                         editTextIngredientName.text = Editable.Factory.getInstance().newEditable(firstElement.key)
                         editTextIngredientAmount.text = Editable.Factory.getInstance().newEditable(firstElement.value)
                     }
-                    for ((key, value) in sortedSteps) {
-                        println("$key: $value")
+                    for ((key, value) in recipe.ingredients.entries.drop(1)) {
+                        val localIngFields = addNewIngredientFields()
+                        localIngFields.first.text = Editable.Factory.getInstance().newEditable(key)
+                        localIngFields.second.text = Editable.Factory.getInstance().newEditable(value)
+
                     }
 
 
@@ -301,7 +311,7 @@ class UpdateRecipeActivity : AppCompatActivity() {
         spinnerNutritionalUnit.adapter = adapter
     }
 
-    private fun addNewIngredientFields() {
+    private fun addNewIngredientFields(): Pair<EditText, EditText> {
         val prevId = View.generateViewId()
         val newIngredientLayout = ConstraintLayout(this).apply {
             id = prevId
@@ -414,6 +424,8 @@ class UpdateRecipeActivity : AppCompatActivity() {
 
         ingredientNameEditTexts.add(newIngredientNameEditText)
         ingredientAmountEditTexts.add(newIngredientAmountEditText)
+
+        return (Pair(newIngredientNameEditText, newIngredientAmountEditText))
     }
 
     private fun createEditTextIngredientName(): EditText {

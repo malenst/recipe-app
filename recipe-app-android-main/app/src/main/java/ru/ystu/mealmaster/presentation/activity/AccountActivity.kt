@@ -72,18 +72,6 @@ class AccountActivity : AppCompatActivity() {
         accountInfoViewModel.loadAccountInfo()
             accountInfoViewModel.accountInfo.observe(this) { account ->
             username.text = account.username
-//                email.text = account.email
-//                role.text = account.role
         }
-
-//        lifecycleScope.launch {
-//            val user = interactor.getAccountInfo()
-//            Log.d("USERNAME", user.username)
-//            username.text = user.username
-//            Log.d("EMAIL", user.email?: "")
-//            email.text = user.email
-//            Log.d("ROLE", user.role)
-//            role.text = user.role
-//        }
     }
 }

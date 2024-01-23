@@ -216,20 +216,20 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 call: Call<String>,
                 response: Response<String>
             ) {
-                if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
-                    val manager = SharedPrefManager(context)
-                    manager.clearSession()
+                try {
+                    if (response.isSuccessful || response.code() == 301 || response.code() == 302 || response.code() == 401) {
+                        val manager = SharedPrefManager(context)
+                        manager.clearSession()
 
-                    (RecipeApi.client.cookieJar as? CustomPersistentCookieJar)?.clear()
+                        (RecipeApi.client.cookieJar as? CustomPersistentCookieJar)?.clear()
 
-                    Log.d("LOGOUT", "Logged out successfully.")
-                    callback(Result.success(response.message()))
-                } else {
-                    val errorMessage = "Ошибка запроса: HTTP ${response.code()} ${response.message()}, Body: ${
-                        response.errorBody()?.string()
-                    }"
-                    callback(Result.failure(Exception(errorMessage)))
+                        Log.d("LOGOUT", "Logged out successfully.")
+                        callback(Result.success(response.message()))
+                    }
+                } catch (_: Exception) {
+
                 }
+
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
