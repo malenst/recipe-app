@@ -1,5 +1,6 @@
 package ru.ystu.mealmaster.presentation.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -90,6 +91,8 @@ class RecipesByCategoryActivity : AppCompatActivity() {
 
         val backBtn : ImageView = findViewById(R.id.backBtnMain)
         // Exit activity
-        backBtn.setOnClickListener { finish() }
+        backBtn.setOnClickListener {
+            val intent = Intent(this@RecipesByCategoryActivity, HomeActivity::class.java)
+            startActivity(intent) }
     }
 }

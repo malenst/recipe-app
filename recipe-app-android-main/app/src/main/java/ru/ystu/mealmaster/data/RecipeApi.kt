@@ -24,7 +24,6 @@ object RecipeApi {
     fun init(context: Context) {
         val appContext = context.applicationContext
         BASE_API_URL = "${BuildConfig.BASE_PROTOCOL}://${BuildConfig.BASE_HOST}:${BuildConfig.BASE_PORT}${BuildConfig.API_PATH}"
-        //BASE_API_URL = "${BuildConfig.BASE_PROTOCOL}://${BuildConfig.BASE_HOST}${BuildConfig.API_PATH}"
 
         client = OkHttpClient.Builder()
             //.followRedirects(false)

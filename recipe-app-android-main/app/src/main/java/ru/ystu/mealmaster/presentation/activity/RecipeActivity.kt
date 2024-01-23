@@ -140,7 +140,6 @@ class RecipeActivity : AppCompatActivity() {
         favIcon = findViewById(R.id.image_favourite)
         lifecycleScope.launch {
             currentUserUsername = interactor.getAccountInfo().username
-            Log.d("XYU", currentUserUsername.toString())
             currentUserRole = interactor.getCurrentUserRole()
 
             favIcon.setOnClickListener {

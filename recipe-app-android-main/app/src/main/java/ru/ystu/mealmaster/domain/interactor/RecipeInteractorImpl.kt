@@ -119,7 +119,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getAccountInfo(): User = suspendCoroutine {continuation ->
+    override suspend fun getAccountInfo(): User = suspendCoroutine { continuation ->
         repository.getAccountInfo() { result ->
             if (result.isSuccess) {
                 continuation.resume(result.getOrNull()!!)

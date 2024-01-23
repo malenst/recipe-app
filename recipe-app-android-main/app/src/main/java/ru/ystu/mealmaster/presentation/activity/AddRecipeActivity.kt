@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.BuildConfig
@@ -172,6 +173,40 @@ class AddRecipeActivity : AppCompatActivity() {
             val selectedMeasureUnitPosition = spinnerNutritionalUnit.selectedItemPosition
             val measureUnitEnum = measureUnitMapping[selectedMeasureUnitPosition] ?: MeasureUnit.G // Значение по умолчанию, если что-то пойдет не так
 
+            var isValid = true
+
+            // Проверка поля "Название"
+            if (editTextName.text.toString().isBlank()) {
+                editTextName.background = ContextCompat.getDrawable(this, R.drawable.edit_text_border)
+                showToast("Поле \"Название\" обязательно к заполнению")
+                isValid = false
+            }
+
+            // Проверка поля "Время приготовления"
+            if (editTextCookingTime.text.toString().isBlank()) {
+                editTextCookingTime.background = ContextCompat.getDrawable(this, R.drawable.edit_text_border)
+                showToast("Поле \"Время приготовления\" обязательно к заполнению")
+                isValid = false
+                Log.d("BATAT", editTextIngredientName.toString())
+            }
+
+            // Проверка наличия ингредиентов
+            if (allIngredients.entries.isEmpty() && (editTextIngredientName.text.toString().isBlank() || editTextIngredientAmount.text.toString().isBlank())) {
+                editTextIngredientName.background = ContextCompat.getDrawable(this, R.drawable.edit_text_border)
+                editTextIngredientAmount.background = ContextCompat.getDrawable(this, R.drawable.edit_text_border)
+                showToast("В рецепте нужен хотя бы один ингредиент")
+                isValid = false
+            }
+
+            // Проверка наличия шагов
+            if (editTextStep.text.toString().isBlank()) {
+                editTextStep.background = ContextCompat.getDrawable(this, R.drawable.edit_text_border)
+                showToast("Рецепт должен содержать хотя бы один шаг")
+                isValid = false
+            }
+
+            if (!isValid) return@setOnClickListener
+
             val recipe = RecipeData(
                 name = editTextName.text.toString().takeIf { it.isNotBlank() },
                 description = editTextDescription.text.toString().takeIf { it.isNotBlank() },
@@ -195,6 +230,10 @@ class AddRecipeActivity : AppCompatActivity() {
 
         backBtn = findViewById(R.id.addRecipeBackBtn)
         backBtn.setOnClickListener { finish() }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
     }
 
     private fun selectImage() {
