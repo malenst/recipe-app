@@ -378,6 +378,7 @@ class AddRecipeActivity : AppCompatActivity() {
                 topToTop = ConstraintLayout.LayoutParams.PARENT_ID
                 endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
                 bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                topMargin = 8
                 matchConstraintPercentWidth = 0.35f
             }
         }
@@ -391,6 +392,8 @@ class AddRecipeActivity : AppCompatActivity() {
             0,
             55 * dp
         )
+        layoutParams.topMargin = 8
+
         newEditText.layoutParams = layoutParams
 
         newEditText.hint = targetEditText.hint
