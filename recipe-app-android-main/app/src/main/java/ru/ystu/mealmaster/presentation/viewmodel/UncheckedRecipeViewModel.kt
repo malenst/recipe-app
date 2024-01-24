@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import kotlinx.coroutines.launch
 
 class UncheckedRecipeViewModel(private val recipeInteractor: RecipeInteractor) : ViewModel() {
 
-    private val _recipes = MutableLiveData<List<Recipe>>()
-    val recipes: LiveData<List<Recipe>> get() = _recipes
+    private val _recipes = MutableLiveData<List<RecipeDTO>>()
+    val recipes: LiveData<List<RecipeDTO>> get() = _recipes
 
     init {
         loadRecipes()

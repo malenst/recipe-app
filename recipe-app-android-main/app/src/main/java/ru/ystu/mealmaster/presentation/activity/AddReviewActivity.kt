@@ -13,9 +13,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.data.ApiResponseDto
+import ru.ystu.mealmaster.domain.dto.ApiResponseDto
 import ru.ystu.mealmaster.data.RecipeApi
-import ru.ystu.mealmaster.domain.Review
+import ru.ystu.mealmaster.domain.dto.ReviewDTO
 import ru.ystu.mealmaster.domain.ReviewData
 import java.util.*
 
@@ -53,8 +53,8 @@ class AddReviewActivity : AppCompatActivity() {
     private fun submitReview(recipeId: UUID, reviewText: String, rating: Int) {
         val reviewData = ReviewData(reviewText, rating)
 
-        api.addReview(recipeId, reviewData).enqueue(object : Callback<ApiResponseDto<Review>> {
-            override fun onResponse(call: Call<ApiResponseDto<Review>>, response: Response<ApiResponseDto<Review>>) {
+        api.addReview(recipeId, reviewData).enqueue(object : Callback<ApiResponseDto<ReviewDTO>> {
+            override fun onResponse(call: Call<ApiResponseDto<ReviewDTO>>, response: Response<ApiResponseDto<ReviewDTO>>) {
                 if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
                     Log.d("REVIEW", response.body()?.response.toString())
                     showReviewThanksDialog(recipeId)
@@ -63,7 +63,7 @@ class AddReviewActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<Review>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<ReviewDTO>>, t: Throwable) {
                 Log.e("REVIEW", "Ошибка при запросе")
                 Log.e("REVIEW", t.stackTraceToString())
             }

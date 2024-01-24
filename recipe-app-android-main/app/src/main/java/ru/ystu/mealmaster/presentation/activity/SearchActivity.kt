@@ -21,7 +21,7 @@ import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivitySearchBinding
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
@@ -42,7 +42,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var repository: RecipeRepository
     private lateinit var interactor: RecipeInteractor
 
-    private lateinit var recipes: List<Recipe>
+    private lateinit var recipeDTOS: List<RecipeDTO>
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +90,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            recipes = interactor.getRecipes()
+            recipeDTOS = interactor.getRecipes()
         }
 
         search?.addTextChangedListener(object : TextWatcher {
@@ -113,9 +113,9 @@ class SearchActivity : AppCompatActivity() {
 
     // Функция фильтрации данных
     fun filter(text: String) {
-        val filteredList = ArrayList<Recipe>()
+        val filteredList = ArrayList<RecipeDTO>()
 
-        for (recipe in recipes) {
+        for (recipe in recipeDTOS) {
             if (recipe.name.lowercase(Locale.ROOT).contains(text.lowercase(Locale.ROOT))) {
                 filteredList.add(recipe)
             }

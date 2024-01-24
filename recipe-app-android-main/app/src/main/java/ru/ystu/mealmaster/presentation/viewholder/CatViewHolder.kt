@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Category
+import ru.ystu.mealmaster.domain.dto.CategoryDTO
 import ru.ystu.mealmaster.presentation.activity.RecipesByCategoryActivity
 
 class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -18,20 +18,20 @@ class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val imageView = itemView.findViewById<ImageView>(R.id.cat_img)
 
     @SuppressLint("SetTextI18n")
-    fun bind(category: Category) {
+    fun bind(categoryDTO: CategoryDTO) {
         itemView.setOnClickListener {
             val context = itemView.context
             val intent = Intent(context, RecipesByCategoryActivity::class.java)
 
-            intent.putExtra("CATEGORY", category.name)
-            intent.putExtra("TRANSLATION", category.translation)
+            intent.putExtra("CATEGORY", categoryDTO.name)
+            intent.putExtra("TRANSLATION", categoryDTO.translation)
             context.startActivity(intent)
         }
 
-        nameTextView.text = category.translation
+        nameTextView.text = categoryDTO.translation
 
-        if (!category.image.isNullOrEmpty()) {
-            val imageNorm = category.image
+        if (!categoryDTO.image.isNullOrEmpty()) {
+            val imageNorm = categoryDTO.image
                 .replace("http", BuildConfig.BASE_PROTOCOL)
                 .replace("localhost", BuildConfig.BASE_HOST)
                 .replace("8080", BuildConfig.BASE_PORT)

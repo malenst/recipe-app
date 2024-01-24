@@ -18,7 +18,7 @@ import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
-import ru.ystu.mealmaster.domain.RegistrationRequestDTO
+import ru.ystu.mealmaster.domain.dto.RegistrationRequestDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.domain.repository.RecipeRepository

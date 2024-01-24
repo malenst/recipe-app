@@ -1,4 +1,4 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.dto
 
 import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
@@ -11,7 +11,7 @@ data class RecipeData(
     val steps: Map<String, String>?,
     @SerializedName("nutritional_info")
     @Embedded
-    val nutritionalInfo: NutritionalInfo?,
+    val nutritionalInfoDTO: NutritionalInfoDTO?,
     @SerializedName("cooking_time")
     val cookingTime: Int?,
     val image: String?

@@ -24,8 +24,8 @@ import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
-import ru.ystu.mealmaster.domain.NutritionalInfo
-import ru.ystu.mealmaster.domain.RecipeData
+import ru.ystu.mealmaster.domain.dto.NutritionalInfoDTO
+import ru.ystu.mealmaster.domain.dto.RecipeData
 import ru.ystu.mealmaster.domain.enumeration.MeasureUnit
 import ru.ystu.mealmaster.domain.enumeration.RecipeCategory
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
@@ -211,7 +211,7 @@ class AddRecipeActivity : AppCompatActivity() {
                 name = editTextName.text.toString().takeIf { it.isNotBlank() },
                 description = editTextDescription.text.toString().takeIf { it.isNotBlank() },
                 category = recipeCategoryEnum.name,
-                nutritionalInfo = NutritionalInfo(
+                nutritionalInfoDTO = NutritionalInfoDTO(
                     amount = editTextNutritionalAmount.text.toString().toIntOrNull(),
                     measureUnit = measureUnitEnum.name,
                     calories = editTextCalories.text.toString().toDoubleOrNull(),

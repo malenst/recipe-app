@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.presentation.activity.AddReviewActivity
 import ru.ystu.mealmaster.presentation.activity.RecipeActivity
 
@@ -29,36 +29,36 @@ class RecipeViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var intent: Intent
 
     @SuppressLint("SetTextI18n")
-    fun bind(recipe: Recipe) {
+    fun bind(recipeDTO: RecipeDTO) {
         itemView.setOnClickListener {
             context = itemView.context
             intent = Intent(context, RecipeActivity::class.java)
-            intent.putExtra("RECIPE_ID", recipe.id.toString())
+            intent.putExtra("RECIPE_ID", recipeDTO.id.toString())
             context.startActivity(intent)
         }
 
-        nameTextView.text = recipe.name
+        nameTextView.text = recipeDTO.name
 
-        if (recipe.reviews.isNullOrEmpty()) {
+        if (recipeDTO.reviewDTOS.isNullOrEmpty()) {
             avgRating.text = "Оставить"
             avgRating.textSize = 12F
             avgRating.setOnClickListener{
                 context = itemView.context
                 intent = Intent(context, AddReviewActivity::class.java)
-                intent.putExtra("RECIPE_ID", recipe.id.toString())
+                intent.putExtra("RECIPE_ID", recipeDTO.id.toString())
                 context.startActivity(intent)
             }
         } else {
             avgRating.visibility = View.VISIBLE
-           val averageRating = recipe.reviews.map { it.rating }.average()
+           val averageRating = recipeDTO.reviewDTOS.map { it.rating }.average()
             Log.d("TIKVA", averageRating.toString())
             avgRating.text = String.format("%.1f", averageRating.toFloat())
 
         }
-        cookingTimeTextView.text = recipe.cookingTime
+        cookingTimeTextView.text = recipeDTO.cookingTime
 
-        if (!recipe.image.isNullOrEmpty()) {
-            val imageNorm = recipe.image
+        if (!recipeDTO.image.isNullOrEmpty()) {
+            val imageNorm = recipeDTO.image
                 .replace("http", BuildConfig.BASE_PROTOCOL)
                 .replace("localhost", BuildConfig.BASE_HOST)
                 .replace("8080", BuildConfig.BASE_PORT)

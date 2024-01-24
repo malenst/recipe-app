@@ -1,6 +1,6 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.dto
 
-data class NutritionalInfo (
+data class NutritionalInfoDTO (
     val amount: Int?,
     val measureUnit: String?,
     val calories: Double?,

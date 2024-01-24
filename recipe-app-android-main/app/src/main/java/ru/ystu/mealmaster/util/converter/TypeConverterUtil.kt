@@ -3,7 +3,7 @@ package ru.ystu.mealmaster.util.converter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.ystu.mealmaster.domain.Review
+import ru.ystu.mealmaster.domain.dto.ReviewDTO
 
 class TypeConverterUtil {
     @TypeConverter
@@ -16,11 +16,11 @@ class TypeConverterUtil {
     }
 
     @TypeConverter
-    fun reviewsListToString(value: List<Review>?): String = Gson().toJson(value)
+    fun reviewsListToString(value: List<ReviewDTO>?): String = Gson().toJson(value)
 
     @TypeConverter
-    fun stringToReviewsList(value: String): List<Review>? {
-        val type = object : TypeToken<List<Review>>() {}.type
+    fun stringToReviewsList(value: String): List<ReviewDTO>? {
+        val type = object : TypeToken<List<ReviewDTO>>() {}.type
         return Gson().fromJson(value, type)
     }
 }

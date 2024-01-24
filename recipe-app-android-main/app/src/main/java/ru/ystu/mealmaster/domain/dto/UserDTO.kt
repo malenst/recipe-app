@@ -1,8 +1,8 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class UserDTO(
     val id: String?,
     val username: String?,
     val email: String?,

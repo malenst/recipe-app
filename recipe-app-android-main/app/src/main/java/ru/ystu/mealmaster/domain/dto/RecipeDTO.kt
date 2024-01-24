@@ -1,10 +1,10 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.dto
 
 import com.google.gson.annotations.SerializedName
 import ru.ystu.mealmaster.domain.enumeration.ChangeType
 import java.util.*
 
-data class Recipe(
+data class RecipeDTO(
     val id: UUID,
     val name: String,
     val author: String,
@@ -12,10 +12,10 @@ data class Recipe(
     val category: String,
     val ingredients: Map<String, String>,
     val steps: Map<String, String>,
-    val reviews: List<Review>?,
+    val reviewDTOS: List<ReviewDTO>?,
     val views: Int,
     @SerializedName("nutritional_info")
-    val nutritionalInfo: NutritionalInfo,
+    val nutritionalInfoDTO: NutritionalInfoDTO,
     @SerializedName("cooking_time")
     val cookingTime: String,
     @SerializedName("image_url")

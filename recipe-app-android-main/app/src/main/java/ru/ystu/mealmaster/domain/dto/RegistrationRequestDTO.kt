@@ -1,4 +1,4 @@
-package ru.ystu.mealmaster.domain
+package ru.ystu.mealmaster.domain.dto
 
 data class RegistrationRequestDTO(
     val username: String,

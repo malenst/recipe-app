@@ -24,8 +24,8 @@ import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
-import ru.ystu.mealmaster.domain.NutritionalInfo
-import ru.ystu.mealmaster.domain.RecipeData
+import ru.ystu.mealmaster.domain.dto.NutritionalInfoDTO
+import ru.ystu.mealmaster.domain.dto.RecipeData
 import ru.ystu.mealmaster.domain.enumeration.MeasureUnit
 import ru.ystu.mealmaster.domain.enumeration.RecipeCategory
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
@@ -178,7 +178,7 @@ class UpdateRecipeActivity : AppCompatActivity() {
                 name = editTextName.text.toString().takeIf { it.isNotBlank() },
                 description = editTextDescription.text.toString().takeIf { it.isNotBlank() },
                 category = recipeCategoryEnum.name,
-                nutritionalInfo = NutritionalInfo(
+                nutritionalInfoDTO = NutritionalInfoDTO(
                     amount = editTextNutritionalAmount.text.toString().toIntOrNull(),
                     measureUnit = measureUnitEnum.name,
                     calories = editTextCalories.text.toString().toDoubleOrNull(),
@@ -215,20 +215,20 @@ class UpdateRecipeActivity : AppCompatActivity() {
                     editTextName.text = Editable.Factory.getInstance().newEditable(recipe.name)
                     editTextCookingTime.text = Editable.Factory.getInstance().newEditable(recipe.cookingTime)
                     editTextDescription.text = Editable.Factory.getInstance().newEditable(recipe.description)
-                    editTextNutritionalAmount.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.amount.toString())
+                    editTextNutritionalAmount.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.amount.toString())
 
                     val adapter = spinnerCategory.adapter
                     val position = (0 until adapter.count).firstOrNull { adapter.getItem(it).toString() == recipe.category }
                         ?: 0
                     val adapterMeas = spinnerNutritionalUnit.adapter
-                    val positionMeas = (0 until adapterMeas.count).firstOrNull { adapterMeas.getItem(it).toString() == recipe.nutritionalInfo.measureUnit }
+                    val positionMeas = (0 until adapterMeas.count).firstOrNull { adapterMeas.getItem(it).toString() == recipe.nutritionalInfoDTO.measureUnit }
                         ?: 0
                     spinnerCategory.setSelection(position)
                     spinnerNutritionalUnit.setSelection(positionMeas)
-                    editTextCalories.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.calories.toString())
-                    editTextProtein.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.protein.toString())
-                    editTextFat.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.fat.toString())
-                    editTextCarbohydrates.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.carbohydrates.toString())
+                    editTextCalories.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.calories.toString())
+                    editTextProtein.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.protein.toString())
+                    editTextFat.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.fat.toString())
+                    editTextCarbohydrates.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.carbohydrates.toString())
 
 
                     val sortedSteps = recipe.steps.entries
@@ -246,8 +246,8 @@ class UpdateRecipeActivity : AppCompatActivity() {
                         localEditStep.text = Editable.Factory.getInstance().newEditable(value)
                     }
 
-                    editTextIngredientName.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.carbohydrates.toString())
-                    editTextIngredientAmount.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfo.carbohydrates.toString())
+                    editTextIngredientName.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.carbohydrates.toString())
+                    editTextIngredientAmount.text = Editable.Factory.getInstance().newEditable(recipe.nutritionalInfoDTO.carbohydrates.toString())
 
                     firstElement = recipe.ingredients.entries.firstOrNull()
                     if (firstElement != null) {

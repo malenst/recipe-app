@@ -1,4 +1,4 @@
-package ru.ystu.mealmaster.data
+package ru.ystu.mealmaster.domain.dto
 
 data class ApiResponseDto<T>(
     val type: String,

@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.presentation.viewholder.RecipeViewHolder
 
-class RecipeAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<RecipeViewHolder>() {
+class RecipeAdapter(private var recipeDTOS: List<RecipeDTO>) : RecyclerView.Adapter<RecipeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemView = inflater.inflate(R.layout.list_design, parent, false)
@@ -16,17 +16,17 @@ class RecipeAdapter(private var recipes: List<Recipe>) : RecyclerView.Adapter<Re
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val recipe = recipes[position]
+        val recipe = recipeDTOS[position]
         holder.bind(recipe)
     }
 
     override fun getItemCount(): Int {
-        return recipes.size
+        return recipeDTOS.size
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newRecipes: List<Recipe>) {
-        recipes = newRecipes
+    fun updateData(newRecipeDTOS: List<RecipeDTO>) {
+        recipeDTOS = newRecipeDTOS
         notifyDataSetChanged()
     }
 }

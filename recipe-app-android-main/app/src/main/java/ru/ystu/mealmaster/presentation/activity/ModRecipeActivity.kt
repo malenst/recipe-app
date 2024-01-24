@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import ru.ystu.mealmaster.R
 import ru.ystu.mealmaster.data.RecipeApi
@@ -303,14 +302,14 @@ class ModRecipeActivity : AppCompatActivity() {
                     description?.text = recipe.description
                     author?.text = recipe.author
 
-                    amount?.text = recipe.nutritionalInfo.amount.toString() + " "
-                    measureUnit?.text = recipe.nutritionalInfo.measureUnit
-                    calories?.text = recipe.nutritionalInfo.calories.toString()
-                    proteins?.text = recipe.nutritionalInfo.protein.toString()
-                    fats?.text = recipe.nutritionalInfo.fat.toString()
-                    carbohydrates?.text = recipe.nutritionalInfo.carbohydrates.toString()
+                    amount?.text = recipe.nutritionalInfoDTO.amount.toString() + " "
+                    measureUnit?.text = recipe.nutritionalInfoDTO.measureUnit
+                    calories?.text = recipe.nutritionalInfoDTO.calories.toString()
+                    proteins?.text = recipe.nutritionalInfoDTO.protein.toString()
+                    fats?.text = recipe.nutritionalInfoDTO.fat.toString()
+                    carbohydrates?.text = recipe.nutritionalInfoDTO.carbohydrates.toString()
 
-                    ratingBar?.rating = recipe.reviews?.map { it.rating }?.average()?.toFloat()!!
+                    ratingBar?.rating = recipe.reviewDTOS?.map { it.rating }?.average()?.toFloat()!!
                     RecipeUtils.formatRecipeInfo(recipe, txt, views, reviews, img)
                 }
             } catch (e: Exception) {

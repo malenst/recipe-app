@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 
 class MyRecipesViewModel(private val recipeInteractor: RecipeInteractor, private val username: String, private val approvedOnly: Boolean) : ViewModel() {
 
-    private val _recipesByUser = MutableLiveData<List<Recipe>>()
-    val recipesByUser: LiveData<List<Recipe>> get() = _recipesByUser
+    private val _recipesByUser = MutableLiveData<List<RecipeDTO>>()
+    val recipesByUser: LiveData<List<RecipeDTO>> get() = _recipesByUser
 
     init {
         loadRecipesByUser()

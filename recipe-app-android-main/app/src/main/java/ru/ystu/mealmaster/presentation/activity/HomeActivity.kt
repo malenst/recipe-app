@@ -25,7 +25,7 @@ import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
 import ru.ystu.mealmaster.data.repository.RecipeRepositoryImpl
 import ru.ystu.mealmaster.databinding.ActivityHomeBinding
-import ru.ystu.mealmaster.domain.User
+import ru.ystu.mealmaster.domain.dto.UserDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractorImpl
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
@@ -135,7 +135,7 @@ class HomeActivity : AppCompatActivity() {
         return currentUserRoleViewModel.currentUserRole
     }
 
-    private fun getAccountInfoLiveData(): LiveData<User> {
+    private fun getAccountInfoLiveData(): LiveData<UserDTO> {
         accountInfoViewModel.loadAccountInfo()
         return accountInfoViewModel.accountInfo
     }

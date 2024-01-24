@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.ystu.mealmaster.BuildConfig
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.domain.enumeration.ChangeType
 import ru.ystu.mealmaster.presentation.activity.ModRecipeActivity
-import ru.ystu.mealmaster.presentation.activity.RecipeActivity
 
 class ModerationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -29,19 +28,19 @@ class ModerationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private lateinit var intent: Intent
 
     @SuppressLint("SetTextI18n")
-    fun bind(recipe: Recipe) {
+    fun bind(recipeDTO: RecipeDTO) {
         context = itemView.context
 
 
 
-        nameTextView.text = recipe.name
-        cookingTimeTextView.text = recipe.cookingTime
+        nameTextView.text = recipeDTO.name
+        cookingTimeTextView.text = recipeDTO.cookingTime
 
-        val recipeChangeType = recipe.changeType ?: ChangeType.CREATE
+        val recipeChangeType = recipeDTO.changeType ?: ChangeType.CREATE
 
         itemView.setOnClickListener {
             intent = Intent(context, ModRecipeActivity::class.java)
-            intent.putExtra("RECIPE_ID", recipe.id.toString())
+            intent.putExtra("RECIPE_ID", recipeDTO.id.toString())
             Log.d("HREN", recipeChangeType.toString())
             intent.putExtra("CHANGE_TYPE", recipeChangeType.toString())
             context.startActivity(intent)
@@ -65,8 +64,8 @@ class ModerationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
         }
 
-        if (!recipe.image.isNullOrEmpty()) {
-            val imageNorm = recipe.image
+        if (!recipeDTO.image.isNullOrEmpty()) {
+            val imageNorm = recipeDTO.image
                 .replace("http", BuildConfig.BASE_PROTOCOL)
                 .replace("localhost", BuildConfig.BASE_HOST)
                 .replace("8080", BuildConfig.BASE_PORT)

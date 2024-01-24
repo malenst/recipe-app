@@ -1,7 +1,7 @@
 package ru.ystu.mealmaster.domain.interactor
 
 import kotlinx.coroutines.suspendCancellableCoroutine
-import ru.ystu.mealmaster.domain.*
+import ru.ystu.mealmaster.domain.dto.*
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import java.util.*
 import kotlin.coroutines.resume
@@ -9,7 +9,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInteractor {
-    override suspend fun getRecipes(): List<Recipe> = suspendCancellableCoroutine { continuation ->
+    override suspend fun getRecipes(): List<RecipeDTO> = suspendCancellableCoroutine { continuation ->
         repository.getRecipes { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -19,7 +19,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getUncheckedRecipes(): List<Recipe> = suspendCancellableCoroutine { continuation ->
+    override suspend fun getUncheckedRecipes(): List<RecipeDTO> = suspendCancellableCoroutine { continuation ->
         repository.getUncheckedRecipes { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -29,7 +29,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
+    override suspend fun getRecipeById(id: UUID): RecipeDTO = suspendCoroutine { continuation ->
         repository.getRecipeById(id) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: throw RuntimeException("Recipe not found"))
@@ -49,7 +49,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getTop10Recipes(): List<Recipe> = suspendCoroutine { continuation ->
+    override suspend fun getTop10Recipes(): List<RecipeDTO> = suspendCoroutine { continuation ->
         repository.getTop10Recipes { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -59,7 +59,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getCategories(): List<Category> = suspendCoroutine { continuation ->
+    override suspend fun getCategories(): List<CategoryDTO> = suspendCoroutine { continuation ->
         repository.getCategories { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -69,7 +69,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getRecipesByCategory(category: String): List<Recipe> = suspendCoroutine { continuation ->
+    override suspend fun getRecipesByCategory(category: String): List<RecipeDTO> = suspendCoroutine { continuation ->
         repository.getRecipesByCategory(category) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -79,7 +79,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getRecipesByUser(username: String, approvedOnly: Boolean): List<Recipe> = suspendCoroutine { continuation ->
+    override suspend fun getRecipesByUser(username: String, approvedOnly: Boolean): List<RecipeDTO> = suspendCoroutine { continuation ->
         repository.getRecipesByUser(username, approvedOnly) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -89,7 +89,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun login(username: String, password: String): Pair<List<Recipe>, List<String>?> = suspendCoroutine { continuation ->
+    override suspend fun login(username: String, password: String): Pair<List<RecipeDTO>, List<String>?> = suspendCoroutine { continuation ->
         repository.login(username, password) { result, cookies ->
             if (result.isSuccess) {
                 continuation.resume(Pair(result.getOrNull() ?: emptyList(), cookies))
@@ -109,7 +109,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun register(registrationRequestDTO: RegistrationRequestDTO): User = suspendCoroutine { continuation ->
+    override suspend fun register(registrationRequestDTO: RegistrationRequestDTO): UserDTO = suspendCoroutine { continuation ->
         repository.register(registrationRequestDTO) { result ->
             if (result.isSuccess) {
                 continuation.resume(result.getOrNull()!!)
@@ -119,7 +119,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getAccountInfo(): User = suspendCoroutine { continuation ->
+    override suspend fun getAccountInfo(): UserDTO = suspendCoroutine { continuation ->
         repository.getAccountInfo() { result ->
             if (result.isSuccess) {
                 continuation.resume(result.getOrNull()!!)
@@ -129,7 +129,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun addRecipe(recipe: RecipeData): Recipe = suspendCoroutine { continuation ->
+    override suspend fun addRecipe(recipe: RecipeData): RecipeDTO = suspendCoroutine { continuation ->
         repository.addRecipe(recipe) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull()!!)
@@ -139,7 +139,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun updateRecipe(recipeId: UUID, recipe: RecipeData): Recipe = suspendCoroutine { continuation ->
+    override suspend fun updateRecipe(recipeId: UUID, recipe: RecipeData): RecipeDTO = suspendCoroutine { continuation ->
         repository.updateRecipe(recipeId, recipe) { result ->
             if (result!!.isSuccess) {
                 continuation.resume(result.getOrNull()!!)
@@ -159,7 +159,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun getReviewsById(id: UUID): List<Review> = suspendCoroutine { continuation ->
+    override suspend fun getReviewsById(id: UUID): List<ReviewDTO> = suspendCoroutine { continuation ->
         repository.getReviewsById(id) { result ->
             if (result.isSuccess) {
                 continuation.resume(result.getOrNull() ?: emptyList())
@@ -169,7 +169,7 @@ class RecipeInteractorImpl(private val repository: RecipeRepository) : RecipeInt
         }
     }
 
-    override suspend fun logViewToRecipeById(id: UUID): Recipe = suspendCoroutine { continuation ->
+    override suspend fun logViewToRecipeById(id: UUID): RecipeDTO = suspendCoroutine { continuation ->
         repository.logViewToRecipeById(id) { result ->
             if (result.isSuccess) {
                 continuation.resume(result.getOrNull()!!)

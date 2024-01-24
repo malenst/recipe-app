@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Category
+import ru.ystu.mealmaster.domain.dto.CategoryDTO
 import ru.ystu.mealmaster.presentation.viewholder.CatViewHolder
 
-class CatRecipeAdapter(private var categories: List<Category>) : RecyclerView.Adapter<CatViewHolder>() {
+class CatRecipeAdapter(private var categories: List<CategoryDTO>) : RecyclerView.Adapter<CatViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemView = inflater.inflate(R.layout.category_list, parent, false)
@@ -25,7 +25,7 @@ class CatRecipeAdapter(private var categories: List<Category>) : RecyclerView.Ad
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newCategories: List<Category>) {
+    fun updateData(newCategories: List<CategoryDTO>) {
         categories = newCategories
         notifyDataSetChanged()
     }

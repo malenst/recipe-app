@@ -34,7 +34,7 @@ class FavouriteRecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
         }
 
         nameTextView.text = recipe.name
-        val averageRating = recipe.reviews?.map { it.rating }?.average()
+        val averageRating = recipe.reviewDTOS?.map { it.rating }?.average()
         avgRatingTextView.text = if (averageRating != null && !averageRating.isNaN()) {
             String.format("%.1f", averageRating.toFloat())
         } else {

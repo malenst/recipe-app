@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ystu.mealmaster.R
-import ru.ystu.mealmaster.domain.Recipe
-import ru.ystu.mealmaster.domain.Review
+import ru.ystu.mealmaster.domain.dto.ReviewDTO
 import ru.ystu.mealmaster.presentation.viewholder.ReviewViewHolder
 
-class ReviewAdapter (private var reviews: List<Review>) : RecyclerView.Adapter<ReviewViewHolder>() {
+class ReviewAdapter (private var reviewDTOS: List<ReviewDTO>) : RecyclerView.Adapter<ReviewViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemView = inflater.inflate(R.layout.list_review, parent, false)
@@ -17,17 +16,17 @@ class ReviewAdapter (private var reviews: List<Review>) : RecyclerView.Adapter<R
     }
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
-        val review = reviews[position]
+        val review = reviewDTOS[position]
         holder.bind(review)
     }
 
     override fun getItemCount(): Int {
-        return reviews.size
+        return reviewDTOS.size
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newRecipes: List<Review>) {
-        reviews = newRecipes
+    fun updateData(newRecipes: List<ReviewDTO>) {
+        reviewDTOS = newRecipes
         notifyDataSetChanged()
     }
 }

@@ -5,10 +5,10 @@ import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import ru.ystu.mealmaster.data.ApiResponseDto
+import ru.ystu.mealmaster.domain.dto.ApiResponseDto
 import ru.ystu.mealmaster.data.RecipeApi
 import ru.ystu.mealmaster.data.RecipeApiService
-import ru.ystu.mealmaster.domain.*
+import ru.ystu.mealmaster.domain.dto.*
 import ru.ystu.mealmaster.domain.repository.RecipeRepository
 import ru.ystu.mealmaster.util.persistent.CustomPersistentCookieJar
 import ru.ystu.mealmaster.util.sharedpref.SharedPrefManager
@@ -16,11 +16,11 @@ import java.util.*
 
 
 class RecipeRepositoryImpl(private val api: RecipeApiService, private val context: Context) : RecipeRepository {
-    override fun getRecipes(callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getRecipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getRecipes(callback: (Result<List<RecipeDTO>>?) -> Unit) {
+        api.getRecipes().enqueue(object : Callback<ApiResponseDto<List<RecipeDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<RecipeDTO>>>,
+                response: Response<ApiResponseDto<List<RecipeDTO>>>
             ) {
                 val manager = SharedPrefManager(context)
                 val sessionId: String = manager.getSessionId().toString()
@@ -33,17 +33,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<RecipeDTO>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun getUncheckedRecipes(callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getUncheckedRecipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getUncheckedRecipes(callback: (Result<List<RecipeDTO>>?) -> Unit) {
+        api.getUncheckedRecipes().enqueue(object : Callback<ApiResponseDto<List<RecipeDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<RecipeDTO>>>,
+                response: Response<ApiResponseDto<List<RecipeDTO>>>
             ) {
                 if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
                     Log.d("APELSIN", response.body()?.response.toString())
@@ -54,18 +54,18 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<RecipeDTO>>>, t: Throwable) {
 
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun getRecipeById(id: UUID, callback: (Result<Recipe>?) -> Unit) {
-        api.getRecipeById(id).enqueue(object : Callback<ApiResponseDto<Recipe>> {
+    override fun getRecipeById(id: UUID, callback: (Result<RecipeDTO>?) -> Unit) {
+        api.getRecipeById(id).enqueue(object : Callback<ApiResponseDto<RecipeDTO>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<Recipe>>,
-                response: Response<ApiResponseDto<Recipe>>
+                call: Call<ApiResponseDto<RecipeDTO>>,
+                response: Response<ApiResponseDto<RecipeDTO>>
             ) {
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()!!.response))
@@ -74,7 +74,7 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<RecipeDTO>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
@@ -100,11 +100,11 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
     }
 
 
-    override fun getTop10Recipes(callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getTop10Recipes().enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getTop10Recipes(callback: (Result<List<RecipeDTO>>?) -> Unit) {
+        api.getTop10Recipes().enqueue(object : Callback<ApiResponseDto<List<RecipeDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<RecipeDTO>>>,
+                response: Response<ApiResponseDto<List<RecipeDTO>>>
             ) {
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()?.response ?: emptyList()))
@@ -113,17 +113,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<RecipeDTO>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun getCategories(callback: (Result<List<Category>>?) -> Unit) {
-        api.getCategories().enqueue(object : Callback<ApiResponseDto<List<Category>>> {
+    override fun getCategories(callback: (Result<List<CategoryDTO>>?) -> Unit) {
+        api.getCategories().enqueue(object : Callback<ApiResponseDto<List<CategoryDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Category>>>,
-                response: Response<ApiResponseDto<List<Category>>>
+                call: Call<ApiResponseDto<List<CategoryDTO>>>,
+                response: Response<ApiResponseDto<List<CategoryDTO>>>
             ) {
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()?.response ?: emptyList()))
@@ -132,17 +132,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Category>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<CategoryDTO>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun getRecipesByCategory(category: String, callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getRecipesByCategory(category).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getRecipesByCategory(category: String, callback: (Result<List<RecipeDTO>>?) -> Unit) {
+        api.getRecipesByCategory(category).enqueue(object : Callback<ApiResponseDto<List<RecipeDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<RecipeDTO>>>,
+                response: Response<ApiResponseDto<List<RecipeDTO>>>
             ) {
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()?.response ?: emptyList()))
@@ -151,17 +151,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<RecipeDTO>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun getRecipesByUser(username: String, approvedOnly: Boolean, callback: (Result<List<Recipe>>?) -> Unit) {
-        api.getRecipesByUser(username, approvedOnly).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun getRecipesByUser(username: String, approvedOnly: Boolean, callback: (Result<List<RecipeDTO>>?) -> Unit) {
+        api.getRecipesByUser(username, approvedOnly).enqueue(object : Callback<ApiResponseDto<List<RecipeDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<RecipeDTO>>>,
+                response: Response<ApiResponseDto<List<RecipeDTO>>>
             ) {
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()?.response ?: emptyList()))
@@ -170,17 +170,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<RecipeDTO>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun login(username: String, password: String, callback: (Result<List<Recipe>>, List<String>?) -> Unit) {
-        api.login(username, password).enqueue(object : Callback<ApiResponseDto<List<Recipe>>> {
+    override fun login(username: String, password: String, callback: (Result<List<RecipeDTO>>, List<String>?) -> Unit) {
+        api.login(username, password).enqueue(object : Callback<ApiResponseDto<List<RecipeDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Recipe>>>,
-                response: Response<ApiResponseDto<List<Recipe>>>
+                call: Call<ApiResponseDto<List<RecipeDTO>>>,
+                response: Response<ApiResponseDto<List<RecipeDTO>>>
             ) {
                 val headers = response.headers()
                 val cookies = headers.values("Set-Cookie")
@@ -204,7 +204,7 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Recipe>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<RecipeDTO>>>, t: Throwable) {
                 callback(Result.failure(t), emptyList())
             }
         })
@@ -238,11 +238,11 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
-    override fun register(registrationRequestDTO: RegistrationRequestDTO, callback: (Result<User>) -> Unit) {
-        api.register(registrationRequestDTO).enqueue(object : Callback<ApiResponseDto<User>> {
+    override fun register(registrationRequestDTO: RegistrationRequestDTO, callback: (Result<UserDTO>) -> Unit) {
+        api.register(registrationRequestDTO).enqueue(object : Callback<ApiResponseDto<UserDTO>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<User>>,
-                response: Response<ApiResponseDto<User>>
+                call: Call<ApiResponseDto<UserDTO>>,
+                response: Response<ApiResponseDto<UserDTO>>
             ) {
                 if ((response.isSuccessful || response.code() == 301 || response.code() == 302)) {
                     callback(Result.success(response.body()?.response!!))
@@ -254,17 +254,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<User>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<UserDTO>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun getAccountInfo(callback: (Result<User>) -> Unit) {
-        api.getAccountInfo().enqueue(object : Callback<ApiResponseDto<User>> {
+    override fun getAccountInfo(callback: (Result<UserDTO>) -> Unit) {
+        api.getAccountInfo().enqueue(object : Callback<ApiResponseDto<UserDTO>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<User>>,
-                response: Response<ApiResponseDto<User>>
+                call: Call<ApiResponseDto<UserDTO>>,
+                response: Response<ApiResponseDto<UserDTO>>
             ) {
                 try {
                     if ((response.isSuccessful || response.code() == 301 || response.code() == 302)) {
@@ -274,17 +274,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<User>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<UserDTO>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun addRecipe(recipe: RecipeData, callback: (Result<Recipe>?) -> Unit) {
-        api.addRecipe(recipe).enqueue(object : Callback<ApiResponseDto<Recipe>> {
+    override fun addRecipe(recipe: RecipeData, callback: (Result<RecipeDTO>?) -> Unit) {
+        api.addRecipe(recipe).enqueue(object : Callback<ApiResponseDto<RecipeDTO>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<Recipe>>,
-                response: Response<ApiResponseDto<Recipe>>
+                call: Call<ApiResponseDto<RecipeDTO>>,
+                response: Response<ApiResponseDto<RecipeDTO>>
             ) {
                 if (response.isSuccessful || response.code() == 201 || response.code() == 301 || response.code() == 302) {
                     callback(Result.success(response.body()!!.response))
@@ -293,17 +293,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<RecipeDTO>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun updateRecipe(recipeId: UUID, recipe: RecipeData, callback: (Result<Recipe>?) -> Unit) {
-        api.updateRecipe(recipeId, recipe).enqueue(object : Callback<ApiResponseDto<Recipe>> {
+    override fun updateRecipe(recipeId: UUID, recipe: RecipeData, callback: (Result<RecipeDTO>?) -> Unit) {
+        api.updateRecipe(recipeId, recipe).enqueue(object : Callback<ApiResponseDto<RecipeDTO>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<Recipe>>,
-                response: Response<ApiResponseDto<Recipe>>
+                call: Call<ApiResponseDto<RecipeDTO>>,
+                response: Response<ApiResponseDto<RecipeDTO>>
             ) {
                 if (response.isSuccessful || response.code() == 201 || response.code() == 301 || response.code() == 302) {
                     callback(Result.success(response.body()!!.response))
@@ -312,7 +312,7 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<RecipeDTO>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
@@ -340,11 +340,11 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
         })
     }
 
-    override fun getReviewsById(id: UUID, callback: (Result<List<Review>>) -> Unit) {
-        api.getReviewsById(id).enqueue(object : Callback<ApiResponseDto<List<Review>>> {
+    override fun getReviewsById(id: UUID, callback: (Result<List<ReviewDTO>>) -> Unit) {
+        api.getReviewsById(id).enqueue(object : Callback<ApiResponseDto<List<ReviewDTO>>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<List<Review>>>,
-                response: Response<ApiResponseDto<List<Review>>>
+                call: Call<ApiResponseDto<List<ReviewDTO>>>,
+                response: Response<ApiResponseDto<List<ReviewDTO>>>
             ) {
                 if (response.isSuccessful) {
                     callback(Result.success(response.body()!!.response))
@@ -353,17 +353,17 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<List<Review>>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<List<ReviewDTO>>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })
     }
 
-    override fun logViewToRecipeById(id: UUID, callback: (Result<Recipe>) -> Unit) {
-        api.logViewToRecipeById(id).enqueue(object : Callback<ApiResponseDto<Recipe>> {
+    override fun logViewToRecipeById(id: UUID, callback: (Result<RecipeDTO>) -> Unit) {
+        api.logViewToRecipeById(id).enqueue(object : Callback<ApiResponseDto<RecipeDTO>> {
             override fun onResponse(
-                call: Call<ApiResponseDto<Recipe>>,
-                response: Response<ApiResponseDto<Recipe>>
+                call: Call<ApiResponseDto<RecipeDTO>>,
+                response: Response<ApiResponseDto<RecipeDTO>>
             ) {
                 if (response.isSuccessful || response.code() == 301 || response.code() == 302) {
                     val responseBody = response.body()
@@ -380,7 +380,7 @@ class RecipeRepositoryImpl(private val api: RecipeApiService, private val contex
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponseDto<Recipe>>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponseDto<RecipeDTO>>, t: Throwable) {
                 callback(Result.failure(t))
             }
         })

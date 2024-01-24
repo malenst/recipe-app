@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.ystu.mealmaster.domain.Recipe
+import ru.ystu.mealmaster.domain.dto.RecipeDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 
 class ModerationViewModel(private val recipeInteractor: RecipeInteractor) : ViewModel() {
 
-    private val _pendingRecipes = MutableLiveData<List<Recipe>>()
-    val pendingRecipes: LiveData<List<Recipe>> get() = _pendingRecipes
+    private val _pendingRecipes = MutableLiveData<List<RecipeDTO>>()
+    val pendingRecipes: LiveData<List<RecipeDTO>> get() = _pendingRecipes
 
     init {
         loadUncheckedRecipes()

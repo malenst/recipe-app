@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.launch
-import ru.ystu.mealmaster.domain.User
+import ru.ystu.mealmaster.domain.dto.UserDTO
 import ru.ystu.mealmaster.domain.interactor.RecipeInteractor
 
 class AccountInfoViewModel(private val recipeInteractor: RecipeInteractor) : ViewModel() {
 
-    private val _accountInfo = MutableLiveData<User>()
-    val accountInfo: LiveData<User> get() = _accountInfo
+    private val _accountInfo = MutableLiveData<UserDTO>()
+    val accountInfo: LiveData<UserDTO> get() = _accountInfo
 
     init {
         loadAccountInfo()
